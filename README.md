@@ -1,4 +1,4 @@
-# Quiz Forge 🔨📚
+# Quiz Forge
 
 A fast, client-side web application that parses raw text into interactive quizzes.
 
