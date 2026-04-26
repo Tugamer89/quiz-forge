@@ -1,25 +1,43 @@
 import { useState, useMemo, useEffect, useCallback, useRef } from 'react';
 import PropTypes from 'prop-types';
-import { 
-  Play, CheckCircle2, XCircle, Circle, RefreshCw, FileText, Settings, 
-  BookOpen, Moon, Sun, Trash2, Download, Upload, Plus, Folder, 
-  PieChart, ArrowRight, Check, AlertCircle, Info, Eraser, Copy
+import {
+  Play,
+  CheckCircle2,
+  XCircle,
+  Circle,
+  RefreshCw,
+  FileText,
+  Settings,
+  BookOpen,
+  Moon,
+  Sun,
+  Trash2,
+  Download,
+  Upload,
+  Plus,
+  Folder,
+  PieChart,
+  ArrowRight,
+  Check,
+  AlertCircle,
+  Info,
+  Eraser,
+  Copy,
 } from 'lucide-react';
 
 // --- State Updaters & Helpers (Extracted to prevent deep nesting) ---
 
-const removeDeckById = (deckId) => (prevDecks) => 
-  prevDecks.filter(d => d.id !== deckId);
+const removeDeckById = (deckId) => (prevDecks) => prevDecks.filter((d) => d.id !== deckId);
 
-const removeQuestionsByDeckId = (deckId) => (prevQuestions) => 
-  prevQuestions.filter(q => q.deckId !== deckId);
+const removeQuestionsByDeckId = (deckId) => (prevQuestions) =>
+  prevQuestions.filter((q) => q.deckId !== deckId);
 
-const setQuestionStatus = (questionId, newStatus) => (prevQuestions) => 
-  prevQuestions.map(q => q.id === questionId ? { ...q, status: newStatus } : q);
+const setQuestionStatus = (questionId, newStatus) => (prevQuestions) =>
+  prevQuestions.map((q) => (q.id === questionId ? { ...q, status: newStatus } : q));
 
 function mergeQuestions(prevQuestions, parsed, currentDeckId) {
-  return parsed.map(newQ => {
-    const existing = prevQuestions.find(q => q.text === newQ.text && q.deckId === currentDeckId);
+  return parsed.map((newQ) => {
+    const existing = prevQuestions.find((q) => q.text === newQ.text && q.deckId === currentDeckId);
     if (existing) {
       return { ...newQ, status: existing.status, id: existing.id, deckId: currentDeckId };
     }
@@ -37,13 +55,28 @@ const formatMarkdown = (text) => {
         {parts.map((part, j) => {
           const partKey = `part-${j}-${part.substring(0, 10)}`;
           if (part.startsWith('`') && part.endsWith('`')) {
-            return <code key={partKey} className="bg-slate-200 dark:bg-slate-700 text-pink-600 dark:text-pink-400 px-1.5 py-0.5 rounded-md font-mono text-sm">{part.slice(1, -1)}</code>;
+            return (
+              <code
+                key={partKey}
+                className="bg-slate-200 dark:bg-slate-700 text-pink-600 dark:text-pink-400 px-1.5 py-0.5 rounded-md font-mono text-sm"
+              >
+                {part.slice(1, -1)}
+              </code>
+            );
           }
           if (part.startsWith('**') && part.endsWith('**')) {
-            return <strong key={partKey} className="font-bold text-indigo-700 dark:text-indigo-400">{part.slice(2, -2)}</strong>;
+            return (
+              <strong key={partKey} className="font-bold text-indigo-700 dark:text-indigo-400">
+                {part.slice(2, -2)}
+              </strong>
+            );
           }
           if (part.startsWith('*') && part.endsWith('*')) {
-            return <em key={partKey} className="italic text-slate-700 dark:text-slate-300">{part.slice(1, -1)}</em>;
+            return (
+              <em key={partKey} className="italic text-slate-700 dark:text-slate-300">
+                {part.slice(1, -1)}
+              </em>
+            );
           }
           return <span key={partKey}>{part}</span>;
         })}
@@ -59,26 +92,28 @@ function useLocalStorage(key, initialValue) {
       const item = globalThis.localStorage.getItem(key);
       return item ? JSON.parse(item) : initialValue;
     } catch (error) {
-      console.error("Error reading from localStorage:", error);
+      console.error('Error reading from localStorage:', error);
       return initialValue;
     }
   });
 
-  const setValue = useCallback((value) => {
-    try {
-      setStoredValue((prev) => {
-        const valueToStore = typeof value === 'function' ? value(prev) : value;
-        globalThis.localStorage.setItem(key, JSON.stringify(valueToStore));
-        return valueToStore;
-      });
-    } catch (error) {
-      console.error("Error saving to localStorage:", error);
-    }
-  }, [key]);
+  const setValue = useCallback(
+    (value) => {
+      try {
+        setStoredValue((prev) => {
+          const valueToStore = typeof value === 'function' ? value(prev) : value;
+          globalThis.localStorage.setItem(key, JSON.stringify(valueToStore));
+          return valueToStore;
+        });
+      } catch (error) {
+        console.error('Error saving to localStorage:', error);
+      }
+    },
+    [key]
+  );
 
   return [storedValue, setValue];
 }
-
 
 // --- Sub-Components ---
 
@@ -92,39 +127,42 @@ const CustomDialog = ({ dialog, onClose }) => {
     onClose();
   };
 
-  const btnColor = dialog.confirmStyle === 'danger' 
-    ? 'bg-red-600 hover:bg-red-700 text-white' 
-    : 'bg-indigo-600 hover:bg-indigo-700 text-white';
+  const btnColor =
+    dialog.confirmStyle === 'danger'
+      ? 'bg-red-600 hover:bg-red-700 text-white'
+      : 'bg-indigo-600 hover:bg-indigo-700 text-white';
 
   return (
     <div className="fixed inset-0 z-100 flex items-center justify-center bg-slate-900/50 backdrop-blur-sm animate-in fade-in duration-200">
-       <div className="bg-white dark:bg-slate-800 p-6 rounded-xl shadow-xl max-w-sm w-full mx-4 animate-in zoom-in-95 duration-200 border border-slate-200 dark:border-slate-700">
-         <h3 className="text-xl font-bold text-slate-900 dark:text-white mb-2">{dialog.title}</h3>
-         {dialog.message && <p className="text-slate-600 dark:text-slate-400 mb-4 text-sm">{dialog.message}</p>}
-         {dialog.type === 'prompt' && (
-           <input 
-             autoFocus 
-             value={inputVal} 
-             onChange={e => setInputVal(e.target.value)} 
-             onKeyDown={e => e.key === 'Enter' && handleConfirm()} 
-             className="w-full p-2 border border-slate-300 dark:border-slate-600 rounded-lg bg-white dark:bg-slate-900 text-slate-900 dark:text-white focus:ring-2 focus:ring-indigo-500 outline-none mb-4" 
-           />
-         )}
-         <div className="flex justify-end gap-3 mt-2">
-           <button 
-            onClick={onClose} 
+      <div className="bg-white dark:bg-slate-800 p-6 rounded-xl shadow-xl max-w-sm w-full mx-4 animate-in zoom-in-95 duration-200 border border-slate-200 dark:border-slate-700">
+        <h3 className="text-xl font-bold text-slate-900 dark:text-white mb-2">{dialog.title}</h3>
+        {dialog.message && (
+          <p className="text-slate-600 dark:text-slate-400 mb-4 text-sm">{dialog.message}</p>
+        )}
+        {dialog.type === 'prompt' && (
+          <input
+            autoFocus
+            value={inputVal}
+            onChange={(e) => setInputVal(e.target.value)}
+            onKeyDown={(e) => e.key === 'Enter' && handleConfirm()}
+            className="w-full p-2 border border-slate-300 dark:border-slate-600 rounded-lg bg-white dark:bg-slate-900 text-slate-900 dark:text-white focus:ring-2 focus:ring-indigo-500 outline-none mb-4"
+          />
+        )}
+        <div className="flex justify-end gap-3 mt-2">
+          <button
+            onClick={onClose}
             className="px-4 py-2 text-sm font-medium text-slate-700 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-700 rounded-lg transition-colors"
-           >
-             Cancel
-           </button>
-           <button 
-            onClick={handleConfirm} 
+          >
+            Cancel
+          </button>
+          <button
+            onClick={handleConfirm}
             className={`px-4 py-2 text-sm font-medium rounded-lg transition-colors ${btnColor}`}
-           >
-             {dialog.confirmLabel || 'Confirm'}
-           </button>
-         </div>
-       </div>
+          >
+            {dialog.confirmLabel || 'Confirm'}
+          </button>
+        </div>
+      </div>
     </div>
   );
 };
@@ -145,22 +183,24 @@ CustomDialog.propTypes = {
 
 const Toast = ({ toast }) => {
   if (!toast.show) return null;
-  
+
   const bgColors = {
     success: 'bg-green-600',
     error: 'bg-red-600',
-    info: 'bg-slate-800 dark:bg-slate-700'
+    info: 'bg-slate-800 dark:bg-slate-700',
   };
 
   const icons = {
     success: <Check className="w-5 h-5 text-white mr-2" />,
     error: <AlertCircle className="w-5 h-5 text-white mr-2" />,
-    info: <Info className="w-5 h-5 text-white mr-2" />
+    info: <Info className="w-5 h-5 text-white mr-2" />,
   };
 
   return (
     <div className="fixed bottom-6 right-6 z-50 animate-in slide-in-from-bottom-5 fade-in duration-300">
-      <div className={`${bgColors[toast.type]} text-white px-4 py-3 rounded-lg shadow-xl flex items-center`}>
+      <div
+        className={`${bgColors[toast.type]} text-white px-4 py-3 rounded-lg shadow-xl flex items-center`}
+      >
         {icons[toast.type]}
         <span className="font-medium text-sm">{toast.message}</span>
       </div>
@@ -177,16 +217,18 @@ Toast.propTypes = {
 };
 
 const ProgressBar = ({ current, total }) => {
-  const percentage = Math.round(((current) / total) * 100);
+  const percentage = Math.round((current / total) * 100);
   return (
     <div className="w-full mb-6">
       <div className="flex justify-between text-xs font-semibold text-slate-500 dark:text-slate-400 mb-2">
         <span>Progress</span>
-        <span>{current} / {total} ({percentage}%)</span>
+        <span>
+          {current} / {total} ({percentage}%)
+        </span>
       </div>
       <div className="w-full bg-slate-200 dark:bg-slate-700 rounded-full h-2.5 overflow-hidden">
-        <div 
-          className="bg-indigo-600 h-2.5 rounded-full transition-all duration-500 ease-out" 
+        <div
+          className="bg-indigo-600 h-2.5 rounded-full transition-all duration-500 ease-out"
           style={{ width: `${percentage}%` }}
         ></div>
       </div>
@@ -202,10 +244,10 @@ ProgressBar.propTypes = {
 const SummaryScreen = ({ session, onReset }) => {
   const total = session.questions.length;
   const percentage = Math.round((session.correctCount / total) * 100);
-  
-  let message = "Keep practicing!";
-  if (percentage >= 80) message = "Outstanding job!";
-  else if (percentage >= 50) message = "Good effort!";
+
+  let message = 'Keep practicing!';
+  if (percentage >= 80) message = 'Outstanding job!';
+  else if (percentage >= 50) message = 'Good effort!';
 
   return (
     <div className="bg-white dark:bg-slate-800 p-8 rounded-xl shadow-sm border border-slate-200 dark:border-slate-700 text-center animate-in zoom-in-95 duration-300 flex flex-col items-center justify-center h-full min-h-125">
@@ -214,19 +256,25 @@ const SummaryScreen = ({ session, onReset }) => {
       </div>
       <h2 className="text-3xl font-bold text-slate-900 dark:text-white mb-2">Quiz Complete!</h2>
       <p className="text-slate-500 dark:text-slate-400 mb-8">{message}</p>
-      
+
       <div className="grid grid-cols-2 gap-4 w-full max-w-sm mb-8">
         <div className="bg-green-50 dark:bg-green-900/20 border border-green-100 dark:border-green-800/30 p-4 rounded-xl">
-          <div className="text-2xl font-bold text-green-600 dark:text-green-400">{session.correctCount}</div>
-          <div className="text-sm font-medium text-green-700/70 dark:text-green-400/70">Correct</div>
+          <div className="text-2xl font-bold text-green-600 dark:text-green-400">
+            {session.correctCount}
+          </div>
+          <div className="text-sm font-medium text-green-700/70 dark:text-green-400/70">
+            Correct
+          </div>
         </div>
         <div className="bg-red-50 dark:bg-red-900/20 border border-red-100 dark:border-red-800/30 p-4 rounded-xl">
-          <div className="text-2xl font-bold text-red-600 dark:text-red-400">{session.incorrectCount}</div>
+          <div className="text-2xl font-bold text-red-600 dark:text-red-400">
+            {session.incorrectCount}
+          </div>
           <div className="text-sm font-medium text-red-700/70 dark:text-red-400/70">Incorrect</div>
         </div>
       </div>
 
-      <button 
+      <button
         onClick={onReset}
         className="bg-indigo-600 hover:bg-indigo-700 text-white font-semibold py-3 px-8 rounded-lg transition-colors shadow-sm"
       >
@@ -248,11 +296,13 @@ SummaryScreen.propTypes = {
 // --- Main Application Component ---
 export default function App() {
   // State: Core Data
-  const [decks, setDecks] = useLocalStorage('quiz_decks', [{ id: 'default', name: 'General Knowledge' }]);
+  const [decks, setDecks] = useLocalStorage('quiz_decks', [
+    { id: 'default', name: 'General Knowledge' },
+  ]);
   const [selectedDeckId, setSelectedDeckId] = useLocalStorage('quiz_selected_deck', 'default');
   const [questions, setQuestions] = useLocalStorage('quiz_questions', []);
-  const [rawTexts, setRawTexts] = useLocalStorage('quiz_rawTexts', { 'default': '' }); 
-  
+  const [rawTexts, setRawTexts] = useLocalStorage('quiz_rawTexts', { default: '' });
+
   // State: Settings & Theme
   const [settings, setSettings] = useLocalStorage('quiz_settings', {
     numToGenerate: 5,
@@ -263,13 +313,29 @@ export default function App() {
   const [isDarkMode, setIsDarkMode] = useLocalStorage('quiz_theme_dark', false);
 
   // State: Active Session
-  const [quizSession, setQuizSession] = useState({ active: false, isFinished: false, questions: [], currentIndex: 0, correctCount: 0, incorrectCount: 0 });
+  const [quizSession, setQuizSession] = useState({
+    active: false,
+    isFinished: false,
+    questions: [],
+    currentIndex: 0,
+    correctCount: 0,
+    incorrectCount: 0,
+  });
   const [showAnswer, setShowAnswer] = useState(false);
   const [isTyping, setIsTyping] = useState(false);
-  
+
   // State: UI Components
   const [toast, setToast] = useState({ show: false, message: '', type: 'info' });
-  const [dialog, setDialog] = useState({ isOpen: false, type: 'confirm', title: '', message: '', defaultValue: '', confirmLabel: '', confirmStyle: 'primary', onConfirm: () => {} });
+  const [dialog, setDialog] = useState({
+    isOpen: false,
+    type: 'confirm',
+    title: '',
+    message: '',
+    defaultValue: '',
+    confirmLabel: '',
+    confirmStyle: 'primary',
+    onConfirm: () => {},
+  });
   const fileInputRef = useRef(null);
 
   const currentRawText = rawTexts[selectedDeckId] || '';
@@ -293,7 +359,7 @@ export default function App() {
   }, []);
 
   const closeDialog = useCallback(() => {
-    setDialog(prev => ({ ...prev, isOpen: false }));
+    setDialog((prev) => ({ ...prev, isOpen: false }));
   }, []);
 
   // --- Deck Management ---
@@ -309,37 +375,37 @@ export default function App() {
       onConfirm: (name) => {
         if (name?.trim()) {
           const newDeck = { id: crypto.randomUUID(), name: name.trim() };
-          setDecks(prev => [...prev, newDeck]);
+          setDecks((prev) => [...prev, newDeck]);
           setSelectedDeckId(newDeck.id);
           showToast(`Deck "${newDeck.name}" created!`, 'success');
         }
-      }
+      },
     });
   };
 
   const handleDeleteDeckClick = () => {
     if (decks.length <= 1) {
-      showToast("You cannot delete the last deck.", "error");
+      showToast('You cannot delete the last deck.', 'error');
       return;
     }
     setDialog({
       isOpen: true,
       type: 'confirm',
       title: 'Delete Deck',
-      message: `Are you sure you want to delete "${decks.find(d => d.id === selectedDeckId)?.name}"? This action cannot be undone.`,
+      message: `Are you sure you want to delete "${decks.find((d) => d.id === selectedDeckId)?.name}"? This action cannot be undone.`,
       confirmLabel: 'Delete',
       confirmStyle: 'danger',
       onConfirm: () => {
         setDecks(removeDeckById(selectedDeckId));
         setQuestions(removeQuestionsByDeckId(selectedDeckId));
-        
+
         const newRawTexts = { ...rawTexts };
         delete newRawTexts[selectedDeckId];
         setRawTexts(newRawTexts);
 
-        setSelectedDeckId(decks.find(d => d.id !== selectedDeckId).id);
-        showToast("Deck deleted.", "info");
-      }
+        setSelectedDeckId(decks.find((d) => d.id !== selectedDeckId).id);
+        showToast('Deck deleted.', 'info');
+      },
     });
   };
 
@@ -348,14 +414,15 @@ export default function App() {
       isOpen: true,
       type: 'confirm',
       title: 'Clear Text',
-      message: 'Are you sure you want to clear the raw text? This will also remove the associated questions from the database for this deck.',
+      message:
+        'Are you sure you want to clear the raw text? This will also remove the associated questions from the database for this deck.',
       confirmLabel: 'Clear',
       confirmStyle: 'danger',
       onConfirm: () => {
-        setRawTexts(prev => ({ ...prev, [selectedDeckId]: '' }));
+        setRawTexts((prev) => ({ ...prev, [selectedDeckId]: '' }));
         setQuestions(removeQuestionsByDeckId(selectedDeckId));
-        showToast("Text cleared.", "info");
-      }
+        showToast('Text cleared.', 'info');
+      },
     });
   };
 
@@ -363,47 +430,54 @@ export default function App() {
     if (!currentRawText) return;
     try {
       await navigator.clipboard.writeText(currentRawText);
-      showToast("Text copied to clipboard!", "success");
+      showToast('Text copied to clipboard!', 'success');
     } catch (err) {
-      console.error("Failed to copy text:", err);
-      showToast("Failed to copy text.", "error");
+      console.error('Failed to copy text:', err);
+      showToast('Failed to copy text.', 'error');
     }
   };
 
   // --- Parsing Logic ---
-  const parseTextFromInput = useCallback((text, deckId) => {
-    const lines = text.split('\n');
-    const parsed = [];
-    let currentQ = null;
+  const parseTextFromInput = useCallback(
+    (text, deckId) => {
+      const lines = text.split('\n');
+      const parsed = [];
+      let currentQ = null;
 
-    const regex = /^(\d+)[.)]\s+(.+)$/;
+      const regex = /^(\d+)[.)]\s+(.+)$/;
 
-    lines.forEach(line => {
-      const match = line.match(regex);
-      if (match) {
-        if (currentQ) parsed.push(currentQ);
-        currentQ = {
-          id: crypto.randomUUID(),
-          number: match[1],
-          text: match[2].trim(),
-          answer: '',
-          status: 'unanswered',
-          deckId: deckId
-        };
-      } else if (currentQ) {
-        if (currentQ.answer || line.trim()) {
-          currentQ.answer += (currentQ.answer ? '\n' : '') + line;
+      lines.forEach((line) => {
+        const match = line.match(regex);
+        if (match) {
+          if (currentQ) parsed.push(currentQ);
+          currentQ = {
+            id: crypto.randomUUID(),
+            number: match[1],
+            text: match[2].trim(),
+            answer: '',
+            status: 'unanswered',
+            deckId: deckId,
+          };
+        } else if (currentQ) {
+          if (currentQ.answer || line.trim()) {
+            currentQ.answer += (currentQ.answer ? '\n' : '') + line;
+          }
         }
-      }
-    });
-    if (currentQ) parsed.push(currentQ);
+      });
+      if (currentQ) parsed.push(currentQ);
 
-    setQuestions(prevQuestions => {
-      const otherDecksQuestions = prevQuestions.filter(q => q.deckId !== deckId);
-      const mergedCurrentDeck = mergeQuestions(prevQuestions.filter(q => q.deckId === deckId), parsed, deckId);
-      return [...otherDecksQuestions, ...mergedCurrentDeck];
-    });
-  }, [setQuestions]);
+      setQuestions((prevQuestions) => {
+        const otherDecksQuestions = prevQuestions.filter((q) => q.deckId !== deckId);
+        const mergedCurrentDeck = mergeQuestions(
+          prevQuestions.filter((q) => q.deckId === deckId),
+          parsed,
+          deckId
+        );
+        return [...otherDecksQuestions, ...mergedCurrentDeck];
+      });
+    },
+    [setQuestions]
+  );
 
   // --- Auto-Parsing Effect ---
   useEffect(() => {
@@ -416,9 +490,9 @@ export default function App() {
 
   // --- Quiz Flow ---
   const generateQuiz = () => {
-    const currentDeckQuestions = questions.filter(q => q.deckId === selectedDeckId);
-    
-    let eligible = currentDeckQuestions.filter(q => {
+    const currentDeckQuestions = questions.filter((q) => q.deckId === selectedDeckId);
+
+    let eligible = currentDeckQuestions.filter((q) => {
       if (q.status === 'unanswered' && settings.includeUnanswered) return true;
       if (q.status === 'correct' && settings.includeCorrect) return true;
       if (q.status === 'incorrect' && settings.includeIncorrect) return true;
@@ -426,7 +500,7 @@ export default function App() {
     });
 
     if (eligible.length === 0) {
-      showToast("No questions match the selected filters in this deck!", "error");
+      showToast('No questions match the selected filters in this deck!', 'error');
       return;
     }
 
@@ -437,27 +511,27 @@ export default function App() {
     }
 
     const selected = shuffled.slice(0, settings.numToGenerate);
-    
+
     setQuizSession({
       active: true,
       isFinished: false,
       questions: selected,
       currentIndex: 0,
       correctCount: 0,
-      incorrectCount: 0
+      incorrectCount: 0,
     });
     setShowAnswer(false);
   };
 
   const handleAnswer = (isCorrect) => {
     const currentQ = quizSession.questions[quizSession.currentIndex];
-    
+
     setQuestions(setQuestionStatus(currentQ.id, isCorrect ? 'correct' : 'incorrect'));
 
-    setQuizSession(prev => {
+    setQuizSession((prev) => {
       const nextIndex = prev.currentIndex + 1;
       const isFinished = nextIndex >= prev.questions.length;
-      
+
       const addedCorrect = isCorrect ? 1 : 0;
       const addedIncorrect = isCorrect ? 0 : 1;
 
@@ -467,7 +541,7 @@ export default function App() {
         incorrectCount: prev.incorrectCount + addedIncorrect,
         currentIndex: nextIndex,
         active: !isFinished,
-        isFinished: isFinished
+        isFinished: isFinished,
       };
     });
     setShowAnswer(false);
@@ -476,14 +550,14 @@ export default function App() {
   // --- Import / Export ---
   const exportData = () => {
     const dataStr = JSON.stringify({ decks, questions, rawTexts });
-    const blob = new Blob([dataStr], { type: "application/json" });
+    const blob = new Blob([dataStr], { type: 'application/json' });
     const url = URL.createObjectURL(blob);
     const a = document.createElement('a');
     a.href = url;
     a.download = `quiz-forge-backup-${new Date().toISOString().split('T')[0]}.json`;
     a.click();
     URL.revokeObjectURL(url);
-    showToast("Backup exported successfully!", "success");
+    showToast('Backup exported successfully!', 'success');
   };
 
   const importData = async (e) => {
@@ -496,29 +570,32 @@ export default function App() {
       if (data?.decks && data?.questions) {
         setDecks(data.decks);
         setQuestions(data.questions);
-        if(data?.rawTexts) setRawTexts(data.rawTexts);
+        if (data?.rawTexts) setRawTexts(data.rawTexts);
         setSelectedDeckId(data.decks[0].id);
-        showToast("Data imported successfully!", "success");
+        showToast('Data imported successfully!', 'success');
       } else {
-        showToast("Invalid backup file format.", "error");
+        showToast('Invalid backup file format.', 'error');
       }
     } catch (err) {
-      console.error("Failed to parse file:", err);
-      showToast("Failed to parse file.", "error");
+      console.error('Failed to parse file:', err);
+      showToast('Failed to parse file.', 'error');
     } finally {
       e.target.value = null; // reset input
     }
   };
 
   // --- Derived State ---
-  const activeDeckQuestions = useMemo(() => questions.filter(q => q.deckId === selectedDeckId), [questions, selectedDeckId]);
-  
+  const activeDeckQuestions = useMemo(
+    () => questions.filter((q) => q.deckId === selectedDeckId),
+    [questions, selectedDeckId]
+  );
+
   const stats = useMemo(() => {
     return {
       total: activeDeckQuestions.length,
-      unanswered: activeDeckQuestions.filter(q => q.status === 'unanswered').length,
-      correct: activeDeckQuestions.filter(q => q.status === 'correct').length,
-      incorrect: activeDeckQuestions.filter(q => q.status === 'incorrect').length,
+      unanswered: activeDeckQuestions.filter((q) => q.status === 'unanswered').length,
+      correct: activeDeckQuestions.filter((q) => q.status === 'correct').length,
+      incorrect: activeDeckQuestions.filter((q) => q.status === 'incorrect').length,
     };
   }, [activeDeckQuestions]);
 
@@ -531,15 +608,18 @@ export default function App() {
             <h2 className="text-xl font-bold text-slate-800 dark:text-white flex items-center">
               <Play className="w-5 h-5 text-indigo-500 mr-2" /> Live Session
             </h2>
-            <button 
-              onClick={() => setQuizSession(prev => ({...prev, active: false}))}
+            <button
+              onClick={() => setQuizSession((prev) => ({ ...prev, active: false }))}
               className="text-sm font-medium text-slate-400 hover:text-slate-600 dark:hover:text-slate-200"
             >
               Cancel
             </button>
           </div>
 
-          <ProgressBar current={quizSession.currentIndex + 1} total={quizSession.questions.length} />
+          <ProgressBar
+            current={quizSession.currentIndex + 1}
+            total={quizSession.questions.length}
+          />
 
           <div className="flex-1 flex flex-col justify-center">
             <div className="mb-6 text-xl md:text-2xl font-medium text-slate-900 dark:text-white leading-relaxed">
@@ -561,15 +641,17 @@ export default function App() {
             )}
           </div>
 
-          <div className={`mt-10 flex gap-4 transition-all duration-300 ${showAnswer ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4 pointer-events-none'}`}>
-            <button 
+          <div
+            className={`mt-10 flex gap-4 transition-all duration-300 ${showAnswer ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4 pointer-events-none'}`}
+          >
+            <button
               onClick={() => handleAnswer(false)}
               className="flex-1 flex flex-col items-center justify-center p-4 bg-white dark:bg-slate-800 border-2 border-red-200 dark:border-red-900/50 hover:bg-red-50 dark:hover:bg-red-900/20 text-red-600 dark:text-red-400 rounded-xl transition-all active:scale-95"
             >
               <XCircle className="w-8 h-8 mb-2" />
               <span className="font-bold">Incorrect</span>
             </button>
-            <button 
+            <button
               onClick={() => handleAnswer(true)}
               className="flex-1 flex flex-col items-center justify-center p-4 bg-white dark:bg-slate-800 border-2 border-green-200 dark:border-green-900/50 hover:bg-green-50 dark:hover:bg-green-900/20 text-green-600 dark:text-green-400 rounded-xl transition-all active:scale-95"
             >
@@ -583,9 +665,9 @@ export default function App() {
 
     if (quizSession.isFinished) {
       return (
-        <SummaryScreen 
-          session={quizSession} 
-          onReset={() => setQuizSession(prev => ({...prev, isFinished: false, active: false}))} 
+        <SummaryScreen
+          session={quizSession}
+          onReset={() => setQuizSession((prev) => ({ ...prev, isFinished: false, active: false }))}
         />
       );
     }
@@ -601,23 +683,30 @@ export default function App() {
             {stats.total} Total
           </span>
         </div>
-        
+
         {activeDeckQuestions.length === 0 ? (
           <div className="flex-1 flex flex-col items-center justify-center text-slate-400 dark:text-slate-500 text-sm border-2 border-dashed border-slate-200 dark:border-slate-700 rounded-xl p-8">
             <Folder className="w-12 h-12 mb-4 opacity-50" />
-            <p className="text-center">This deck is empty.<br/>Add questions in the raw text box.</p>
+            <p className="text-center">
+              This deck is empty.
+              <br />
+              Add questions in the raw text box.
+            </p>
           </div>
         ) : (
           <div className="flex-1 overflow-y-auto space-y-3 pr-2 custom-scrollbar max-h-150">
             {activeDeckQuestions.map((q) => (
-              <div key={q.id} className="flex flex-col sm:flex-row sm:items-center justify-between p-4 hover:bg-slate-50 dark:hover:bg-slate-700/50 border border-slate-100 dark:border-slate-700 rounded-xl transition-colors group">
-                
+              <div
+                key={q.id}
+                className="flex flex-col sm:flex-row sm:items-center justify-between p-4 hover:bg-slate-50 dark:hover:bg-slate-700/50 border border-slate-100 dark:border-slate-700 rounded-xl transition-colors group"
+              >
                 <div className="flex-1 min-w-0 pr-4 mb-3 sm:mb-0">
                   <div className="text-sm font-medium text-slate-800 dark:text-slate-200 truncate">
-                    <span className="text-indigo-400 mr-1 font-mono text-xs">{q.number}.</span> {q.text}
+                    <span className="text-indigo-400 mr-1 font-mono text-xs">{q.number}.</span>{' '}
+                    {q.text}
                   </div>
                 </div>
-                
+
                 <div className="flex items-center space-x-1 shrink-0 bg-white dark:bg-slate-800 rounded-lg p-1 border border-slate-200 dark:border-slate-600 shadow-sm">
                   <button
                     onClick={() => setQuestions(setQuestionStatus(q.id, 'unanswered'))}
@@ -641,7 +730,6 @@ export default function App() {
                     <XCircle className="w-4 h-4" />
                   </button>
                 </div>
-
               </div>
             ))}
           </div>
@@ -655,53 +743,54 @@ export default function App() {
       <Toast toast={toast} />
       {/* Cascading render issue fixed: conditionally rendering CustomDialog resets its internal state safely */}
       {dialog.isOpen && <CustomDialog dialog={dialog} onClose={closeDialog} />}
-      
+
       <div className="max-w-6xl mx-auto space-y-6">
-        
         {/* Header */}
         <header className="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-8">
           <div className="flex items-center space-x-3">
             <BookOpen className="w-8 h-8 text-indigo-600 dark:text-indigo-400" />
             <h1 className="text-3xl font-bold text-slate-900 dark:text-white">Quiz Forge</h1>
           </div>
-          
+
           <div className="flex items-center space-x-3">
-            <input 
-              type="file" 
-              accept=".json" 
-              className="hidden" 
-              ref={fileInputRef} 
-              onChange={importData} 
+            <input
+              type="file"
+              accept=".json"
+              className="hidden"
+              ref={fileInputRef}
+              onChange={importData}
               aria-label="Import backup file"
             />
-            <button 
+            <button
               onClick={() => fileInputRef.current?.click()}
               className="flex items-center space-x-2 px-3 py-2 rounded-lg text-sm font-medium bg-white dark:bg-slate-800 shadow-sm border border-slate-200 dark:border-slate-700 hover:bg-slate-50 dark:hover:bg-slate-700 transition-colors focus:ring-2 focus:ring-indigo-500"
             >
               <Upload className="w-4 h-4" /> <span>Import</span>
             </button>
-            <button 
+            <button
               onClick={exportData}
               className="flex items-center space-x-2 px-3 py-2 rounded-lg text-sm font-medium bg-white dark:bg-slate-800 shadow-sm border border-slate-200 dark:border-slate-700 hover:bg-slate-50 dark:hover:bg-slate-700 transition-colors focus:ring-2 focus:ring-indigo-500"
             >
               <Download className="w-4 h-4" /> <span>Export</span>
             </button>
             <div className="h-6 w-px bg-slate-300 dark:bg-slate-700 mx-2"></div>
-            <button 
+            <button
               onClick={() => setIsDarkMode(!isDarkMode)}
               className="p-2 rounded-full bg-white dark:bg-slate-800 shadow-sm border border-slate-200 dark:border-slate-700 hover:bg-slate-100 dark:hover:bg-slate-700 transition-colors focus:outline-none focus:ring-2 focus:ring-indigo-500"
               aria-label="Toggle Dark Theme"
             >
-              {isDarkMode ? <Sun className="w-5 h-5 text-yellow-400" /> : <Moon className="w-5 h-5 text-indigo-600" />}
+              {isDarkMode ? (
+                <Sun className="w-5 h-5 text-yellow-400" />
+              ) : (
+                <Moon className="w-5 h-5 text-indigo-600" />
+              )}
             </button>
           </div>
         </header>
 
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-          
           {/* LEFT COLUMN: Controls */}
           <div className="lg:col-span-1 space-y-6">
-            
             {/* Deck Selector */}
             <div className="bg-white dark:bg-slate-800 p-5 rounded-xl shadow-sm border border-slate-200 dark:border-slate-700 transition-colors">
               <div className="flex items-center space-x-2 mb-4">
@@ -709,29 +798,31 @@ export default function App() {
                 <h2 className="text-lg font-semibold text-slate-900 dark:text-white">Deck</h2>
               </div>
               <div className="flex gap-2">
-                <select 
+                <select
                   aria-label="Select Deck"
                   value={selectedDeckId}
                   onChange={(e) => {
                     setSelectedDeckId(e.target.value);
-                    if (quizSession.active) setQuizSession(prev => ({...prev, active: false}));
+                    if (quizSession.active) setQuizSession((prev) => ({ ...prev, active: false }));
                   }}
                   className="flex-1 p-2 bg-slate-50 dark:bg-slate-900 border border-slate-300 dark:border-slate-600 rounded-lg focus:ring-2 focus:ring-indigo-500 outline-none transition-colors dark:text-white text-sm"
                 >
-                  {decks.map(d => (
-                    <option key={d.id} value={d.id}>{d.name}</option>
+                  {decks.map((d) => (
+                    <option key={d.id} value={d.id}>
+                      {d.name}
+                    </option>
                   ))}
                 </select>
-                <button 
-                  onClick={handleAddDeckClick} 
-                  className="p-2 bg-indigo-100 dark:bg-indigo-900/50 text-indigo-600 dark:text-indigo-400 hover:bg-indigo-200 dark:hover:bg-indigo-900 rounded-lg transition-colors" 
+                <button
+                  onClick={handleAddDeckClick}
+                  className="p-2 bg-indigo-100 dark:bg-indigo-900/50 text-indigo-600 dark:text-indigo-400 hover:bg-indigo-200 dark:hover:bg-indigo-900 rounded-lg transition-colors"
                   title="Add Deck"
                 >
                   <Plus className="w-5 h-5" />
                 </button>
-                <button 
-                  onClick={handleDeleteDeckClick} 
-                  className="p-2 bg-red-50 dark:bg-red-900/20 text-red-600 dark:text-red-400 hover:bg-red-100 dark:hover:bg-red-900/50 rounded-lg transition-colors" 
+                <button
+                  onClick={handleDeleteDeckClick}
+                  className="p-2 bg-red-50 dark:bg-red-900/20 text-red-600 dark:text-red-400 hover:bg-red-100 dark:hover:bg-red-900/50 rounded-lg transition-colors"
                   title="Delete Deck"
                 >
                   <Trash2 className="w-5 h-5" />
@@ -759,19 +850,19 @@ export default function App() {
                 value={currentRawText}
                 onChange={(e) => {
                   const val = e.target.value;
-                  setRawTexts(prev => ({ ...prev, [selectedDeckId]: val }));
+                  setRawTexts((prev) => ({ ...prev, [selectedDeckId]: val }));
                   setIsTyping(true);
                 }}
               />
               <div className="flex gap-3 mt-3">
-                 <button
+                <button
                   onClick={handleCopyText}
                   disabled={!currentRawText}
                   className="flex-1 flex items-center justify-center space-x-2 bg-slate-100 dark:bg-slate-700 hover:bg-slate-200 dark:hover:bg-slate-600 text-slate-600 dark:text-slate-300 disabled:opacity-50 font-medium py-2 px-4 rounded-lg transition-colors text-sm"
                 >
                   <Copy className="w-4 h-4" /> <span>Copy Text</span>
                 </button>
-                 <button
+                <button
                   onClick={handleClearTextClick}
                   disabled={!currentRawText}
                   className="flex-1 flex items-center justify-center space-x-2 bg-red-50 dark:bg-red-900/20 hover:bg-red-100 dark:hover:bg-red-900/40 text-red-600 dark:text-red-400 disabled:opacity-50 font-medium py-2 px-4 rounded-lg transition-colors text-sm"
@@ -787,10 +878,13 @@ export default function App() {
                 <Settings className="w-5 h-5 text-indigo-500 dark:text-indigo-400" />
                 <h2 className="text-lg font-semibold text-slate-900 dark:text-white">Quiz Setup</h2>
               </div>
-              
+
               <div className="space-y-4">
                 <div>
-                  <label htmlFor="numToGenerate" className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1">
+                  <label
+                    htmlFor="numToGenerate"
+                    className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1"
+                  >
                     Questions to practice
                   </label>
                   <input
@@ -799,53 +893,82 @@ export default function App() {
                     min="1"
                     max={activeDeckQuestions.length || 100}
                     value={settings.numToGenerate}
-                    onChange={(e) => setSettings({ ...settings, numToGenerate: Number.parseInt(e.target.value) || 1 })}
+                    onChange={(e) =>
+                      setSettings({
+                        ...settings,
+                        numToGenerate: Number.parseInt(e.target.value) || 1,
+                      })
+                    }
                     className="w-full p-2 bg-slate-50 dark:bg-slate-900 border border-slate-300 dark:border-slate-600 rounded-lg focus:ring-2 focus:ring-indigo-500 outline-none transition-colors dark:text-white text-sm"
                   />
                 </div>
 
                 <div>
                   <span className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-2">
-                    Include from {decks.find(d => d.id === selectedDeckId)?.name}:
+                    Include from {decks.find((d) => d.id === selectedDeckId)?.name}:
                   </span>
                   <div className="space-y-2">
-                    <label htmlFor="incUnanswered" className="flex items-center space-x-3 cursor-pointer group">
+                    <label
+                      htmlFor="incUnanswered"
+                      className="flex items-center space-x-3 cursor-pointer group"
+                    >
                       <input
                         id="incUnanswered"
                         aria-label="Include Unanswered"
                         type="checkbox"
                         checked={settings.includeUnanswered}
-                        onChange={(e) => setSettings({ ...settings, includeUnanswered: e.target.checked })}
+                        onChange={(e) =>
+                          setSettings({ ...settings, includeUnanswered: e.target.checked })
+                        }
                         className="rounded text-indigo-600 focus:ring-indigo-500 w-4 h-4 dark:bg-slate-900 dark:border-slate-600 cursor-pointer"
                       />
                       <div className="flex justify-between flex-1 text-sm text-slate-600 dark:text-slate-300 group-hover:text-slate-900 dark:group-hover:text-white transition-colors">
-                        <span>Unanswered</span> <span className="bg-slate-100 dark:bg-slate-700 px-2 py-0.5 rounded-full text-xs font-semibold">{stats.unanswered}</span>
+                        <span>Unanswered</span>{' '}
+                        <span className="bg-slate-100 dark:bg-slate-700 px-2 py-0.5 rounded-full text-xs font-semibold">
+                          {stats.unanswered}
+                        </span>
                       </div>
                     </label>
-                    <label htmlFor="incIncorrect" className="flex items-center space-x-3 cursor-pointer group">
+                    <label
+                      htmlFor="incIncorrect"
+                      className="flex items-center space-x-3 cursor-pointer group"
+                    >
                       <input
                         id="incIncorrect"
                         aria-label="Include Incorrect"
                         type="checkbox"
                         checked={settings.includeIncorrect}
-                        onChange={(e) => setSettings({ ...settings, includeIncorrect: e.target.checked })}
+                        onChange={(e) =>
+                          setSettings({ ...settings, includeIncorrect: e.target.checked })
+                        }
                         className="rounded text-red-600 focus:ring-red-500 w-4 h-4 dark:bg-slate-900 dark:border-slate-600 cursor-pointer"
                       />
                       <div className="flex justify-between flex-1 text-sm text-slate-600 dark:text-slate-300 group-hover:text-slate-900 dark:group-hover:text-white transition-colors">
-                        <span>Incorrect</span> <span className="bg-red-50 dark:bg-red-900/30 text-red-600 dark:text-red-400 px-2 py-0.5 rounded-full text-xs font-semibold">{stats.incorrect}</span>
+                        <span>Incorrect</span>{' '}
+                        <span className="bg-red-50 dark:bg-red-900/30 text-red-600 dark:text-red-400 px-2 py-0.5 rounded-full text-xs font-semibold">
+                          {stats.incorrect}
+                        </span>
                       </div>
                     </label>
-                    <label htmlFor="incCorrect" className="flex items-center space-x-3 cursor-pointer group">
+                    <label
+                      htmlFor="incCorrect"
+                      className="flex items-center space-x-3 cursor-pointer group"
+                    >
                       <input
                         id="incCorrect"
                         aria-label="Include Correct"
                         type="checkbox"
                         checked={settings.includeCorrect}
-                        onChange={(e) => setSettings({ ...settings, includeCorrect: e.target.checked })}
+                        onChange={(e) =>
+                          setSettings({ ...settings, includeCorrect: e.target.checked })
+                        }
                         className="rounded text-green-600 focus:ring-green-500 w-4 h-4 dark:bg-slate-900 dark:border-slate-600 cursor-pointer"
                       />
                       <div className="flex justify-between flex-1 text-sm text-slate-600 dark:text-slate-300 group-hover:text-slate-900 dark:group-hover:text-white transition-colors">
-                        <span>Correct</span> <span className="bg-green-50 dark:bg-green-900/30 text-green-600 dark:text-green-400 px-2 py-0.5 rounded-full text-xs font-semibold">{stats.correct}</span>
+                        <span>Correct</span>{' '}
+                        <span className="bg-green-50 dark:bg-green-900/30 text-green-600 dark:text-green-400 px-2 py-0.5 rounded-full text-xs font-semibold">
+                          {stats.correct}
+                        </span>
                       </div>
                     </label>
                   </div>
@@ -861,13 +984,10 @@ export default function App() {
                 </button>
               </div>
             </div>
-
           </div>
 
           {/* RIGHT COLUMN: Viewport */}
-          <div className="lg:col-span-2 space-y-6">
-            {renderMainContent()}
-          </div>
+          <div className="lg:col-span-2 space-y-6">{renderMainContent()}</div>
         </div>
       </div>
     </div>

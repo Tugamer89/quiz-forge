@@ -7,7 +7,8 @@
     "dev": "vite",
     "build": "vite build",
     "lint": "eslint .",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "prepare": "husky"
   },
   "dependencies": {
     "lucide-react": "^1.11.0",
@@ -17,16 +18,32 @@
   },
   "devDependencies": {
     "@eslint/js": "^10.0.1",
+    "@semantic-release/github": "^12.0.6",
+    "@semantic-release/npm": "^13.1.5",
     "@tailwindcss/vite": "^4.2.4",
     "@types/react": "^19.2.14",
     "@types/react-dom": "^19.2.3",
-    "@vitejs/plugin-react": "^6.0.1",
+    "@vitejs/plugin-react": "^4.3.0",
     "eslint": "^10.2.1",
+    "eslint-config-prettier": "^10.1.8",
     "eslint-plugin-react-hooks": "^7.1.1",
     "eslint-plugin-react-refresh": "^0.5.2",
     "globals": "^17.5.0",
+    "husky": "^9.1.7",
+    "lint-staged": "^16.4.0",
+    "prettier": "^3.8.3",
+    "semantic-release": "^25.0.3",
     "tailwindcss": "^4.2.4",
-    "vite": "^8.0.10",
-    "vite-plugin-pwa": "^0.19.8"
+    "vite": "^6.0.0",
+    "vite-plugin-pwa": "^1.2.0"
+  },
+  "lint-staged": {
+    "*.{js,jsx,ts,tsx}": [
+      "eslint --fix",
+      "prettier --write"
+    ],
+    "*.{json,css,md}": [
+      "prettier --write"
+    ]
   }
 }
