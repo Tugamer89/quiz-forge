@@ -23,9 +23,10 @@ import {
   Info,
   Eraser,
   Copy,
+  Smartphone,
 } from 'lucide-react';
 
-// --- State Updaters & Helpers (Extracted to prevent deep nesting) ---
+// --- State Updaters & Helpers ---
 
 const removeDeckById = (deckId) => (prevDecks) => prevDecks.filter((d) => d.id !== deckId);
 
@@ -118,8 +119,6 @@ function useLocalStorage(key, initialValue) {
 // --- Sub-Components ---
 
 const CustomDialog = ({ dialog, onClose }) => {
-  // Cascading render fix: useState initializes with defaultValue directly,
-  // since the dialog is only rendered when it opens (conditional rendering in App).
   const [inputVal, setInputVal] = useState(dialog.defaultValue || '');
 
   const handleConfirm = () => {
@@ -270,7 +269,9 @@ const SummaryScreen = ({ session, onReset }) => {
           <div className="text-2xl font-bold text-red-600 dark:text-red-400">
             {session.incorrectCount}
           </div>
-          <div className="text-sm font-medium text-red-700/70 dark:text-red-400/70">Incorrect</div>
+          <div className="text-sm font-medium text-red-700/70 dark:text-green-400/70">
+            Incorrect
+          </div>
         </div>
       </div>
 
@@ -324,6 +325,9 @@ export default function App() {
   const [showAnswer, setShowAnswer] = useState(false);
   const [isTyping, setIsTyping] = useState(false);
 
+  // State: PWA Installation
+  const [deferredPrompt, setDeferredPrompt] = useState(null);
+
   // State: UI Components
   const [toast, setToast] = useState({ show: false, message: '', type: 'info' });
   const [dialog, setDialog] = useState({
@@ -352,6 +356,22 @@ export default function App() {
     }
   }, [isDarkMode]);
 
+  // --- PWA Installation Effect ---
+  useEffect(() => {
+    const handleBeforeInstallPrompt = (e) => {
+      // Prevents the browser from showing its own prompt
+      e.preventDefault();
+      // Store the event to trigger it later
+      setDeferredPrompt(e);
+    };
+
+    globalThis.addEventListener('beforeinstallprompt', handleBeforeInstallPrompt);
+
+    return () => {
+      globalThis.removeEventListener('beforeinstallprompt', handleBeforeInstallPrompt);
+    };
+  }, []);
+
   // --- UI Helpers ---
   const showToast = useCallback((message, type = 'info') => {
     setToast({ show: true, message, type });
@@ -361,6 +381,21 @@ export default function App() {
   const closeDialog = useCallback(() => {
     setDialog((prev) => ({ ...prev, isOpen: false }));
   }, []);
+
+  // --- Installation Handler ---
+  const handleInstallApp = async () => {
+    if (!deferredPrompt) return;
+
+    deferredPrompt.prompt();
+
+    const { outcome } = await deferredPrompt.userChoice;
+
+    if (outcome === 'accepted') {
+      showToast('Thank you for installing Quiz Forge!', 'success');
+    }
+
+    setDeferredPrompt(null);
+  };
 
   // --- Deck Management ---
   const handleAddDeckClick = () => {
@@ -741,7 +776,6 @@ export default function App() {
   return (
     <div className="min-h-screen bg-slate-50 dark:bg-slate-900 text-slate-800 dark:text-slate-200 font-sans p-4 md:p-8 transition-colors duration-200 selection:bg-indigo-200 dark:selection:bg-indigo-900">
       <Toast toast={toast} />
-      {/* Cascading render issue fixed: conditionally rendering CustomDialog resets its internal state safely */}
       {dialog.isOpen && <CustomDialog dialog={dialog} onClose={closeDialog} />}
 
       <div className="max-w-6xl mx-auto space-y-6">
@@ -752,7 +786,17 @@ export default function App() {
             <h1 className="text-3xl font-bold text-slate-900 dark:text-white">Quiz Forge</h1>
           </div>
 
-          <div className="flex items-center space-x-3">
+          <div className="flex items-center space-x-3 flex-wrap md:flex-nowrap gap-y-2">
+            {/* Install Button (PWA) */}
+            {deferredPrompt && (
+              <button
+                onClick={handleInstallApp}
+                className="flex items-center space-x-2 px-3 py-2 rounded-lg text-sm font-semibold bg-indigo-600 text-white shadow-md hover:bg-indigo-700 transition-all focus:ring-2 focus:ring-indigo-500 hover:scale-105 hover:-translate-y-0.5 duration-500 shadow-indigo-500/20 active:scale-95"
+              >
+                <Smartphone className="w-4 h-4" /> <span>Install App</span>
+              </button>
+            )}
+
             <input
               type="file"
               accept=".json"
@@ -773,7 +817,7 @@ export default function App() {
             >
               <Download className="w-4 h-4" /> <span>Export</span>
             </button>
-            <div className="h-6 w-px bg-slate-300 dark:bg-slate-700 mx-2"></div>
+            <div className="h-6 w-px bg-slate-300 dark:bg-slate-700 mx-1 hidden md:block"></div>
             <button
               onClick={() => setIsDarkMode(!isDarkMode)}
               className="p-2 rounded-full bg-white dark:bg-slate-800 shadow-sm border border-slate-200 dark:border-slate-700 hover:bg-slate-100 dark:hover:bg-slate-700 transition-colors focus:outline-none focus:ring-2 focus:ring-indigo-500"
