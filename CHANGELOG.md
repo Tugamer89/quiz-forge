@@ -1,3 +1,9 @@
+# [1.2.0](https://github.com/Tugamer89/quiz-forge/compare/v1.1.0...v1.2.0) (2026-04-27)
+
+### Features
+
+- add Google Drive sync, response overview and update CI ([d295d71](https://github.com/Tugamer89/quiz-forge/commit/d295d717bf7486a540e5fe0d1685a938bdf4ddac))
+
 # [1.0.0](https://github.com/Tugamer89/quiz-forge/compare/v1.1.0...v1.0.0) (2026-04-27)
 
 # [1.1.0](https://github.com/Tugamer89/quiz-forge/compare/v1.0.1...v1.1.0) (2026-04-27)
