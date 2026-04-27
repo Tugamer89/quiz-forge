@@ -1,4 +1,4 @@
-import { useState, useEffect, useCallback } from 'react';
+import { useState, useEffect, useCallback, useRef } from 'react';
 import { useLocalStorage } from './useLocalStorage';
 
 export function useAppUI() {
@@ -11,6 +11,8 @@ export function useAppUI() {
     title: '',
     onConfirm: () => {},
   });
+
+  const toastTimerRef = useRef(null);
 
   useEffect(() => {
     const root = document.documentElement;
@@ -29,7 +31,14 @@ export function useAppUI() {
 
   const showToast = useCallback((msg, type = 'info') => {
     setToast({ show: true, message: msg, type });
-    setTimeout(() => setToast({ show: false }), 3000);
+
+    if (toastTimerRef.current) {
+      clearTimeout(toastTimerRef.current);
+    }
+
+    toastTimerRef.current = setTimeout(() => {
+      setToast((prev) => ({ ...prev, show: false }));
+    }, 3000);
   }, []);
 
   const handleInstallApp = async () => {

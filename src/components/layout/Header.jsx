@@ -1,8 +1,25 @@
-import { useRef } from 'react';
+import { useState, useRef, useEffect } from 'react';
 import PropTypes from 'prop-types';
-import { BookOpen, Smartphone, Upload, Download, Sun, Moon } from 'lucide-react';
+import { CloudSync } from '../features/CloudSync';
+import {
+  BookOpen,
+  Smartphone,
+  Upload,
+  Download,
+  Sun,
+  Moon,
+  Database,
+  ChevronDown,
+} from 'lucide-react';
 
 export const Header = ({
+  decks,
+  questions,
+  rawTexts,
+  setDecks,
+  setQuestions,
+  setRawTexts,
+  showToast,
   deferredPrompt,
   onInstall,
   onImport,
@@ -11,6 +28,28 @@ export const Header = ({
   toggleTheme,
 }) => {
   const fileInputRef = useRef(null);
+  const [isDataMenuOpen, setIsDataMenuOpen] = useState(false);
+  const menuRef = useRef(null);
+
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (menuRef.current && !menuRef.current.contains(event.target)) {
+        setIsDataMenuOpen(false);
+      }
+    };
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => document.removeEventListener('mousedown', handleClickOutside);
+  }, []);
+
+  const handleImportWrapper = (e) => {
+    onImport(e);
+    setIsDataMenuOpen(false);
+  };
+
+  const handleExportWrapper = () => {
+    onExport();
+    setIsDataMenuOpen(false);
+  };
 
   return (
     <header className="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-8">
@@ -29,26 +68,67 @@ export const Header = ({
           </button>
         )}
 
-        <input
-          type="file"
-          accept=".json"
-          className="hidden"
-          ref={fileInputRef}
-          onChange={onImport}
-          aria-label="Import backup file"
-        />
-        <button
-          onClick={() => fileInputRef.current?.click()}
-          className="flex items-center space-x-2 px-3 py-2 rounded-lg text-sm font-medium bg-white dark:bg-slate-800 shadow-sm border border-slate-200 dark:border-slate-700 hover:bg-slate-50 dark:hover:bg-slate-700 transition-colors focus:ring-2 focus:ring-indigo-500"
-        >
-          <Upload className="w-4 h-4" /> <span>Import</span>
-        </button>
-        <button
-          onClick={onExport}
-          className="flex items-center space-x-2 px-3 py-2 rounded-lg text-sm font-medium bg-white dark:bg-slate-800 shadow-sm border border-slate-200 dark:border-slate-700 hover:bg-slate-50 dark:hover:bg-slate-700 transition-colors focus:ring-2 focus:ring-indigo-500"
-        >
-          <Download className="w-4 h-4" /> <span>Export</span>
-        </button>
+        <div className="relative" ref={menuRef}>
+          <button
+            onClick={() => setIsDataMenuOpen(!isDataMenuOpen)}
+            className="flex items-center space-x-2 px-3 py-2 rounded-lg text-sm font-medium bg-white dark:bg-slate-800 shadow-sm border border-slate-200 dark:border-slate-700 hover:bg-slate-50 dark:hover:bg-slate-700 transition-colors focus:ring-2 focus:ring-indigo-500"
+          >
+            <Database className="w-4 h-4" /> <span>Data & Sync</span>
+            <ChevronDown
+              className={`w-4 h-4 transition-transform duration-200 ${isDataMenuOpen ? 'rotate-180' : ''}`}
+            />
+          </button>
+
+          {isDataMenuOpen && (
+            <div className="absolute right-0 mt-2 w-64 bg-white dark:bg-slate-800 rounded-xl shadow-lg border border-slate-200 dark:border-slate-700 z-50 overflow-hidden animate-in fade-in slide-in-from-top-2 duration-200">
+              <div className="py-2">
+                <div className="px-4 py-1.5 text-[10px] font-bold text-slate-400 dark:text-slate-500 uppercase tracking-wider">
+                  Local Storage
+                </div>
+                <input
+                  type="file"
+                  accept=".json"
+                  className="hidden"
+                  ref={fileInputRef}
+                  onChange={handleImportWrapper}
+                  aria-label="Import backup file"
+                />
+                <button
+                  onClick={() => fileInputRef.current?.click()}
+                  className="w-full flex items-center px-4 py-2.5 text-sm text-slate-700 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-700 transition-colors"
+                >
+                  <Upload className="w-4 h-4 mr-2.5 text-slate-500 dark:text-slate-400" /> Import
+                  Backup
+                </button>
+                <button
+                  onClick={handleExportWrapper}
+                  className="w-full flex items-center px-4 py-2.5 text-sm text-slate-700 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-700 transition-colors"
+                >
+                  <Download className="w-4 h-4 mr-2.5 text-slate-500 dark:text-slate-400" /> Export
+                  Backup
+                </button>
+
+                <div className="h-px bg-slate-100 dark:bg-slate-700 my-1.5 mx-2"></div>
+
+                <div className="px-4 py-1.5 text-[10px] font-bold text-slate-400 dark:text-slate-500 uppercase tracking-wider">
+                  Cloud Sync
+                </div>
+                <CloudSync
+                  decks={decks}
+                  questions={questions}
+                  rawTexts={rawTexts}
+                  showToast={showToast}
+                  onImportData={(data) => {
+                    setDecks(data.decks);
+                    setQuestions(data.questions);
+                    if (data.rawTexts) setRawTexts(data.rawTexts);
+                  }}
+                  onActionComplete={() => setIsDataMenuOpen(false)}
+                />
+              </div>
+            </div>
+          )}
+        </div>
 
         <div className="h-6 w-px bg-slate-300 dark:bg-slate-700 mr-3 hidden md:block"></div>
 
@@ -69,6 +149,13 @@ export const Header = ({
 };
 
 Header.propTypes = {
+  decks: PropTypes.array.isRequired,
+  questions: PropTypes.array.isRequired,
+  rawTexts: PropTypes.object.isRequired,
+  setDecks: PropTypes.func.isRequired,
+  setQuestions: PropTypes.func.isRequired,
+  setRawTexts: PropTypes.func.isRequired,
+  showToast: PropTypes.func.isRequired,
   deferredPrompt: PropTypes.object,
   onInstall: PropTypes.func.isRequired,
   onImport: PropTypes.func.isRequired,

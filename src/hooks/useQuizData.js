@@ -235,10 +235,13 @@ export function useQuizData(showToast, setDialog) {
 
   return {
     decks,
+    setDecks,
     selectedDeckId,
     setSelectedDeckId,
     questions,
     setQuestions,
+    rawTexts,
+    setRawTexts,
     settings,
     setSettings,
     isTyping,

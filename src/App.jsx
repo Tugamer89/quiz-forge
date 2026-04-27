@@ -35,6 +35,13 @@ export default function App() {
 
       <div className="max-w-6xl mx-auto space-y-6">
         <Header
+          decks={data.decks}
+          questions={data.questions}
+          rawTexts={data.rawTexts}
+          setDecks={data.setDecks}
+          setQuestions={data.setQuestions}
+          setRawTexts={data.setRawTexts}
+          showToast={ui.showToast}
           deferredPrompt={ui.deferredPrompt}
           isDarkMode={ui.isDarkMode}
           toggleTheme={ui.toggleTheme}

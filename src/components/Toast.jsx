@@ -10,19 +10,30 @@ export const Toast = ({ toast }) => {
     info: 'bg-slate-800 dark:bg-slate-700',
   };
 
+  const progressColors = {
+    success: 'bg-green-400',
+    error: 'bg-red-400',
+    info: 'bg-slate-500 dark:bg-slate-400',
+  };
+
   const icons = {
-    success: <Check className="w-5 h-5 text-white mr-2" />,
-    error: <AlertCircle className="w-5 h-5 text-white mr-2" />,
-    info: <Info className="w-5 h-5 text-white mr-2" />,
+    success: <Check className="w-5 h-5 text-white mr-3" />,
+    error: <AlertCircle className="w-5 h-5 text-white mr-3" />,
+    info: <Info className="w-5 h-5 text-white mr-3" />,
   };
 
   return (
-    <div className="fixed bottom-6 right-6 z-50 animate-in slide-in-from-bottom-5 fade-in duration-300">
+    <div className="fixed bottom-6 right-6 z-50 animate-toast-enter">
       <div
-        className={`${bgColors[toast.type]} text-white px-4 py-3 rounded-lg shadow-xl flex items-center`}
+        className={`${bgColors[toast.type]} text-white rounded-lg shadow-xl overflow-hidden min-w-70 max-w-sm flex flex-col`}
       >
-        {icons[toast.type]}
-        <span className="font-medium text-sm">{toast.message}</span>
+        <div className="px-4 py-3 flex items-center">
+          {icons[toast.type]}
+          <span className="font-medium text-sm">{toast.message}</span>
+        </div>
+        <div
+          className={`h-1 w-full ${progressColors[toast.type]} animate-toast-progress origin-left`}
+        />
       </div>
     </div>
   );
