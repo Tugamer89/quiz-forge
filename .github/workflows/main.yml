@@ -3,6 +3,14 @@ name: Production Release & Deploy
 on:
   push:
     branches: ["main"]
+    paths-ignore:
+      - '**/*.md'
+      - '.github/**'
+      - '.gitignore'
+      - '.husky/**'
+      - '.prettierrc'
+      - 'eslint.config.js'
+      - 'LICENSE'
   workflow_dispatch:
 
 permissions:
