@@ -50,7 +50,7 @@ export const Header = ({
           <Download className="w-4 h-4" /> <span>Export</span>
         </button>
 
-        <div className="h-6 w-px bg-slate-300 dark:bg-slate-700 mx-1 hidden md:block"></div>
+        <div className="h-6 w-px bg-slate-300 dark:bg-slate-700 mr-3 hidden md:block"></div>
 
         <button
           onClick={toggleTheme}
