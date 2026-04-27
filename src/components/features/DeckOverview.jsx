@@ -24,7 +24,7 @@ export const DeckOverview = ({ questions, stats, onMarkQuestion }) => {
           </p>
         </div>
       ) : (
-        <div className="flex-1 overflow-y-auto space-y-3 pr-2 custom-scrollbar max-h-150">
+        <div className="flex-1 overflow-y-auto space-y-3 pr-2 custom-scrollbar h-full">
           {questions.map((q) => (
             <div
               key={q.id}

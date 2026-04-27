@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types';
-import { PieChart } from 'lucide-react';
+import { PieChart, Database, Zap } from 'lucide-react';
 
-export const SummaryScreen = ({ session, onReset }) => {
+export const SummaryScreen = ({ session, onReset, onPlayAgain }) => {
   const total = session.questions.length;
   const percentage = Math.round((session.correctCount / total) * 100);
 
@@ -34,12 +34,23 @@ export const SummaryScreen = ({ session, onReset }) => {
         </div>
       </div>
 
-      <button
-        onClick={onReset}
-        className="bg-indigo-600 hover:bg-indigo-700 text-white font-semibold py-3 px-8 rounded-lg transition-colors shadow-sm"
-      >
-        Back to Database
-      </button>
+      <div className="flex flex-col sm:flex-row gap-4 justify-center pt-4 border-t border-slate-100 dark:border-slate-800">
+        <button
+          onClick={onReset}
+          className="flex items-center justify-center gap-2.5 px-8 py-3.5 rounded-xl border border-slate-300 dark:border-slate-600 bg-slate-200 hover:bg-slate-300 dark:bg-slate-700 dark:hover:bg-slate-600 text-slate-800 dark:text-slate-100 font-semibold transition-all duration-200 active:scale-95 group shadow-sm"
+        >
+          <Database className="w-5 h-5 text-slate-500 group-hover:scale-110 transition-transform" />
+          Exit Quiz
+        </button>
+
+        <button
+          onClick={onPlayAgain}
+          className="flex items-center justify-center gap-2.5 px-8 py-3.5 rounded-xl bg-indigo-600 hover:bg-indigo-700 text-white font-semibold transition-all duration-200 shadow-md shadow-indigo-200 dark:shadow-none active:scale-95 group"
+        >
+          <Zap className="w-5 h-5 group-hover:animate-pulse" />
+          Play Again
+        </button>
+      </div>
     </div>
   );
 };
@@ -51,4 +62,5 @@ SummaryScreen.propTypes = {
     incorrectCount: PropTypes.number.isRequired,
   }).isRequired,
   onReset: PropTypes.func.isRequired,
+  onPlayAgain: PropTypes.func.isRequired,
 };
