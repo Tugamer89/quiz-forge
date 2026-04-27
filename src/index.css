@@ -1,2 +1,20 @@
-@import "tailwindcss";
+@import 'tailwindcss';
+@plugin "@tailwindcss/typography";
 @custom-variant dark (&:where(.dark, .dark *));
+
+@layer base {
+  .prose code::before {
+    content: none !important;
+  }
+  .prose code::after {
+    content: none !important;
+  }
+
+  .prose code {
+    @apply bg-slate-100 dark:bg-slate-800 text-indigo-600 dark:text-indigo-300 px-1.5 py-0.5 rounded-md font-normal text-[0.9em];
+  }
+
+  .prose pre code {
+    @apply bg-transparent text-inherit p-0 text-[1em];
+  }
+}

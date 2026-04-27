@@ -9,6 +9,7 @@ import {
   Eraser,
   Settings,
   Play,
+  BrainCircuit,
 } from 'lucide-react';
 
 export const SidebarControls = ({
@@ -80,7 +81,7 @@ export const SidebarControls = ({
         </div>
         <textarea
           className="w-full h-48 p-3 text-sm bg-slate-50 dark:bg-slate-900 text-slate-900 dark:text-slate-100 border border-slate-300 dark:border-slate-600 rounded-lg focus:ring-2 focus:ring-indigo-500 outline-none resize-none transition-colors placeholder:text-slate-400 dark:placeholder:text-slate-500 font-mono"
-          placeholder="1. Markdown works!&#10;Use **bold**, *italic*, and `code`.&#10;&#10;2. Another question?&#10;The answer goes here..."
+          placeholder="1. Markdown works! #hashtag&#10;Use **bold**, *italic*, and `code`.&#10;&#10;2. Another question?&#10;The answer goes here..."
           value={currentRawText}
           onChange={(e) => onRawTextChange(e.target.value)}
         />
@@ -108,13 +109,33 @@ export const SidebarControls = ({
           <Settings className="w-5 h-5 text-indigo-500 dark:text-indigo-400" />
           <h2 className="text-lg font-semibold text-slate-900 dark:text-white">Quiz Setup</h2>
         </div>
-        <div className="space-y-4">
+
+        <div className="space-y-5">
+          {/* SRS Toggle */}
+          <label className="flex items-center justify-between p-3 border border-indigo-200 dark:border-indigo-800/50 bg-indigo-50/50 dark:bg-indigo-900/20 rounded-lg cursor-pointer group">
+            <div className="flex items-center space-x-3">
+              <BrainCircuit className="w-5 h-5 text-indigo-500" />
+              <span className="text-sm font-medium text-slate-700 dark:text-slate-200">
+                Spaced Repetition (SRS)
+              </span>
+            </div>
+            <div className="relative inline-flex items-center cursor-pointer">
+              <input
+                type="checkbox"
+                className="sr-only peer"
+                checked={settings.srsEnabled || false}
+                onChange={(e) => onSettingsChange({ ...settings, srsEnabled: e.target.checked })}
+              />
+              <div className="w-9 h-5 bg-slate-300 peer-focus:outline-none rounded-full peer dark:bg-slate-600 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-0.5 after:left-0.5 after:bg-white after:border-gray-300 after:border after:rounded-full after:h-4 after:w-4 after:transition-all dark:border-gray-600 peer-checked:bg-indigo-500"></div>
+            </div>
+          </label>
+
           <div>
             <label
               htmlFor="numToGenerate"
               className="block text-sm font-medium mb-1 dark:text-slate-300"
             >
-              Questions to practice
+              Questions per session
             </label>
             <input
               id="numToGenerate"
@@ -132,13 +153,14 @@ export const SidebarControls = ({
             />
           </div>
 
-          <div>
+          <div
+            className={`transition-opacity ${settings.srsEnabled ? 'opacity-40 pointer-events-none' : 'opacity-100'}`}
+          >
             <span className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-2">
               Include from {decks.find((d) => d.id === selectedDeckId)?.name}:
             </span>
 
             <div className="space-y-2">
-              {/* Checkboxes per Unanswered, Correct, Incorrect... */}
               {['Unanswered', 'Incorrect', 'Correct'].map((type) => {
                 const key = `include${type}`;
                 const inputId = `inc${type}`;
@@ -182,6 +204,11 @@ export const SidebarControls = ({
                 );
               })}
             </div>
+            {settings.srsEnabled && (
+              <p className="text-xs text-indigo-600 dark:text-indigo-400 mt-3 font-medium">
+                * Filters are disabled because Spaced Repetition (SRS) auto-selects due cards.
+              </p>
+            )}
           </div>
 
           <button
@@ -199,12 +226,7 @@ export const SidebarControls = ({
 };
 
 SidebarControls.propTypes = {
-  decks: PropTypes.arrayOf(
-    PropTypes.shape({
-      id: PropTypes.string.isRequired,
-      name: PropTypes.string.isRequired,
-    })
-  ).isRequired,
+  decks: PropTypes.array.isRequired,
   selectedDeckId: PropTypes.string.isRequired,
   onSelectDeck: PropTypes.func.isRequired,
   onAddDeck: PropTypes.func.isRequired,
@@ -214,18 +236,9 @@ SidebarControls.propTypes = {
   isTyping: PropTypes.bool.isRequired,
   onCopyText: PropTypes.func.isRequired,
   onClearText: PropTypes.func.isRequired,
-  settings: PropTypes.shape({
-    numToGenerate: PropTypes.number.isRequired,
-    includeUnanswered: PropTypes.bool.isRequired,
-    includeCorrect: PropTypes.bool.isRequired,
-    includeIncorrect: PropTypes.bool.isRequired,
-  }).isRequired,
+  settings: PropTypes.object.isRequired,
   onSettingsChange: PropTypes.func.isRequired,
-  stats: PropTypes.shape({
-    unanswered: PropTypes.number.isRequired,
-    correct: PropTypes.number.isRequired,
-    incorrect: PropTypes.number.isRequired,
-  }).isRequired,
+  stats: PropTypes.object.isRequired,
   activeDeckQuestionsLength: PropTypes.number.isRequired,
   onGenerateQuiz: PropTypes.func.isRequired,
 };

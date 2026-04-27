@@ -11,10 +11,16 @@
     "prepare": "husky"
   },
   "dependencies": {
+    "@tailwindcss/typography": "^0.5.19",
     "lucide-react": "^1.11.0",
     "prop-types": "^15.8.1",
     "react": "^19.2.5",
-    "react-dom": "^19.2.5"
+    "react-dom": "^19.2.5",
+    "react-markdown": "^10.1.0",
+    "rehype-katex": "^7.0.1",
+    "rehype-raw": "^7.0.0",
+    "remark-gfm": "^4.0.1",
+    "remark-math": "^6.0.0"
   },
   "devDependencies": {
     "@eslint/js": "^10.0.1",

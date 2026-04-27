@@ -1,5 +1,4 @@
 import { useState } from 'react';
-import { setQuestionStatus } from '../utils/helpers';
 
 export function useQuizSession(questions, setQuestions, settings, selectedDeckId, showToast) {
   const [quizSession, setQuizSession] = useState({
@@ -13,15 +12,29 @@ export function useQuizSession(questions, setQuestions, settings, selectedDeckId
   const [showAnswer, setShowAnswer] = useState(false);
 
   const generateQuiz = () => {
-    const eligible = questions.filter(
-      (q) =>
-        q.deckId === selectedDeckId &&
-        ((q.status === 'unanswered' && settings.includeUnanswered) ||
-          (q.status === 'correct' && settings.includeCorrect) ||
-          (q.status === 'incorrect' && settings.includeIncorrect))
-    );
+    const eligible = questions.filter((q) => {
+      if (q.deckId !== selectedDeckId) return false;
 
-    if (!eligible.length) return showToast('No questions match filters!', 'error');
+      if (settings.srsEnabled) {
+        if (!q.nextReviewDate) return true;
+        return new Date(q.nextReviewDate) <= new Date();
+      }
+
+      return (
+        (q.status === 'unanswered' && settings.includeUnanswered) ||
+        (q.status === 'correct' && settings.includeCorrect) ||
+        (q.status === 'incorrect' && settings.includeIncorrect)
+      );
+    });
+
+    if (!eligible.length) {
+      return showToast(
+        settings.srsEnabled
+          ? 'You are all caught up for today! No reviews pending.'
+          : 'No questions match filters!',
+        'info'
+      );
+    }
 
     const shuffled = [...eligible].sort(() => 0.5 - Math.random()).slice(0, settings.numToGenerate);
     setQuizSession({
@@ -37,7 +50,41 @@ export function useQuizSession(questions, setQuestions, settings, selectedDeckId
 
   const handleAnswer = (isCorrect) => {
     const currentQ = quizSession.questions[quizSession.currentIndex];
-    setQuestions(setQuestionStatus(currentQ.id, isCorrect ? 'correct' : 'incorrect'));
+
+    // Spaced Repetition
+    let { easeFactor = 2.5, interval = 0, repetition = 0 } = currentQ;
+    const quality = isCorrect ? 4 : 0;
+
+    if (isCorrect) {
+      if (repetition === 0) interval = 1;
+      else if (repetition === 1) interval = 6;
+      else interval = Math.round(interval * easeFactor);
+      repetition += 1;
+    } else {
+      repetition = 0;
+      interval = 1;
+    }
+
+    easeFactor = easeFactor + (0.1 - (5 - quality) * (0.08 + (5 - quality) * 0.02));
+    if (easeFactor < 1.3) easeFactor = 1.3;
+
+    const nextReviewDate = new Date();
+    nextReviewDate.setDate(nextReviewDate.getDate() + interval);
+
+    setQuestions((prev) =>
+      prev.map((item) =>
+        item.id === currentQ.id
+          ? {
+              ...item,
+              status: isCorrect ? 'correct' : 'incorrect',
+              interval,
+              repetition,
+              easeFactor,
+              nextReviewDate: settings.srsEnabled ? nextReviewDate.toISOString() : null,
+            }
+          : item
+      )
+    );
 
     setQuizSession((prev) => {
       const nextIndex = prev.currentIndex + 1;

@@ -19,6 +19,7 @@ export function useQuizData(showToast, setDialog) {
     includeUnanswered: true,
     includeCorrect: false,
     includeIncorrect: true,
+    srsEnabled: false,
   });
 
   const [isTyping, setIsTyping] = useState(false);
@@ -44,6 +45,11 @@ export function useQuizData(showToast, setDialog) {
     setIsTyping(true);
   };
 
+  const extractTags = (text) => {
+    const matches = text.match(/#\w+/g);
+    return matches ? [...new Set(matches.map((t) => t.toLowerCase()))] : [];
+  };
+
   const parseTextFromInput = useCallback(
     (text, deckId) => {
       const lines = text.split('\n');
@@ -54,7 +60,10 @@ export function useQuizData(showToast, setDialog) {
       lines.forEach((line) => {
         const match = line.match(regex);
         if (match) {
-          if (currentQ) parsed.push(currentQ);
+          if (currentQ) {
+            currentQ.tags = [...new Set([...currentQ.tags, ...extractTags(currentQ.answer)])];
+            parsed.push(currentQ);
+          }
           currentQ = {
             id: crypto.randomUUID(),
             number: match[1],
@@ -62,12 +71,21 @@ export function useQuizData(showToast, setDialog) {
             answer: '',
             status: 'unanswered',
             deckId,
+            tags: extractTags(match[2].trim()),
+            // Propreties for Spaced Repetition (SRS)
+            easeFactor: 2.5,
+            interval: 0,
+            repetition: 0,
+            nextReviewDate: null,
           };
         } else if (currentQ && (currentQ.answer || line.trim())) {
           currentQ.answer += (currentQ.answer ? '\n' : '') + line;
         }
       });
-      if (currentQ) parsed.push(currentQ);
+      if (currentQ) {
+        currentQ.tags = [...new Set([...currentQ.tags, ...extractTags(currentQ.answer)])];
+        parsed.push(currentQ);
+      }
 
       setQuestions((prev) => {
         const otherDecks = prev.filter((q) => q.deckId !== deckId);
