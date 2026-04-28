@@ -1,3 +1,9 @@
+## [1.3.2](https://github.com/Tugamer89/quiz-forge/compare/v1.3.1...v1.3.2) (2026-04-28)
+
+### Bug Fixes
+
+- **ui:** prevent deck selector overflow in sidebar controls on mobile ([052151d](https://github.com/Tugamer89/quiz-forge/commit/052151dd1077033246e988f29874f7f22ef0f7ad))
+
 ## [1.3.1](https://github.com/Tugamer89/quiz-forge/compare/v1.3.0...v1.3.1) (2026-04-28)
 
 ### Bug Fixes
