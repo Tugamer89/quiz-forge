@@ -1,6 +1,7 @@
 import { render, screen } from '@testing-library/react';
 import { describe, it, expect } from 'vitest';
 import SafeMarkdown from './SafeMarkdown';
+import rehypeRaw from 'rehype-raw';
 
 describe('SafeMarkdown Component', () => {
   it('renders standard markdown headings correctly', () => {
@@ -20,16 +21,20 @@ describe('SafeMarkdown Component', () => {
 
   it('blocks malicious script tags (XSS Prevention)', () => {
     const maliciousInput = 'Safe text <script>alert("Hacked!")</script>';
-    const { container } = render(<SafeMarkdown>{maliciousInput}</SafeMarkdown>);
+    const { container } = render(
+      <SafeMarkdown rehypePlugins={[rehypeRaw]}>{maliciousInput}</SafeMarkdown>
+    );
 
-    expect(screen.getByText('Safe text')).toBeInTheDocument();
+    expect(screen.getByText(/Safe text/)).toBeInTheDocument();
     const scriptTag = container.querySelector('script');
     expect(scriptTag).toBeNull();
   });
 
   it('strips dangerous event attributes', () => {
     const maliciousHtml = '<img src="x" onerror="alert(1)" alt="Hacker" />';
-    const { container } = render(<SafeMarkdown>{maliciousHtml}</SafeMarkdown>);
+    const { container } = render(
+      <SafeMarkdown rehypePlugins={[rehypeRaw]}>{maliciousHtml}</SafeMarkdown>
+    );
 
     const elementWithOnError = container.querySelector('[onerror]');
     expect(elementWithOnError).toBeNull();

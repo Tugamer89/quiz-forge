@@ -46,7 +46,10 @@ export function useQuizData(showToast, setDialog) {
   };
 
   const extractTags = (text) => {
-    const matches = text.match(/#\w+/g);
+    if (!text) return [];
+
+    const textWithoutCode = text.replaceAll(/```[\s\S]*?```/g, '').replaceAll(/`[^`]*`/g, '');
+    const matches = textWithoutCode.match(/#\w+/g);
     return matches ? [...new Set(matches.map((t) => t.toLowerCase()))] : [];
   };
 

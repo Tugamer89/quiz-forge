@@ -1,24 +1,36 @@
 import ReactMarkdown from 'react-markdown';
-import DOMPurify from 'dompurify';
+import rehypeSanitize, { defaultSchema } from 'rehype-sanitize';
 import PropTypes from 'prop-types';
+import CodeRenderer from './CodeRenderer';
 
 export default function SafeMarkdown({ children, remarkPlugins, rehypePlugins, ...props }) {
-  DOMPurify.addHook('afterSanitizeAttributes', function (node) {
-    if ('target' in node) {
-      node.setAttribute('target', '_blank');
-      node.setAttribute('rel', 'noopener noreferrer');
-    }
-  });
+  const sanitizeOptions = {
+    ...defaultSchema,
+    attributes: {
+      ...defaultSchema.attributes,
+      code: ['className', ...(defaultSchema.attributes.code || [])],
+      span: ['className', 'style', ...(defaultSchema.attributes.span || [])],
+    },
+  };
 
-  const cleanContent = DOMPurify.sanitize(children, {
-    USE_PROFILES: { html: true },
-    FORBID_TAGS: ['style', 'script', 'iframe', 'form', 'object'],
-    FORBID_ATTR: ['onerror', 'onload', 'onmouseover'],
-  });
+  const combinedRehypePlugins = [...(rehypePlugins || []), [rehypeSanitize, sanitizeOptions]];
+
+  const preRemoveWrapper = ({ children }) => <>{children}</>;
+
+  const aRemoveWrapper = ({ ...rest }) => <a target="_blank" rel="noopener noreferrer" {...rest} />;
 
   return (
-    <ReactMarkdown remarkPlugins={remarkPlugins} rehypePlugins={rehypePlugins} {...props}>
-      {cleanContent}
+    <ReactMarkdown
+      remarkPlugins={remarkPlugins}
+      rehypePlugins={combinedRehypePlugins}
+      components={{
+        code: CodeRenderer,
+        pre: preRemoveWrapper,
+        a: aRemoveWrapper,
+      }}
+      {...props}
+    >
+      {children}
     </ReactMarkdown>
   );
 }

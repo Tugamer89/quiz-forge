@@ -14,7 +14,8 @@
     @apply bg-slate-100 dark:bg-slate-800 text-indigo-600 dark:text-indigo-300 px-1.5 py-0.5 rounded-md font-normal text-[0.9em];
   }
 
-  .prose pre code {
+  .prose pre code,
+  .prose div code {
     @apply bg-transparent text-inherit p-0 text-[1em];
   }
 }
