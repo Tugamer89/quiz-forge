@@ -41,7 +41,7 @@ export const SidebarControls = ({
           <select
             value={selectedDeckId}
             onChange={(e) => onSelectDeck(e.target.value)}
-            className="flex-1 py-2 pl-3 bg-position-[calc(100%-20px)_center] bg-slate-50 dark:bg-slate-900 border border-slate-300 dark:border-slate-600 rounded-lg focus:ring-2 focus:ring-indigo-500 outline-none transition-colors dark:text-white text-sm"
+            className="flex-1 min-w-0 py-2 pl-3 bg-position-[calc(100%-20px)_center] bg-slate-50 dark:bg-slate-900 border border-slate-300 dark:border-slate-600 rounded-lg focus:ring-2 focus:ring-indigo-500 outline-none transition-colors dark:text-white text-sm"
           >
             {decks.map((d) => (
               <option key={d.id} value={d.id}>
