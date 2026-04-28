@@ -1,3 +1,9 @@
+## [1.2.1](https://github.com/Tugamer89/quiz-forge/compare/v1.2.0...v1.2.1) (2026-04-28)
+
+### Bug Fixes
+
+- resolve mobile layout, toast overlap, markdown titles and pwa updates ([0bd8599](https://github.com/Tugamer89/quiz-forge/commit/0bd85993225b6df786e8547482ee3d69416605c5))
+
 # [1.2.0](https://github.com/Tugamer89/quiz-forge/compare/v1.1.0...v1.2.0) (2026-04-27)
 
 ### Features
