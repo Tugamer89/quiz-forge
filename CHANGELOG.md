@@ -1,3 +1,9 @@
+# [1.3.0](https://github.com/Tugamer89/quiz-forge/compare/v1.2.2...v1.3.0) (2026-04-28)
+
+### Features
+
+- add markdown sanitization and unit testing suite ([13a287e](https://github.com/Tugamer89/quiz-forge/commit/13a287e25d0113cd79ecdd28d7670aeca236618e))
+
 ## [1.2.2](https://github.com/Tugamer89/quiz-forge/compare/v1.2.1...v1.2.2) (2026-04-28)
 
 ### Bug Fixes
