@@ -23,7 +23,7 @@ export const Toast = ({ toast }) => {
   };
 
   return (
-    <div className="fixed bottom-6 right-6 z-50 animate-toast-enter">
+    <div key={toast.id} className="fixed bottom-6 right-6 z-50 animate-toast-enter">
       <div
         className={`${bgColors[toast.type]} text-white rounded-lg shadow-xl overflow-hidden min-w-70 max-w-sm flex flex-col`}
       >
@@ -33,6 +33,7 @@ export const Toast = ({ toast }) => {
         </div>
         <div
           className={`h-1 w-full ${progressColors[toast.type]} animate-toast-progress origin-left`}
+          style={{ animationDuration: `${toast.duration}ms` }}
         />
       </div>
     </div>
@@ -44,5 +45,7 @@ Toast.propTypes = {
     show: PropTypes.bool.isRequired,
     message: PropTypes.string.isRequired,
     type: PropTypes.oneOf(['success', 'error', 'info']).isRequired,
+    id: PropTypes.number,
+    duration: PropTypes.number,
   }).isRequired,
 };

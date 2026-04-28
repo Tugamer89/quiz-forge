@@ -4,7 +4,13 @@ import { useLocalStorage } from './useLocalStorage';
 export function useAppUI() {
   const [isDarkMode, setIsDarkMode] = useLocalStorage('quiz_theme_dark', false);
   const [deferredPrompt, setDeferredPrompt] = useState(null);
-  const [toast, setToast] = useState({ show: false, message: '', type: 'info' });
+  const [toast, setToast] = useState({
+    show: false,
+    message: '',
+    type: 'info',
+    id: 0,
+    duration: 3000,
+  });
   const [dialog, setDialog] = useState({
     isOpen: false,
     type: 'confirm',
@@ -29,16 +35,19 @@ export function useAppUI() {
     return () => globalThis.removeEventListener('beforeinstallprompt', handleBeforeInstallPrompt);
   }, []);
 
-  const showToast = useCallback((msg, type = 'info') => {
-    setToast({ show: true, message: msg, type });
+  const showToast = useCallback((msg, type = 'info', customDuration = null) => {
+    const id = Date.now();
+    const duration = customDuration || (msg.toLowerCase().includes('drive') ? 6000 : 3000);
+
+    setToast({ show: true, message: msg, type, id, duration });
 
     if (toastTimerRef.current) {
       clearTimeout(toastTimerRef.current);
     }
 
     toastTimerRef.current = setTimeout(() => {
-      setToast((prev) => ({ ...prev, show: false }));
-    }, 3000);
+      setToast((prev) => (prev.id === id ? { ...prev, show: false } : prev));
+    }, duration);
   }, []);
 
   const handleInstallApp = async () => {

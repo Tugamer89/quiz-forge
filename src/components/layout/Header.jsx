@@ -58,7 +58,7 @@ export const Header = ({
         <h1 className="text-3xl font-bold text-slate-900 dark:text-white">Quiz Forge</h1>
       </div>
 
-      <div className="flex items-center space-x-3 flex-wrap md:flex-nowrap gap-y-2">
+      <div className="flex items-center gap-3 flex-wrap md:flex-nowrap">
         {deferredPrompt && (
           <button
             onClick={onInstall}
@@ -80,7 +80,7 @@ export const Header = ({
           </button>
 
           {isDataMenuOpen && (
-            <div className="absolute right-0 mt-2 w-64 bg-white dark:bg-slate-800 rounded-xl shadow-lg border border-slate-200 dark:border-slate-700 z-50 overflow-hidden animate-in fade-in slide-in-from-top-2 duration-200">
+            <div className="absolute left-0 md:left-auto md:right-0 mt-2 w-64 bg-white dark:bg-slate-800 rounded-xl shadow-lg border border-slate-200 dark:border-slate-700 z-50 overflow-hidden animate-menu-enter transform origin-top">
               <div className="py-2">
                 <div className="px-4 py-1.5 text-[10px] font-bold text-slate-400 dark:text-slate-500 uppercase tracking-wider">
                   Local Storage

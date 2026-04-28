@@ -119,16 +119,25 @@ export const DeckOverview = ({ questions, stats, onMarkQuestion }) => {
                   onClick={() => toggleExpand(q.id)}
                   className="flex-1 min-w-0 text-left focus:outline-none focus:ring-2 focus:ring-indigo-500/50 rounded-lg p-1 -m-1"
                 >
-                  <div className="text-sm font-medium text-slate-800 dark:text-slate-200 flex items-start gap-2">
+                  <div className="text-sm font-medium text-slate-800 dark:text-slate-200 flex items-start gap-2 overflow-hidden">
                     {expandedId === q.id ? (
                       <ChevronUp className="w-4 h-4 mt-0.5 shrink-0 text-slate-400" />
                     ) : (
                       <ChevronDown className="w-4 h-4 mt-0.5 shrink-0 text-slate-400" />
                     )}
-                    <span className="truncate">
-                      <span className="text-indigo-400 mr-1 font-mono text-xs">{q.number}.</span>{' '}
-                      {q.text}
-                    </span>
+                    <div className="flex-1 min-w-0 flex items-baseline">
+                      <span className="text-indigo-500 dark:text-indigo-400 mr-2 font-mono text-xs shrink-0">
+                        {q.number}.
+                      </span>
+                      <div className="truncate prose prose-sm dark:prose-invert max-w-none prose-pre:bg-slate-100 dark:prose-pre:bg-slate-900 prose-pre:text-slate-800 dark:prose-pre:text-slate-200 [&>p]:m-0 [&>p]:inline [&_h1]:m-0 [&_h1]:text-sm [&_h1]:inline [&_h2]:m-0 [&_h2]:text-sm [&_h2]:inline [&_h3]:m-0 [&_h3]:text-sm [&_h3]:inline [&_ul]:m-0 [&_ul]:inline [&_li]:m-0 [&_li]:inline [&_li]:list-none">
+                        <ReactMarkdown
+                          remarkPlugins={[remarkGfm, remarkMath]}
+                          rehypePlugins={[rehypeKatex, rehypeRaw]}
+                        >
+                          {q.text}
+                        </ReactMarkdown>
+                      </div>
+                    </div>
                   </div>
                   {q.tags?.length > 0 && (
                     <div className="flex gap-1 mt-2 ml-6">
