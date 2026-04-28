@@ -1,3 +1,9 @@
+# [1.4.0](https://github.com/Tugamer89/quiz-forge/compare/v1.3.3...v1.4.0) (2026-04-28)
+
+### Features
+
+- added CodeRenderer test ([8d1e317](https://github.com/Tugamer89/quiz-forge/commit/8d1e3175ecafd10c58408fb55fffc289415e17d7))
+
 ## [1.3.3](https://github.com/Tugamer89/quiz-forge/compare/v1.3.2...v1.3.3) (2026-04-28)
 
 ### Bug Fixes
