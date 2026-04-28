@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types';
 import { useRef, useEffect } from 'react';
 import { Play, ArrowRight, XCircle, CheckCircle2 } from 'lucide-react';
-import ReactMarkdown from 'react-markdown';
+import SafeMarkdown from '../SafeMarkdown';
 import remarkGfm from 'remark-gfm';
 import remarkMath from 'remark-math';
 import rehypeKatex from 'rehype-katex';
@@ -49,22 +49,22 @@ export const LiveSession = ({ session, onCancel, showAnswer, onReveal, onAnswer 
 
       <div className="flex-1 flex flex-col justify-center overflow-y-auto custom-scrollbar pr-2 py-4">
         <div className="mb-6 prose prose-slate prose-indigo prose-lg dark:prose-invert max-w-none font-medium text-slate-900 dark:text-white leading-relaxed">
-          <ReactMarkdown
+          <SafeMarkdown
             remarkPlugins={[remarkGfm, remarkMath]}
             rehypePlugins={[rehypeKatex, rehypeRaw]}
           >
             {highlightTags(currentQ?.text)}
-          </ReactMarkdown>
+          </SafeMarkdown>
         </div>
 
         {showAnswer ? (
           <div className="mt-4 p-5 bg-indigo-50/50 dark:bg-indigo-900/10 rounded-xl border border-indigo-100 dark:border-indigo-800/30 animate-in slide-in-from-top-4 fade-in duration-200 prose prose-slate prose-indigo prose-lg dark:prose-invert max-w-none">
-            <ReactMarkdown
+            <SafeMarkdown
               remarkPlugins={[remarkGfm, remarkMath]}
               rehypePlugins={[rehypeKatex, rehypeRaw]}
             >
               {highlightTags(currentQ?.answer)}
-            </ReactMarkdown>
+            </SafeMarkdown>
           </div>
         ) : (
           <button

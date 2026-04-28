@@ -11,7 +11,7 @@ import {
   ChevronDown,
   ChevronUp,
 } from 'lucide-react';
-import ReactMarkdown from 'react-markdown';
+import SafeMarkdown from '../SafeMarkdown';
 import remarkGfm from 'remark-gfm';
 import remarkMath from 'remark-math';
 import rehypeKatex from 'rehype-katex';
@@ -130,12 +130,12 @@ export const DeckOverview = ({ questions, stats, onMarkQuestion }) => {
                         {q.number}.
                       </span>
                       <div className="truncate prose prose-sm dark:prose-invert max-w-none prose-pre:bg-slate-100 dark:prose-pre:bg-slate-900 prose-pre:text-slate-800 dark:prose-pre:text-slate-200 [&>p]:m-0 [&>p]:inline [&_h1]:m-0 [&_h1]:text-sm [&_h1]:inline [&_h2]:m-0 [&_h2]:text-sm [&_h2]:inline [&_h3]:m-0 [&_h3]:text-sm [&_h3]:inline [&_ul]:m-0 [&_ul]:inline [&_li]:m-0 [&_li]:inline [&_li]:list-none">
-                        <ReactMarkdown
+                        <SafeMarkdown
                           remarkPlugins={[remarkGfm, remarkMath]}
                           rehypePlugins={[rehypeKatex, rehypeRaw]}
                         >
                           {q.text}
-                        </ReactMarkdown>
+                        </SafeMarkdown>
                       </div>
                     </div>
                   </div>
@@ -184,12 +184,12 @@ export const DeckOverview = ({ questions, stats, onMarkQuestion }) => {
               {expandedId === q.id && (
                 <div className="mt-3 ml-6 pt-3 border-t border-slate-100 dark:border-slate-700/50">
                   <div className="prose prose-sm dark:prose-invert max-w-none prose-p:my-1 prose-pre:bg-slate-100 dark:prose-pre:bg-slate-900 prose-pre:text-slate-800 dark:prose-pre:text-slate-200 text-slate-600 dark:text-slate-300">
-                    <ReactMarkdown
+                    <SafeMarkdown
                       remarkPlugins={[remarkGfm, remarkMath]}
                       rehypePlugins={[rehypeKatex, rehypeRaw]}
                     >
                       {q.answer || '*No text answers found for this question.*'}
-                    </ReactMarkdown>
+                    </SafeMarkdown>
                   </div>
                 </div>
               )}
