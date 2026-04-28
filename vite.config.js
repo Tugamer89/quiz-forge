@@ -42,6 +42,7 @@ export default defineConfig({
   base: '/quiz-forge/',
   test: {
     globals: true,
+    clearMocks: true,
     environment: 'jsdom',
     setupFiles: './src/setupTests.js',
     css: true,
