@@ -1,3 +1,9 @@
+## [1.3.1](https://github.com/Tugamer89/quiz-forge/compare/v1.3.0...v1.3.1) (2026-04-28)
+
+### Bug Fixes
+
+- removed extra div which causes rendering errors ([5cee85c](https://github.com/Tugamer89/quiz-forge/commit/5cee85c429325f91e05a8f6738e65df4fcacc7cf))
+
 # [1.3.0](https://github.com/Tugamer89/quiz-forge/compare/v1.2.2...v1.3.0) (2026-04-28)
 
 ### Features
