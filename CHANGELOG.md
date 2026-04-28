@@ -1,3 +1,9 @@
+## [1.2.2](https://github.com/Tugamer89/quiz-forge/compare/v1.2.1...v1.2.2) (2026-04-28)
+
+### Bug Fixes
+
+- **ui:** resolve tag overflow and improve live session scroll ([8f57e78](https://github.com/Tugamer89/quiz-forge/commit/8f57e7813d15207ab91a4479b06554175d8387bd))
+
 ## [1.2.1](https://github.com/Tugamer89/quiz-forge/compare/v1.2.0...v1.2.1) (2026-04-28)
 
 ### Bug Fixes
