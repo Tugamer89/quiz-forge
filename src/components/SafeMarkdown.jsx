@@ -2,13 +2,7 @@ import ReactMarkdown from 'react-markdown';
 import DOMPurify from 'dompurify';
 import PropTypes from 'prop-types';
 
-export default function SafeMarkdown({
-  children,
-  className,
-  remarkPlugins,
-  rehypePlugins,
-  ...props
-}) {
+export default function SafeMarkdown({ children, remarkPlugins, rehypePlugins, ...props }) {
   DOMPurify.addHook('afterSanitizeAttributes', function (node) {
     if ('target' in node) {
       node.setAttribute('target', '_blank');
@@ -23,11 +17,9 @@ export default function SafeMarkdown({
   });
 
   return (
-    <div className={`prose dark:prose-invert max-w-none ${className || ''}`}>
-      <ReactMarkdown remarkPlugins={remarkPlugins} rehypePlugins={rehypePlugins} {...props}>
-        {cleanContent}
-      </ReactMarkdown>
-    </div>
+    <ReactMarkdown remarkPlugins={remarkPlugins} rehypePlugins={rehypePlugins} {...props}>
+      {cleanContent}
+    </ReactMarkdown>
   );
 }
 
