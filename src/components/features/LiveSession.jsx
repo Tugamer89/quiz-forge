@@ -1,4 +1,5 @@
 import PropTypes from 'prop-types';
+import { useRef, useEffect } from 'react';
 import { Play, ArrowRight, XCircle, CheckCircle2 } from 'lucide-react';
 import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
@@ -9,6 +10,15 @@ import { ProgressBar } from '../ProgressBar';
 
 export const LiveSession = ({ session, onCancel, showAnswer, onReveal, onAnswer }) => {
   const currentQ = session.questions[session.currentIndex];
+  const containerRef = useRef(null);
+
+  useEffect(() => {
+    setTimeout(() => {
+      if (containerRef.current) {
+        containerRef.current.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }
+    }, 50);
+  }, [session.currentIndex]);
 
   const highlightTags = (text) => {
     if (!text) return '';
@@ -19,7 +29,10 @@ export const LiveSession = ({ session, onCancel, showAnswer, onReveal, onAnswer 
   };
 
   return (
-    <div className="bg-white dark:bg-slate-800 p-6 md:p-10 rounded-xl shadow-md border-2 border-indigo-200 dark:border-indigo-800/50 transition-colors animate-in fade-in duration-300 flex flex-col min-h-125">
+    <div
+      ref={containerRef}
+      className="bg-white dark:bg-slate-800 p-6 md:p-10 rounded-xl shadow-md border-2 border-indigo-200 dark:border-indigo-800/50 transition-colors animate-in fade-in duration-300 flex flex-col min-h-125"
+    >
       <div className="flex items-center justify-between mb-8">
         <h2 className="text-xl font-bold text-slate-800 dark:text-white flex items-center">
           <Play className="w-5 h-5 text-indigo-500 mr-2" /> Live Session

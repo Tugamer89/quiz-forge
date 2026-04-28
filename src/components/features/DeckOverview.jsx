@@ -140,7 +140,7 @@ export const DeckOverview = ({ questions, stats, onMarkQuestion }) => {
                     </div>
                   </div>
                   {q.tags?.length > 0 && (
-                    <div className="flex gap-1 mt-2 ml-6">
+                    <div className="flex flex-wrap gap-1 mt-2 ml-6">
                       {q.tags.map((tag) => (
                         <span
                           key={tag}
