@@ -1,3 +1,9 @@
+## [1.6.1](https://github.com/Tugamer89/quiz-forge/compare/v1.6.0...v1.6.1) (2026-05-04)
+
+### Bug Fixes
+
+- **versioning:** sync displayed app version with release tags ([77f6bba](https://github.com/Tugamer89/quiz-forge/commit/77f6bbaf5ba55cbecd9bfe150ca533aea2218f36))
+
 # [1.6.0](https://github.com/Tugamer89/quiz-forge/compare/v1.5.2...v1.6.0) (2026-05-04)
 
 ### Features
