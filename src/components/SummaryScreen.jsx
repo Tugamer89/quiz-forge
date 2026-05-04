@@ -9,6 +9,10 @@ export const SummaryScreen = ({ session, onReset, onPlayAgain }) => {
   if (percentage >= 80) message = 'Outstanding job!';
   else if (percentage >= 50) message = 'Good effort!';
 
+  const correctPct = total > 0 ? (session.correctCount / total) * 100 : 0;
+  const partialPct = total > 0 ? (session.partiallyCorrectCount / total) * 100 : 0;
+  const incorrectPct = total > 0 ? (session.incorrectCount / total) * 100 : 0;
+
   return (
     <div className="bg-white dark:bg-slate-800 p-8 rounded-xl shadow-sm border border-slate-200 dark:border-slate-700 text-center animate-in zoom-in-95 duration-300 flex flex-col items-center justify-center h-full min-h-125">
       <div className="inline-flex items-center justify-center w-20 h-20 bg-indigo-100 dark:bg-indigo-900/50 rounded-full mb-6">
@@ -16,6 +20,38 @@ export const SummaryScreen = ({ session, onReset, onPlayAgain }) => {
       </div>
       <h2 className="text-3xl font-bold text-slate-900 dark:text-white mb-2">Quiz Complete!</h2>
       <p className="text-slate-500 dark:text-slate-400 mb-8">{message}</p>
+
+      {/* Segmented Bar Visualizer */}
+      <div className="w-full max-w-lg mb-8">
+        <div className="h-2.5 flex rounded-full overflow-hidden bg-slate-200 dark:bg-slate-700 shadow-inner">
+          {correctPct > 0 && (
+            <div
+              style={{ width: `${correctPct}%` }}
+              className="bg-green-500/80 dark:bg-green-500/60 transition-all duration-1000 ease-out"
+              title={`Corrette: ${correctPct.toFixed(1)}%`}
+            />
+          )}
+          {partialPct > 0 && (
+            <div
+              style={{ width: `${partialPct}%` }}
+              className="bg-amber-400/90 dark:bg-amber-500/70 transition-all duration-1000 ease-out"
+              title={`Parziali: ${partialPct.toFixed(1)}%`}
+            />
+          )}
+          {incorrectPct > 0 && (
+            <div
+              style={{ width: `${incorrectPct}%` }}
+              className="bg-red-400/90 dark:bg-red-500/70 transition-all duration-1000 ease-out"
+              title={`Errate: ${incorrectPct.toFixed(1)}%`}
+            />
+          )}
+        </div>
+        <div className="flex justify-between text-xs mt-2 text-slate-500 dark:text-slate-400 font-medium px-1">
+          <span>0%</span>
+          <span>Score: {percentage}%</span>
+          <span>100%</span>
+        </div>
+      </div>
 
       <div className="grid grid-cols-3 gap-4 w-full max-w-lg mb-8">
         <div className="bg-green-50 dark:bg-green-900/20 border border-green-100 dark:border-green-800/30 p-4 rounded-xl">

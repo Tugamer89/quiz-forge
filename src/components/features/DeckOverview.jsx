@@ -12,6 +12,7 @@ import {
   ChevronUp,
   AlertCircle,
 } from 'lucide-react';
+import { ErrorBoundary } from '../ErrorBoundary';
 import SafeMarkdown from '../SafeMarkdown';
 import remarkGfm from 'remark-gfm';
 import remarkMath from 'remark-math';
@@ -20,7 +21,7 @@ import rehypeRaw from 'rehype-raw';
 
 export const DeckOverview = ({ questions, stats, onMarkQuestion }) => {
   const [searchTerm, setSearchTerm] = useState('');
-  const [selectedTag, setSelectedTag] = useState(null);
+  const [selectedTags, setSelectedTags] = useState([]);
   const [expandedId, setExpandedId] = useState(null);
 
   const allTags = useMemo(() => {
@@ -34,10 +35,20 @@ export const DeckOverview = ({ questions, stats, onMarkQuestion }) => {
       const matchesSearch =
         q.text.toLowerCase().includes(searchTerm.toLowerCase()) ||
         q.answer.toLowerCase().includes(searchTerm.toLowerCase());
-      const matchesTag = selectedTag ? q.tags?.includes(selectedTag) : true;
+      const matchesTag = selectedTags.every((t) => q.tags?.includes(t));
       return matchesSearch && matchesTag;
     });
-  }, [questions, searchTerm, selectedTag]);
+  }, [questions, searchTerm, selectedTags]);
+
+  const toggleTag = (tag) => {
+    if (tag === null) {
+      setSelectedTags([]);
+    } else {
+      setSelectedTags((prev) =>
+        prev.includes(tag) ? prev.filter((t) => t !== tag) : [...prev, tag]
+      );
+    }
+  };
 
   const toggleExpand = (id) => {
     setExpandedId(expandedId === id ? null : id);
@@ -71,9 +82,9 @@ export const DeckOverview = ({ questions, stats, onMarkQuestion }) => {
           {allTags.length > 0 && (
             <div className="flex flex-wrap gap-2">
               <button
-                onClick={() => setSelectedTag(null)}
+                onClick={() => toggleTag(null)}
                 className={`px-3 py-1 text-xs font-medium rounded-full transition-colors ${
-                  selectedTag === null
+                  selectedTags.length === 0
                     ? 'bg-indigo-500 text-white'
                     : 'bg-slate-100 text-slate-600 dark:bg-slate-700 dark:text-slate-300 hover:bg-slate-200 dark:hover:bg-slate-600'
                 }`}
@@ -83,9 +94,9 @@ export const DeckOverview = ({ questions, stats, onMarkQuestion }) => {
               {allTags.map((tag) => (
                 <button
                   key={tag}
-                  onClick={() => setSelectedTag(tag)}
+                  onClick={() => toggleTag(tag)}
                   className={`px-3 py-1 text-xs font-medium flex items-center rounded-full transition-colors ${
-                    selectedTag === tag
+                    selectedTags.includes(tag)
                       ? 'bg-indigo-500 text-white'
                       : 'bg-slate-100 text-slate-600 dark:bg-slate-700 dark:text-slate-300 hover:bg-slate-200 dark:hover:bg-slate-600'
                   }`}
@@ -131,12 +142,14 @@ export const DeckOverview = ({ questions, stats, onMarkQuestion }) => {
                         {q.number}.
                       </span>
                       <div className="truncate prose prose-sm dark:prose-invert max-w-none prose-pre:bg-slate-100 dark:prose-pre:bg-slate-900 prose-pre:text-slate-800 dark:prose-pre:text-slate-200 [&>p]:m-0 [&>p]:inline [&_h1]:m-0 [&_h1]:text-sm [&_h1]:inline [&_h2]:m-0 [&_h2]:text-sm [&_h2]:inline [&_h3]:m-0 [&_h3]:text-sm [&_h3]:inline [&_ul]:m-0 [&_ul]:inline [&_li]:m-0 [&_li]:inline [&_li]:list-none">
-                        <SafeMarkdown
-                          remarkPlugins={[remarkGfm, remarkMath]}
-                          rehypePlugins={[rehypeKatex, rehypeRaw]}
-                        >
-                          {q.text}
-                        </SafeMarkdown>
+                        <ErrorBoundary>
+                          <SafeMarkdown
+                            remarkPlugins={[remarkGfm, remarkMath]}
+                            rehypePlugins={[rehypeKatex, rehypeRaw]}
+                          >
+                            {q.text}
+                          </SafeMarkdown>
+                        </ErrorBoundary>
                       </div>
                     </div>
                   </div>
@@ -193,12 +206,14 @@ export const DeckOverview = ({ questions, stats, onMarkQuestion }) => {
               {expandedId === q.id && (
                 <div className="mt-3 ml-6 pt-3 border-t border-slate-100 dark:border-slate-700/50">
                   <div className="prose prose-sm dark:prose-invert max-w-none prose-p:my-1 prose-pre:bg-slate-100 dark:prose-pre:bg-slate-900 prose-pre:text-slate-800 dark:prose-pre:text-slate-200 text-slate-600 dark:text-slate-300">
-                    <SafeMarkdown
-                      remarkPlugins={[remarkGfm, remarkMath]}
-                      rehypePlugins={[rehypeKatex, rehypeRaw]}
-                    >
-                      {q.answer || '*No text answers found for this question.*'}
-                    </SafeMarkdown>
+                    <ErrorBoundary>
+                      <SafeMarkdown
+                        remarkPlugins={[remarkGfm, remarkMath]}
+                        rehypePlugins={[rehypeKatex, rehypeRaw]}
+                      >
+                        {q.answer || '*No text answers found for this question.*'}
+                      </SafeMarkdown>
+                    </ErrorBoundary>
                   </div>
                 </div>
               )}

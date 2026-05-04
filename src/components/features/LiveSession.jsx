@@ -1,6 +1,7 @@
 import PropTypes from 'prop-types';
 import { useRef, useEffect, useState } from 'react';
 import { Play, ArrowRight, XCircle, CheckCircle2, AlertCircle } from 'lucide-react';
+import { ErrorBoundary } from '../ErrorBoundary';
 import SafeMarkdown from '../SafeMarkdown';
 import remarkGfm from 'remark-gfm';
 import remarkMath from 'remark-math';
@@ -59,12 +60,14 @@ export const LiveSession = ({ session, onCancel, showAnswer, onReveal, onAnswer 
 
       <div className="flex-1 overflow-y-auto custom-scrollbar pr-2 py-4">
         <div className="mb-6 prose prose-slate prose-indigo prose-lg dark:prose-invert max-w-none font-medium text-slate-900 dark:text-white leading-relaxed">
-          <SafeMarkdown
-            remarkPlugins={[remarkGfm, remarkMath]}
-            rehypePlugins={[rehypeKatex, rehypeRaw]}
-          >
-            {highlightTags(currentQ?.text)}
-          </SafeMarkdown>
+          <ErrorBoundary>
+            <SafeMarkdown
+              remarkPlugins={[remarkGfm, remarkMath]}
+              rehypePlugins={[rehypeKatex, rehypeRaw]}
+            >
+              {highlightTags(currentQ?.text)}
+            </SafeMarkdown>
+          </ErrorBoundary>
         </div>
 
         {showAnswer ? (
@@ -75,12 +78,14 @@ export const LiveSession = ({ session, onCancel, showAnswer, onReveal, onAnswer 
                   Your Answer
                 </h3>
                 <div className="prose prose-slate prose-indigo dark:prose-invert max-w-none">
-                  <SafeMarkdown
-                    remarkPlugins={[remarkGfm, remarkMath]}
-                    rehypePlugins={[rehypeKatex, rehypeRaw]}
-                  >
-                    {highlightTags(tempAnswer)}
-                  </SafeMarkdown>
+                  <ErrorBoundary>
+                    <SafeMarkdown
+                      remarkPlugins={[remarkGfm, remarkMath]}
+                      rehypePlugins={[rehypeKatex, rehypeRaw]}
+                    >
+                      {highlightTags(tempAnswer)}
+                    </SafeMarkdown>
+                  </ErrorBoundary>
                 </div>
               </div>
             )}
@@ -89,12 +94,14 @@ export const LiveSession = ({ session, onCancel, showAnswer, onReveal, onAnswer 
                 Correct Answer
               </h3>
               <div className="prose prose-slate prose-indigo prose-lg dark:prose-invert max-w-none">
-                <SafeMarkdown
-                  remarkPlugins={[remarkGfm, remarkMath]}
-                  rehypePlugins={[rehypeKatex, rehypeRaw]}
-                >
-                  {highlightTags(currentQ?.answer)}
-                </SafeMarkdown>
+                <ErrorBoundary>
+                  <SafeMarkdown
+                    remarkPlugins={[remarkGfm, remarkMath]}
+                    rehypePlugins={[rehypeKatex, rehypeRaw]}
+                  >
+                    {highlightTags(currentQ?.answer)}
+                  </SafeMarkdown>
+                </ErrorBoundary>
               </div>
             </div>
           </div>

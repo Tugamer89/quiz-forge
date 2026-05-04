@@ -1,4 +1,5 @@
 import PropTypes from 'prop-types';
+import { useRef } from 'react';
 import {
   Folder,
   Plus,
@@ -10,6 +11,9 @@ import {
   Settings,
   Play,
   BrainCircuit,
+  Bold,
+  Italic,
+  Code as CodeIcon,
 } from 'lucide-react';
 
 export const SidebarControls = ({
@@ -29,6 +33,27 @@ export const SidebarControls = ({
   activeDeckQuestionsLength,
   onGenerateQuiz,
 }) => {
+  const textareaRef = useRef(null);
+
+  const insertFormatting = (prefix, suffix = '') => {
+    const el = textareaRef.current;
+    if (!el) return;
+
+    const start = el.selectionStart;
+    const end = el.selectionEnd;
+    const text = el.value;
+    const selectedText = text.substring(start, end);
+
+    const newText = text.substring(0, start) + prefix + selectedText + suffix + text.substring(end);
+
+    onRawTextChange(newText);
+
+    setTimeout(() => {
+      el.focus();
+      el.setSelectionRange(start + prefix.length, end + prefix.length);
+    }, 0);
+  };
+
   return (
     <div className="space-y-6">
       {/* Deck Selector */}
@@ -79,12 +104,45 @@ export const SidebarControls = ({
             </span>
           )}
         </div>
-        <textarea
-          className="w-full h-48 p-3 text-sm bg-slate-50 dark:bg-slate-900 text-slate-900 dark:text-slate-100 border border-slate-300 dark:border-slate-600 rounded-lg focus:ring-2 focus:ring-indigo-500 outline-none resize-none transition-colors placeholder:text-slate-400 dark:placeholder:text-slate-500 font-mono"
-          placeholder="1. Markdown works! #hashtag&#10;Use **bold**, *italic*, and `code`.&#10;&#10;2. Another question?&#10;The answer goes here..."
-          value={currentRawText}
-          onChange={(e) => onRawTextChange(e.target.value)}
-        />
+        <div className="border border-slate-300 dark:border-slate-600 rounded-lg overflow-hidden transition-colors focus-within:border-indigo-500 focus-within:ring-1 focus-within:ring-indigo-500">
+          <div className="flex items-center gap-1 p-1 bg-slate-100 dark:bg-slate-800/50 border-b border-slate-300 dark:border-slate-600">
+            <button
+              onClick={() => insertFormatting('**', '**')}
+              className="p-1.5 text-slate-600 hover:bg-slate-200 dark:text-slate-400 dark:hover:bg-slate-700 rounded transition-colors"
+              title="Bold"
+            >
+              <Bold className="w-4 h-4" />
+            </button>
+            <button
+              onClick={() => insertFormatting('*', '*')}
+              className="p-1.5 text-slate-600 hover:bg-slate-200 dark:text-slate-400 dark:hover:bg-slate-700 rounded transition-colors"
+              title="Italics"
+            >
+              <Italic className="w-4 h-4" />
+            </button>
+            <button
+              onClick={() => insertFormatting('`', '`')}
+              className="p-1.5 text-slate-600 hover:bg-slate-200 dark:text-slate-400 dark:hover:bg-slate-700 rounded transition-colors"
+              title="Inline code"
+            >
+              <CodeIcon className="w-4 h-4" />
+            </button>
+            <button
+              onClick={() => insertFormatting('```\n', '\n```')}
+              className="p-1.5 text-slate-600 hover:bg-slate-200 dark:text-slate-400 dark:hover:bg-slate-700 rounded transition-colors text-xs font-mono font-bold"
+              title="Code block"
+            >
+              {`</>`}
+            </button>
+          </div>
+          <textarea
+            ref={textareaRef}
+            className="w-full h-48 p-3 text-sm bg-slate-50 dark:bg-slate-900 text-slate-900 dark:text-slate-100 outline-none resize-none placeholder:text-slate-400 dark:placeholder:text-slate-500 font-mono border-0"
+            placeholder="1. Markdown works! #hashtag&#10;Use **bold**, *italic*, and `code`.&#10;&#10;2. Another question?&#10;The answer goes here..."
+            value={currentRawText}
+            onChange={(e) => onRawTextChange(e.target.value)}
+          />
+        </div>
         <div className="flex gap-3 mt-3">
           <button
             onClick={onCopyText}
