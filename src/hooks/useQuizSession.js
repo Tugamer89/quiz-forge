@@ -97,7 +97,7 @@ export function useQuizSession(questions, setQuestions, settings, selectedDeckId
       return {
         ...prev,
         correctCount: prev.correctCount + (answerStatus === 'correct' ? 1 : 0),
-        incorrectCount: prev.incorrectCount + (answerStatus === 'incorrect' ? 0 : 1),
+        incorrectCount: prev.incorrectCount + (answerStatus === 'incorrect' ? 1 : 0),
         partiallyCorrectCount:
           prev.partiallyCorrectCount + (answerStatus === 'partially-correct' ? 1 : 0),
         currentIndex: nextIndex,
