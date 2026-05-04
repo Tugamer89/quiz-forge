@@ -1,21 +1,25 @@
 # Quiz Forge
 
+[![Deploy Status](https://github.com/Tugamer89/quiz-forge/actions/workflows/main.yml/badge.svg)](https://github.com/Tugamer89/quiz-forge/actions)
+[![Version](https://img.shields.io/github/package-json/v/Tugamer89/quiz-forge)](https://github.com/Tugamer89/quiz-forge)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+
 A fast, client-side web application that parses raw text into interactive quizzes.
 
 ## Features
 
-* **Instant Parsing:** Turn raw notes (formatted as `1. Question \n Answer`) into flashcards.
-* **Local Storage:** All your questions, answers, and progress are automatically saved in your browser.
-* **Progress Tracking:** Mark questions as Correct, Incorrect, or Unanswered.
-* **Smart Generation:** Generate custom quizzes filtering by category (e.g., only practice "Incorrect" or "Unanswered" questions).
-* **Zero Backend:** 100% client-side privacy. No data leaves your browser.
+- **Instant Parsing:** Turn raw notes (formatted as `1. Question \n Answer`) into flashcards.
+- **Local Storage:** All your questions, answers, and progress are automatically saved in your browser.
+- **Progress Tracking:** Mark questions as Correct, Incorrect, or Unanswered.
+- **Smart Generation:** Generate custom quizzes filtering by category (e.g., only practice "Incorrect" or "Unanswered" questions).
+- **Zero Backend:** 100% client-side privacy. No data leaves your browser.
 
 ## Tech Stack
 
-* React (via Vite)
-* Tailwind CSS for styling
-* Lucide React for icons
-* Automated deploy to GitHub Pages via Actions
+- React (via Vite)
+- Tailwind CSS for styling
+- Lucide React for icons
+- Automated deploy to GitHub Pages via Actions
 
 ## Local Development
 
