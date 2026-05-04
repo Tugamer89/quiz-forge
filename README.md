@@ -1,6 +1,6 @@
 # Quiz Forge
 
-[![Deploy Status](https://github.com/Tugamer89/quiz-forge/actions/workflows/main.yml/badge.svg)](https://github.com/Tugamer89/quiz-forge/actions)
+[![Deploy Status](https://github.com/Tugamer89/quiz-forge/actions/workflows/deploy.yml/badge.svg)](https://github.com/Tugamer89/quiz-forge/actions)
 [![Version](https://img.shields.io/github/package-json/v/Tugamer89/quiz-forge)](https://github.com/Tugamer89/quiz-forge)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
