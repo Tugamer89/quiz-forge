@@ -2,6 +2,8 @@ import { BookOpen, ExternalLink, Heart } from 'lucide-react';
 import packageJson from '../../../package.json';
 
 export const Footer = () => {
+  const appVersion = import.meta.env.VITE_APP_VERSION || `v${packageJson.version}`;
+
   return (
     <footer className="mt-16 pt-10 pb-8 border-t border-slate-200 dark:border-slate-800">
       <div className="grid grid-cols-1 md:grid-cols-3 gap-8 items-start">
@@ -119,7 +121,7 @@ export const Footer = () => {
 
           <div className="flex items-center">
             <span className="px-3 py-1 rounded-full bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-400 font-mono text-[11px] font-semibold tracking-wider border border-slate-200 dark:border-slate-700 shadow-sm">
-              v{packageJson.version}
+              {appVersion}
             </span>
           </div>
         </div>

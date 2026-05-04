@@ -1,7 +1,7 @@
 # Quiz Forge
 
 [![Deploy Status](https://github.com/Tugamer89/quiz-forge/actions/workflows/deploy.yml/badge.svg)](https://github.com/Tugamer89/quiz-forge/actions)
-[![Version](https://img.shields.io/github/package-json/v/Tugamer89/quiz-forge)](https://github.com/Tugamer89/quiz-forge)
+[![Version](https://img.shields.io/github/v/release/Tugamer89/quiz-forge)](https://github.com/Tugamer89/quiz-forge)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
 A fast, client-side web application that parses raw text into interactive quizzes.
