@@ -1,3 +1,9 @@
+## [1.5.1](https://github.com/Tugamer89/quiz-forge/compare/v1.5.0...v1.5.1) (2026-05-04)
+
+### Bug Fixes
+
+- added version info in footer ([b3d0f1b](https://github.com/Tugamer89/quiz-forge/commit/b3d0f1b2ea69eca35eb8fcfe02939f9dbd4a6867))
+
 # [1.5.0](https://github.com/Tugamer89/quiz-forge/compare/v1.4.0...v1.5.0) (2026-05-04)
 
 ### Features
