@@ -1,3 +1,9 @@
+## [1.6.2](https://github.com/Tugamer89/quiz-forge/compare/v1.6.1...v1.6.2) (2026-05-04)
+
+### Bug Fixes
+
+- removed unused code ([fc9b52d](https://github.com/Tugamer89/quiz-forge/commit/fc9b52d93572424cb1cd92d607bdce929cd2ebfa))
+
 ## [1.6.1](https://github.com/Tugamer89/quiz-forge/compare/v1.6.0...v1.6.1) (2026-05-04)
 
 ### Bug Fixes
