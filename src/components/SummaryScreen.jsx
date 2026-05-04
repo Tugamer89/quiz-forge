@@ -17,13 +17,21 @@ export const SummaryScreen = ({ session, onReset, onPlayAgain }) => {
       <h2 className="text-3xl font-bold text-slate-900 dark:text-white mb-2">Quiz Complete!</h2>
       <p className="text-slate-500 dark:text-slate-400 mb-8">{message}</p>
 
-      <div className="grid grid-cols-2 gap-4 w-full max-w-sm mb-8">
+      <div className="grid grid-cols-3 gap-4 w-full max-w-lg mb-8">
         <div className="bg-green-50 dark:bg-green-900/20 border border-green-100 dark:border-green-800/30 p-4 rounded-xl">
           <div className="text-2xl font-bold text-green-600 dark:text-green-400">
             {session.correctCount}
           </div>
           <div className="text-sm font-medium text-green-700/70 dark:text-green-400/70">
             Correct
+          </div>
+        </div>
+        <div className="bg-amber-50 dark:bg-amber-900/20 border border-amber-100 dark:border-amber-800/30 p-4 rounded-xl">
+          <div className="text-2xl font-bold text-amber-600 dark:text-amber-400">
+            {session.partiallyCorrectCount}
+          </div>
+          <div className="text-sm font-medium text-amber-700/70 dark:text-amber-400/70">
+            Partial
           </div>
         </div>
         <div className="bg-red-50 dark:bg-red-900/20 border border-red-100 dark:border-red-800/30 p-4 rounded-xl">
@@ -60,6 +68,7 @@ SummaryScreen.propTypes = {
     questions: PropTypes.array.isRequired,
     correctCount: PropTypes.number.isRequired,
     incorrectCount: PropTypes.number.isRequired,
+    partiallyCorrectCount: PropTypes.number.isRequired,
   }).isRequired,
   onReset: PropTypes.func.isRequired,
   onPlayAgain: PropTypes.func.isRequired,

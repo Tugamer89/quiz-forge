@@ -8,6 +8,7 @@ export function useQuizSession(questions, setQuestions, settings, selectedDeckId
     currentIndex: 0,
     correctCount: 0,
     incorrectCount: 0,
+    partiallyCorrectCount: 0,
   });
   const [showAnswer, setShowAnswer] = useState(false);
 
@@ -23,7 +24,8 @@ export function useQuizSession(questions, setQuestions, settings, selectedDeckId
       return (
         (q.status === 'unanswered' && settings.includeUnanswered) ||
         (q.status === 'correct' && settings.includeCorrect) ||
-        (q.status === 'incorrect' && settings.includeIncorrect)
+        (q.status === 'incorrect' && settings.includeIncorrect) ||
+        (q.status === 'partially-correct' && settings.includePartiallyCorrect)
       );
     });
 
@@ -44,18 +46,22 @@ export function useQuizSession(questions, setQuestions, settings, selectedDeckId
       currentIndex: 0,
       correctCount: 0,
       incorrectCount: 0,
+      partiallyCorrectCount: 0,
     });
     setShowAnswer(false);
   };
 
-  const handleAnswer = (isCorrect) => {
+  const handleAnswer = (answerStatus) => {
     const currentQ = quizSession.questions[quizSession.currentIndex];
 
     // Spaced Repetition
     let { easeFactor = 2.5, interval = 0, repetition = 0 } = currentQ;
-    const quality = isCorrect ? 4 : 0;
 
-    if (isCorrect) {
+    // Treat 'partially-correct' as incorrect (0) for SRS algorithm purposes
+    const isStrictlyCorrect = answerStatus === 'correct';
+    const quality = isStrictlyCorrect ? 4 : 0;
+
+    if (isStrictlyCorrect) {
       if (repetition === 0) interval = 1;
       else if (repetition === 1) interval = 6;
       else interval = Math.round(interval * easeFactor);
@@ -76,7 +82,7 @@ export function useQuizSession(questions, setQuestions, settings, selectedDeckId
         item.id === currentQ.id
           ? {
               ...item,
-              status: isCorrect ? 'correct' : 'incorrect',
+              status: answerStatus,
               interval,
               repetition,
               easeFactor,
@@ -90,8 +96,10 @@ export function useQuizSession(questions, setQuestions, settings, selectedDeckId
       const nextIndex = prev.currentIndex + 1;
       return {
         ...prev,
-        correctCount: prev.correctCount + (isCorrect ? 1 : 0),
-        incorrectCount: prev.incorrectCount + (isCorrect ? 0 : 1),
+        correctCount: prev.correctCount + (answerStatus === 'correct' ? 1 : 0),
+        incorrectCount: prev.incorrectCount + (answerStatus === 'incorrect' ? 0 : 1),
+        partiallyCorrectCount:
+          prev.partiallyCorrectCount + (answerStatus === 'partially-correct' ? 1 : 0),
         currentIndex: nextIndex,
         active: nextIndex < prev.questions.length,
         isFinished: nextIndex >= prev.questions.length,

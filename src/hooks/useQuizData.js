@@ -19,6 +19,7 @@ export function useQuizData(showToast, setDialog) {
     includeUnanswered: true,
     includeCorrect: false,
     includeIncorrect: true,
+    includePartiallyCorrect: true,
     srsEnabled: false,
   });
 
@@ -36,6 +37,7 @@ export function useQuizData(showToast, setDialog) {
       unanswered: activeDeckQuestions.filter((q) => q.status === 'unanswered').length,
       correct: activeDeckQuestions.filter((q) => q.status === 'correct').length,
       incorrect: activeDeckQuestions.filter((q) => q.status === 'incorrect').length,
+      partiallyCorrect: activeDeckQuestions.filter((q) => q.status === 'partially-correct').length,
     }),
     [activeDeckQuestions]
   );

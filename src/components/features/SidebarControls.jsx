@@ -161,21 +161,26 @@ export const SidebarControls = ({
             </span>
 
             <div className="space-y-2">
-              {['Unanswered', 'Incorrect', 'Correct'].map((type) => {
+              {['Unanswered', 'Incorrect', 'PartiallyCorrect', 'Correct'].map((type) => {
                 const key = `include${type}`;
                 const inputId = `inc${type}`;
-                const statKey = type.toLowerCase();
+                const statKey =
+                  type === 'PartiallyCorrect' ? 'partiallyCorrect' : type.toLowerCase();
+                const displayLabel = type === 'PartiallyCorrect' ? 'Partially Correct' : type;
 
                 const badgeColors = {
                   Unanswered: 'bg-slate-100 text-slate-600 dark:bg-slate-700 dark:text-slate-300',
                   Correct: 'bg-green-100 text-green-700 dark:bg-green-900/30 dark:text-green-400',
                   Incorrect: 'bg-red-100 text-red-700 dark:bg-red-900/30 dark:text-red-400',
+                  PartiallyCorrect:
+                    'bg-amber-100 text-amber-700 dark:bg-amber-900/30 dark:text-amber-400',
                 };
 
                 const inputColors = {
                   Unanswered: 'text-indigo-600 focus:ring-indigo-500',
                   Correct: 'text-green-600 focus:ring-green-500',
                   Incorrect: 'text-red-600 focus:ring-red-500',
+                  PartiallyCorrect: 'text-amber-600 focus:ring-amber-500',
                 };
 
                 return (
@@ -187,13 +192,13 @@ export const SidebarControls = ({
                     <input
                       id={inputId}
                       type="checkbox"
-                      aria-label={`Include ${type} questions`}
+                      aria-label={`Include ${displayLabel} questions`}
                       checked={settings[key]}
                       onChange={(e) => onSettingsChange({ ...settings, [key]: e.target.checked })}
                       className={`rounded w-4 h-4 cursor-pointer ${inputColors[type]} bg-slate-50 dark:bg-slate-900 border-slate-300 dark:border-slate-600 transition-colors`}
                     />
                     <div className="flex justify-between flex-1 text-sm text-slate-600 dark:text-slate-300 group-hover:text-slate-900 dark:group-hover:text-white transition-colors">
-                      <span>{type}</span>
+                      <span>{displayLabel}</span>
                       <span
                         className={`${badgeColors[type]} px-2 py-0.5 rounded-full text-xs font-semibold transition-colors`}
                       >

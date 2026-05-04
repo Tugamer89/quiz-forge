@@ -10,6 +10,7 @@ import {
   Tag,
   ChevronDown,
   ChevronUp,
+  AlertCircle,
 } from 'lucide-react';
 import SafeMarkdown from '../SafeMarkdown';
 import remarkGfm from 'remark-gfm';
@@ -169,6 +170,14 @@ export const DeckOverview = ({ questions, stats, onMarkQuestion }) => {
                     title="Mark as correct"
                   >
                     <CheckCircle2 className="w-4 h-4" />
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => onMarkQuestion(q.id, 'partially-correct')}
+                    className={`p-2 rounded-md transition-colors ${q.status === 'partially-correct' ? 'bg-amber-100 dark:bg-amber-900/50 text-amber-600 dark:text-amber-400' : 'text-slate-400 hover:text-amber-600 hover:bg-amber-50 dark:hover:bg-amber-900/20'}`}
+                    title="Mark as partially correct"
+                  >
+                    <AlertCircle className="w-4 h-4" />
                   </button>
                   <button
                     type="button"

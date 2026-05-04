@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types';
 import { useRef, useEffect, useState } from 'react';
-import { Play, ArrowRight, XCircle, CheckCircle2 } from 'lucide-react';
+import { Play, ArrowRight, XCircle, CheckCircle2, AlertCircle } from 'lucide-react';
 import SafeMarkdown from '../SafeMarkdown';
 import remarkGfm from 'remark-gfm';
 import remarkMath from 'remark-math';
@@ -122,7 +122,7 @@ export const LiveSession = ({ session, onCancel, showAnswer, onReveal, onAnswer 
           <button
             onClick={() => {
               setTempAnswer('');
-              onAnswer(false);
+              onAnswer('incorrect');
             }}
             className="flex-1 flex flex-col items-center justify-center p-4 bg-white dark:bg-slate-800 border-2 border-red-200 dark:border-red-900/50 hover:bg-red-50 dark:hover:bg-red-900/20 text-red-600 dark:text-red-400 rounded-xl transition-all active:scale-95"
           >
@@ -132,7 +132,17 @@ export const LiveSession = ({ session, onCancel, showAnswer, onReveal, onAnswer 
           <button
             onClick={() => {
               setTempAnswer('');
-              onAnswer(true);
+              onAnswer('partially-correct');
+            }}
+            className="flex-1 flex flex-col items-center justify-center p-4 bg-white dark:bg-slate-800 border-2 border-amber-200 dark:border-amber-900/50 hover:bg-amber-50 dark:hover:bg-amber-900/20 text-amber-600 dark:text-amber-400 rounded-xl transition-all active:scale-95"
+          >
+            <AlertCircle className="w-8 h-8 mb-2" />
+            <span className="font-bold text-sm">Partial</span>
+          </button>
+          <button
+            onClick={() => {
+              setTempAnswer('');
+              onAnswer('correct');
             }}
             className="flex-1 flex flex-col items-center justify-center p-4 bg-white dark:bg-slate-800 border-2 border-green-200 dark:border-green-900/50 hover:bg-green-50 dark:hover:bg-green-900/20 text-green-600 dark:text-green-400 rounded-xl transition-all active:scale-95"
           >
