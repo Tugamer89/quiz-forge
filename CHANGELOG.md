@@ -1,3 +1,9 @@
+# [1.5.0](https://github.com/Tugamer89/quiz-forge/compare/v1.4.0...v1.5.0) (2026-05-04)
+
+### Features
+
+- added "partially correct" answer category ([7fe665a](https://github.com/Tugamer89/quiz-forge/commit/7fe665adb7822427b487817958ac8cde007a87a4)), closes [#16](https://github.com/Tugamer89/quiz-forge/issues/16)
+
 # [1.4.0](https://github.com/Tugamer89/quiz-forge/compare/v1.3.3...v1.4.0) (2026-04-29)
 
 ### Features
