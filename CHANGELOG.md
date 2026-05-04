@@ -1,3 +1,9 @@
+# [1.6.0](https://github.com/Tugamer89/quiz-forge/compare/v1.5.2...v1.6.0) (2026-05-04)
+
+### Features
+
+- add multi-tag filtering, formatting tools, and visual stats ([82fd654](https://github.com/Tugamer89/quiz-forge/commit/82fd654b7f9eab97dba268662621c968c9579f75))
+
 ## [1.5.2](https://github.com/Tugamer89/quiz-forge/compare/v1.5.1...v1.5.2) (2026-05-04)
 
 ### Bug Fixes
