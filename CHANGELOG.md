@@ -1,3 +1,9 @@
+## [1.5.2](https://github.com/Tugamer89/quiz-forge/compare/v1.5.1...v1.5.2) (2026-05-04)
+
+### Bug Fixes
+
+- incorrect answers count in summary screen ([47be4f6](https://github.com/Tugamer89/quiz-forge/commit/47be4f6ac85134065e923b833433f26a90ac9445))
+
 ## [1.5.1](https://github.com/Tugamer89/quiz-forge/compare/v1.5.0...v1.5.1) (2026-05-04)
 
 ### Bug Fixes
