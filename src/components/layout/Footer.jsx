@@ -1,4 +1,5 @@
 import { BookOpen, ExternalLink, Heart } from 'lucide-react';
+import packageJson from '../../../package.json';
 
 export const Footer = () => {
   return (
@@ -91,7 +92,7 @@ export const Footer = () => {
               href="https://github.com/tugamer89"
               target="_blank"
               rel="noreferrer"
-              className="flex items-center space-x-3 group bg-white dark:bg-slate-800 px-4 py-2 rounded-full border border-slate-200 dark:border-slate-700 hover:border-indigo-500 transition-all"
+              className="flex items-center space-x-3 group bg-white dark:bg-slate-800 px-4 py-2 rounded-full border border-slate-200 dark:border-slate-700 hover:border-indigo-500 transition-all shadow-sm hover:shadow-md"
             >
               <span className="text-base font-bold text-slate-700 dark:text-slate-200 group-hover:text-indigo-600">
                 Tugamer89
@@ -107,11 +108,20 @@ export const Footer = () => {
         </div>
       </div>
 
-      <div className="mt-10 flex justify-center border-t border-slate-100 dark:border-slate-800/50 pt-6">
-        <div className="flex items-center space-x-1 text-xs font-medium text-slate-400">
-          <span>© {new Date().getFullYear()} Quiz Forge. Crafted with</span>
-          <Heart className="w-3 h-3 text-red-500 fill-current mx-0.5 animate-pulse" />
-          <span>for lifelong learners.</span>
+      {/* Bottom Bar: Copyright & Version */}
+      <div className="mt-12 pt-6 border-t border-slate-100 dark:border-slate-800/50">
+        <div className="flex flex-col md:flex-row justify-between items-center space-y-4 md:space-y-0 px-4">
+          <div className="flex items-center space-x-1 text-xs font-medium text-slate-500 dark:text-slate-400">
+            <span>&copy; {new Date().getFullYear()} Quiz Forge. Crafted with</span>
+            <Heart className="w-3 h-3 text-red-500 fill-current mx-1 animate-pulse" />
+            <span>for lifelong learners.</span>
+          </div>
+
+          <div className="flex items-center">
+            <span className="px-3 py-1 rounded-full bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-400 font-mono text-[11px] font-semibold tracking-wider border border-slate-200 dark:border-slate-700 shadow-sm">
+              v{packageJson.version}
+            </span>
+          </div>
         </div>
       </div>
     </footer>
