@@ -17,7 +17,10 @@ export const CustomDialog = ({ dialog, onClose }) => {
   return (
     <div className="fixed inset-0 z-100 flex items-center justify-center bg-slate-900/50 backdrop-blur-sm animate-in fade-in duration-200">
       <div className="bg-white dark:bg-slate-800 p-6 rounded-xl shadow-xl max-w-sm w-full mx-4 animate-in zoom-in-95 duration-200 border border-slate-200 dark:border-slate-700">
-        <h3 className="text-xl font-bold text-slate-900 dark:text-white mb-2">{dialog.title}</h3>
+        <h3 className="text-xl font-bold text-slate-900 dark:text-white mb-2 flex items-center gap-2">
+          {dialog.icon}
+          <span>{dialog.title}</span>
+        </h3>
         {dialog.message && (
           <p className="text-slate-600 dark:text-slate-400 mb-4 text-sm">{dialog.message}</p>
         )}
@@ -54,6 +57,7 @@ CustomDialog.propTypes = {
     isOpen: PropTypes.bool.isRequired,
     type: PropTypes.oneOf(['confirm', 'prompt']).isRequired,
     title: PropTypes.string.isRequired,
+    icon: PropTypes.node,
     message: PropTypes.string,
     defaultValue: PropTypes.string,
     confirmLabel: PropTypes.string,
