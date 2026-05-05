@@ -34,10 +34,10 @@
 
   @keyframes toast-progress {
     0% {
-      width: 100%;
+      transform: scaleX(1);
     }
     100% {
-      width: 0%;
+      transform: scaleX(0);
     }
   }
 

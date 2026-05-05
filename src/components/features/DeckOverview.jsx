@@ -110,7 +110,7 @@ export const DeckOverview = ({ questions, stats, onMarkQuestion }) => {
       )}
 
       {questions.length === 0 ? (
-        <div className="flex-1 flex flex-col items-center justify-center text-slate-400 dark:text-slate-500 text-sm border-2 border-dashed border-slate-200 dark:border-slate-700 rounded-xl p-8">
+        <div className="flex-1 flex flex-col items-center justify-center text-slate-500 dark:text-slate-400 text-sm border-2 border-dashed border-slate-200 dark:border-slate-700 rounded-xl p-8">
           <Folder className="w-12 h-12 mb-4 opacity-50" />
           <p className="text-center">
             This deck is empty.

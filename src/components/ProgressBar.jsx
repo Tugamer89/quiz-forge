@@ -15,7 +15,7 @@ export const ProgressBar = ({ current, total }) => {
       <div className="w-full bg-slate-200 dark:bg-slate-700 rounded-full h-2.5 overflow-hidden">
         <div
           data-testid="progress-fill"
-          className="bg-indigo-600 h-2.5 rounded-full transition-all duration-500 ease-out"
+          className="bg-indigo-600 h-2.5 rounded-full transition-[width] duration-500 ease-out"
           style={{ width: `${percentage}%` }}
         ></div>
       </div>

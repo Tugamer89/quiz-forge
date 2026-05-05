@@ -1,16 +1,21 @@
-// Shared Components
+import { Suspense, lazy } from 'react';
+
 import { CustomDialog } from './components/CustomDialog';
 import { Toast } from './components/Toast';
-import { SummaryScreen } from './components/SummaryScreen';
-
-// Layout & Features
 import { Header } from './components/layout/Header';
 import { Footer } from './components/layout/Footer';
 import { SidebarControls } from './components/features/SidebarControls';
-import { DeckOverview } from './components/features/DeckOverview';
-import { LiveSession } from './components/features/LiveSession';
 
-// Hooks
+const DeckOverview = lazy(() =>
+  import('./components/features/DeckOverview').then((m) => ({ default: m.DeckOverview }))
+);
+const SummaryScreen = lazy(() =>
+  import('./components/SummaryScreen').then((m) => ({ default: m.SummaryScreen }))
+);
+const LiveSession = lazy(() =>
+  import('./components/features/LiveSession').then((m) => ({ default: m.LiveSession }))
+);
+
 import { useAppUI } from './hooks/useAppUI';
 import { useQuizData } from './hooks/useQuizData';
 import { useQuizSession } from './hooks/useQuizSession';
@@ -33,7 +38,7 @@ export default function App() {
         <CustomDialog dialog={ui.dialog} onClose={() => ui.setDialog({ isOpen: false })} />
       )}
 
-      <div className="max-w-6xl mx-auto space-y-6">
+      <main className="max-w-6xl mx-auto space-y-6">
         <Header
           decks={data.decks}
           questions={data.questions}
@@ -76,35 +81,43 @@ export default function App() {
 
           <div className="lg:col-span-2 relative min-h-125 lg:min-h-0">
             <div className="lg:absolute lg:inset-0 w-full h-full flex flex-col space-y-6">
-              {session.quizSession.active && !session.quizSession.isFinished && (
-                <LiveSession
-                  session={session.quizSession}
-                  showAnswer={session.showAnswer}
-                  onCancel={session.cancelSession}
-                  onReveal={session.revealAnswer}
-                  onAnswer={session.handleAnswer}
-                />
-              )}
-              {session.quizSession.isFinished && (
-                <SummaryScreen
-                  session={session.quizSession}
-                  onReset={session.resetSession}
-                  onPlayAgain={session.generateQuiz}
-                />
-              )}
-              {!session.quizSession.active && !session.quizSession.isFinished && (
-                <DeckOverview
-                  questions={data.activeDeckQuestions}
-                  stats={data.stats}
-                  onMarkQuestion={data.handleMarkQuestion}
-                />
-              )}
+              <Suspense
+                fallback={
+                  <div className="w-full h-full flex items-center justify-center animate-pulse bg-slate-200/50 dark:bg-slate-800/50 rounded-xl">
+                    Loading...
+                  </div>
+                }
+              >
+                {session.quizSession.active && !session.quizSession.isFinished && (
+                  <LiveSession
+                    session={session.quizSession}
+                    showAnswer={session.showAnswer}
+                    onCancel={session.cancelSession}
+                    onReveal={session.revealAnswer}
+                    onAnswer={session.handleAnswer}
+                  />
+                )}
+                {session.quizSession.isFinished && (
+                  <SummaryScreen
+                    session={session.quizSession}
+                    onReset={session.resetSession}
+                    onPlayAgain={session.generateQuiz}
+                  />
+                )}
+                {!session.quizSession.active && !session.quizSession.isFinished && (
+                  <DeckOverview
+                    questions={data.activeDeckQuestions}
+                    stats={data.stats}
+                    onMarkQuestion={data.handleMarkQuestion}
+                  />
+                )}
+              </Suspense>
             </div>
           </div>
         </div>
 
         <Footer />
-      </div>
+      </main>
     </div>
   );
 }

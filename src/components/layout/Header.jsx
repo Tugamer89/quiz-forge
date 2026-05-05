@@ -82,7 +82,7 @@ export const Header = ({
           {isDataMenuOpen && (
             <div className="absolute left-0 md:left-auto md:right-0 mt-2 w-64 bg-white dark:bg-slate-800 rounded-xl shadow-lg border border-slate-200 dark:border-slate-700 z-50 overflow-hidden animate-menu-enter transform origin-top">
               <div className="py-2">
-                <div className="px-4 py-1.5 text-[10px] font-bold text-slate-400 dark:text-slate-500 uppercase tracking-wider">
+                <div className="px-4 py-1.5 text-[10px] font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider">
                   Local Storage
                 </div>
                 <input
@@ -110,7 +110,7 @@ export const Header = ({
 
                 <div className="h-px bg-slate-100 dark:bg-slate-700 my-1.5 mx-2"></div>
 
-                <div className="px-4 py-1.5 text-[10px] font-bold text-slate-400 dark:text-slate-500 uppercase tracking-wider">
+                <div className="px-4 py-1.5 text-[10px] font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider">
                   Cloud Sync
                 </div>
                 <CloudSync

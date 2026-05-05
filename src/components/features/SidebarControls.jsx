@@ -64,6 +64,7 @@ export const SidebarControls = ({
         </div>
         <div className="flex gap-2">
           <select
+            aria-label="Select deck"
             value={selectedDeckId}
             onChange={(e) => onSelectDeck(e.target.value)}
             className="flex-1 min-w-0 py-2 pl-3 bg-position-[calc(100%-20px)_center] bg-slate-50 dark:bg-slate-900 border border-slate-300 dark:border-slate-600 rounded-lg focus:ring-2 focus:ring-indigo-500 outline-none transition-colors dark:text-white text-sm"

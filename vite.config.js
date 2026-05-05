@@ -40,6 +40,24 @@ export default defineConfig({
     }),
   ],
   base: '/quiz-forge/',
+  build: {
+    sourcemap: true,
+    rollupOptions: {
+      output: {
+        manualChunks: {
+          'react-vendor': ['react', 'react-dom'],
+          'markdown-vendor': [
+            'react-markdown',
+            'remark-gfm',
+            'remark-math',
+            'rehype-katex',
+            'rehype-raw',
+            'rehype-sanitize',
+          ],
+        },
+      },
+    },
+  },
   test: {
     globals: true,
     clearMocks: true,
