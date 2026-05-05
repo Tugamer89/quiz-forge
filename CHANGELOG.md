@@ -1,3 +1,9 @@
+# [1.7.0](https://github.com/Tugamer89/quiz-forge/compare/v1.6.5...v1.7.0) (2026-05-05)
+
+### Features
+
+- **pwa:** add smart delayed install prompt for mobile ([4a45107](https://github.com/Tugamer89/quiz-forge/commit/4a4510762d9f127369ed46213f9147c4aa31cb65))
+
 ## [1.6.5](https://github.com/Tugamer89/quiz-forge/compare/v1.6.4...v1.6.5) (2026-05-05)
 
 ### Performance Improvements
