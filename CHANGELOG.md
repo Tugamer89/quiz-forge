@@ -1,3 +1,9 @@
+## [1.6.5](https://github.com/Tugamer89/quiz-forge/compare/v1.6.4...v1.6.5) (2026-05-05)
+
+### Performance Improvements
+
+- optimize core web vitals, a11y, and seo scores ([9abe040](https://github.com/Tugamer89/quiz-forge/commit/9abe040046c67c119044ab0a3727d911c4cb634a))
+
 ## [1.6.4](https://github.com/Tugamer89/quiz-forge/compare/v1.6.3...v1.6.4) (2026-05-05)
 
 ### Bug Fixes
