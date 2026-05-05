@@ -28,21 +28,21 @@ export const SummaryScreen = ({ session, onReset, onPlayAgain }) => {
             <div
               style={{ width: `${correctPct}%` }}
               className="bg-green-500/80 dark:bg-green-500/60 transition-all duration-1000 ease-out"
-              title={`Corrette: ${correctPct.toFixed(1)}%`}
+              title={`Correct: ${correctPct.toFixed(1)}%`}
             />
           )}
           {partialPct > 0 && (
             <div
               style={{ width: `${partialPct}%` }}
               className="bg-amber-400/90 dark:bg-amber-500/70 transition-all duration-1000 ease-out"
-              title={`Parziali: ${partialPct.toFixed(1)}%`}
+              title={`Partial: ${partialPct.toFixed(1)}%`}
             />
           )}
           {incorrectPct > 0 && (
             <div
               style={{ width: `${incorrectPct}%` }}
               className="bg-red-400/90 dark:bg-red-500/70 transition-all duration-1000 ease-out"
-              title={`Errate: ${incorrectPct.toFixed(1)}%`}
+              title={`Incorrect: ${incorrectPct.toFixed(1)}%`}
             />
           )}
         </div>
