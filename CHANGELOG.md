@@ -1,3 +1,9 @@
+## [1.6.4](https://github.com/Tugamer89/quiz-forge/compare/v1.6.3...v1.6.4) (2026-05-05)
+
+### Bug Fixes
+
+- typo ([9b39d0c](https://github.com/Tugamer89/quiz-forge/commit/9b39d0c6c89c66fe7ac9dce1247b51eeba0611a6))
+
 ## [1.6.3](https://github.com/Tugamer89/quiz-forge/compare/v1.6.2...v1.6.3) (2026-05-05)
 
 ### Bug Fixes
