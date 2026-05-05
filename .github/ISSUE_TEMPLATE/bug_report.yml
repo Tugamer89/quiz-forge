@@ -1,0 +1,59 @@
+name: Bug Report
+description: Create a report to help us improve Quiz Forge
+title: "bug: [Short description of the bug]"
+labels: ["bug"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for taking the time to fill out this bug report! 
+        Before opening a new issue, please search the existing issues to see if it has already been reported.
+  - type: textarea
+    id: description
+    attributes:
+      label: Bug Description
+      description: A clear and concise description of what the bug is.
+    validations:
+      required: true
+  - type: textarea
+    id: reproduction
+    attributes:
+      label: Steps to Reproduce
+      description: Steps to reproduce the behavior.
+      placeholder: |
+        1. Go to '...'
+        2. Click on '....'
+        3. Scroll down to '....'
+        4. See error
+    validations:
+      required: true
+  - type: textarea
+    id: expected
+    attributes:
+      label: Expected Behavior
+      description: A clear and concise description of what you expected to happen.
+    validations:
+      required: true
+  - type: textarea
+    id: screenshots
+    attributes:
+      label: Screenshots / Logs
+      description: If applicable, add screenshots, browser console logs, or error stack traces to help explain your problem.
+    validations:
+      required: false
+  - type: input
+    id: browser
+    attributes:
+      label: Browser & OS Environment
+      description: e.g. Chrome 120 on macOS Sonoma
+      placeholder: "Browser: [e.g. Chrome, Safari], OS: [e.g. Windows 11, macOS]"
+    validations:
+      required: true
+  - type: input
+    id: node-version
+    attributes:
+      label: Node.js Version (if running locally)
+      description: What version of Node.js are you using? (Leave blank if you are using the web version)
+      placeholder: "e.g. v20.11.0"
+    validations:
+      required: false
