@@ -7,6 +7,10 @@ on:
 jobs:
   audit:
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      pull-requests: write
+
     steps:
       - uses: actions/checkout@v6
       - uses: actions/setup-node@v6
@@ -15,7 +19,7 @@ jobs:
           cache: 'npm'
 
       - name: Install dependencies
-        run: npm ci
+        run: npm ci --ignore-scripts
 
       - name: Run Linter
         run: npm run lint
@@ -32,3 +36,20 @@ jobs:
           configPath: './lighthouserc.json'
           uploadArtifacts: true
           temporaryPublicStorage: true
+      
+      # 'if: always()' ensures the report is generated even if Lighthouse assertions fail
+      - name: Format Lighthouse Score
+        id: format_lighthouse_score
+        if: always()
+        uses: actions/github-script@v9
+        with:
+          script: |
+            const formatReport = require('./.github/scripts/format-lighthouse-report.js');
+            formatReport({ core });
+
+      - name: Add PR Comment
+        if: always()
+        uses: marocchino/sticky-pull-request-comment@v3
+        with:
+          header: lighthouse
+          message: ${{ steps.format_lighthouse_score.outputs.comment }}
