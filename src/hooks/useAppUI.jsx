@@ -1,6 +1,7 @@
 import { useState, useEffect, useCallback, useRef } from 'react';
 import { useLocalStorage } from './useLocalStorage';
 import { Smartphone } from 'lucide-react';
+import * as Sentry from '@sentry/react';
 
 export function useAppUI() {
   const [isDarkMode, setIsDarkMode] = useLocalStorage('quiz_theme_dark', false);
@@ -23,9 +24,21 @@ export function useAppUI() {
   const toastTimerRef = useRef(null);
 
   useEffect(() => {
+    let localUserId = globalThis.localStorage.getItem('quiz_user_id');
+    if (!localUserId) {
+      localUserId = crypto.randomUUID();
+      globalThis.localStorage.setItem('quiz_user_id', localUserId);
+    }
+
+    Sentry.setUser({ id: localUserId });
+  }, []);
+
+  useEffect(() => {
     const root = document.documentElement;
     isDarkMode ? root.classList.add('dark') : root.classList.remove('dark');
     root.style.colorScheme = isDarkMode ? 'dark' : 'light';
+
+    Sentry.setTag('theme', isDarkMode ? 'dark' : 'light');
   }, [isDarkMode]);
 
   useEffect(() => {

@@ -6,6 +6,7 @@ import {
   mergeQuestions,
   setQuestionStatus,
 } from '../utils/helpers';
+import * as Sentry from '@sentry/react';
 
 export function useQuizData(showToast, setDialog) {
   const [decks, setDecks] = useLocalStorage('quiz_decks', [
@@ -41,6 +42,10 @@ export function useQuizData(showToast, setDialog) {
     }),
     [activeDeckQuestions]
   );
+
+  useEffect(() => {
+    Sentry.setTag('srs_enabled', settings.srsEnabled);
+  }, [settings.srsEnabled]);
 
   const handleRawTextChange = (val) => {
     setRawTexts((prev) => ({ ...prev, [selectedDeckId]: val }));

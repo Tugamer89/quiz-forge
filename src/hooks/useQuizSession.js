@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import * as Sentry from '@sentry/react';
 
 export function useQuizSession(questions, setQuestions, settings, selectedDeckId, showToast) {
   const [quizSession, setQuizSession] = useState({
@@ -27,6 +28,12 @@ export function useQuizSession(questions, setQuestions, settings, selectedDeckId
         (q.status === 'incorrect' && settings.includeIncorrect) ||
         (q.status === 'partially-correct' && settings.includePartiallyCorrect)
       );
+    });
+
+    Sentry.addBreadcrumb({
+      category: 'quiz_generation',
+      message: `Started quiz with ${settings.numToGenerate} questions. SRS: ${settings.srsEnabled}`,
+      level: 'info',
     });
 
     if (!eligible.length) {
