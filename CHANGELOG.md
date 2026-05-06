@@ -1,3 +1,10 @@
+## [1.8.1](https://github.com/Tugamer89/quiz-forge/compare/v1.8.0...v1.8.1) (2026-05-06)
+
+
+### Bug Fixes
+
+* **monitoring:** set correct Sentry environment based on Vite mode ([e50aa87](https://github.com/Tugamer89/quiz-forge/commit/e50aa8798a89a2a67f19a43212834d02872d27b0))
+
 # [1.8.0](https://github.com/Tugamer89/quiz-forge/compare/v1.7.0...v1.8.0) (2026-05-06)
 
 
