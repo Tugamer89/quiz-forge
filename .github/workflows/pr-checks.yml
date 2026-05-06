@@ -46,9 +46,15 @@ jobs:
         with:
           script: |
             const path = require('path');
-            const scriptPath = path.join(process.env.GITHUB_WORKSPACE, '.github/scripts/format-lighthouse-report.js');
-            const formatReport = require(scriptPath);
-            return formatReport({ core });
+            const scriptPath = path.resolve(process.env.GITHUB_WORKSPACE, '.github/scripts/format-lighthouse-report.cjs');
+            
+            try {
+              const formatReport = require(scriptPath);
+              return formatReport({ core });
+            } catch (err) {
+              core.error(`Error: ${err.message}`);
+              return "❌ Unable to load .cjs script";
+            }
 
       - name: Add PR Comment
         if: always()
