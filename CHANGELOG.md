@@ -1,3 +1,10 @@
+## [1.9.5](https://github.com/Tugamer89/quiz-forge/compare/v1.9.4...v1.9.5) (2026-05-06)
+
+
+### Bug Fixes
+
+* removed device section ([037ed25](https://github.com/Tugamer89/quiz-forge/commit/037ed259b79ee73727d7013f600e677e70172497))
+
 ## [1.9.4](https://github.com/Tugamer89/quiz-forge/compare/v1.9.3...v1.9.4) (2026-05-06)
 
 
