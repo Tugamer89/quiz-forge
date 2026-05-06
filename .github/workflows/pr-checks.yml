@@ -13,6 +13,7 @@ jobs:
 
     steps:
       - uses: actions/checkout@v6
+      
       - uses: actions/setup-node@v6
         with:
           node-version: 22
@@ -53,3 +54,18 @@ jobs:
         with:
           header: lighthouse
           message: ${{ steps.format_lighthouse_score.outputs.comment }}
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v4
+
+      - name: Dry Run Docker Build
+        uses: docker/build-push-action@v7
+        with:
+          context: .
+          push: false
+          build-args: |
+            VITE_APP_VERSION=pr-test
+            VITE_GOOGLE_CLIENT_ID=dummy_google_client_id
+            VITE_SENTRY_DSN=dummy_sentry_dsn
+          secrets: |
+            "SENTRY_AUTH_TOKEN=${{ secrets.SENTRY_AUTH_TOKEN }}"
