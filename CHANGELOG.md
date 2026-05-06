@@ -1,3 +1,11 @@
+## [1.9.3](https://github.com/Tugamer89/quiz-forge/compare/v1.9.2...v1.9.3) (2026-05-06)
+
+
+### Bug Fixes
+
+* **ci:** format lighthouse ([793f5ec](https://github.com/Tugamer89/quiz-forge/commit/793f5ec4728d794febabd41b7281b544b85249d1))
+* **ci:** renamed folder correctly ([6cb8e3d](https://github.com/Tugamer89/quiz-forge/commit/6cb8e3d3c5acda1bd354326e0d5d27786cc04a45))
+
 ## [1.9.2](https://github.com/Tugamer89/quiz-forge/compare/v1.9.1...v1.9.2) (2026-05-06)
 
 
