@@ -1,3 +1,10 @@
+## [1.9.2](https://github.com/Tugamer89/quiz-forge/compare/v1.9.1...v1.9.2) (2026-05-06)
+
+
+### Bug Fixes
+
+* added build target to improve build ([d6ff9ca](https://github.com/Tugamer89/quiz-forge/commit/d6ff9ca59ce2b1d263a5e2708dac9dea534fdb37))
+
 ## [1.9.1](https://github.com/Tugamer89/quiz-forge/compare/v1.9.0...v1.9.1) (2026-05-06)
 
 
