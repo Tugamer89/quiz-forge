@@ -10,7 +10,9 @@ import App from './App.jsx';
 Sentry.init({
   dsn: import.meta.env.VITE_SENTRY_DSN,
   release: `quiz-forge@${packageJson.version}`,
+  environment: import.meta.env.MODE,
   integrations: [Sentry.browserTracingIntegration(), Sentry.replayIntegration()],
+
   // Performance Monitoring
   tracesSampleRate: import.meta.env.PROD ? 0.2 : 1,
 
