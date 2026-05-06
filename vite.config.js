@@ -48,6 +48,7 @@ export default defineConfig({
   ],
   base: '/quiz-forge/',
   build: {
+    target: 'esnext',
     sourcemap: true,
     rollupOptions: {
       output: {
