@@ -1,3 +1,10 @@
+# [1.9.0](https://github.com/Tugamer89/quiz-forge/compare/v1.8.1...v1.9.0) (2026-05-06)
+
+
+### Features
+
+* implement multi-stage Docker build and GHCR publishing ([8d0e4b4](https://github.com/Tugamer89/quiz-forge/commit/8d0e4b4a60d1090d271efcfac23a86c4e5ab969e))
+
 ## [1.8.1](https://github.com/Tugamer89/quiz-forge/compare/v1.8.0...v1.8.1) (2026-05-06)
 
 
