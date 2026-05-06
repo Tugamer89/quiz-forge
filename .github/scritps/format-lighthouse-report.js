@@ -5,7 +5,6 @@ module.exports = function formatLighthouseReport({ core }) {
   const manifestPath = './.lighthouseci/manifest.json';
   const linksPath = './.lighthouseci/links.json';
 
-  // Verifica che Lighthouse abbia generato i risultati
   if (!fs.existsSync(manifestPath)) {
     core.setOutput('comment', '❌ Lighthouse failed to generate a report.');
     return;
@@ -34,5 +33,5 @@ module.exports = function formatLighthouseReport({ core }) {
     comment += `| ${reportUrl} | ${formatScore(summary.performance)} | ${formatScore(summary.accessibility)} | ${formatScore(summary['best-practices'])} | ${formatScore(summary.seo)} |\n`;
   });
 
-  core.setOutput('comment', comment);
+  return comment;
 };
