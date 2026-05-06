@@ -1,3 +1,15 @@
+# [1.8.0](https://github.com/Tugamer89/quiz-forge/compare/v1.7.0...v1.8.0) (2026-05-06)
+
+
+### Bug Fixes
+
+* **ci:** resolved error githubactions:S8233 ([0572805](https://github.com/Tugamer89/quiz-forge/commit/0572805737eb49f553602086d071c599cba3f182))
+
+
+### Features
+
+* **monitoring:** integrate Sentry for error tracking and user feedback ([9d8cee5](https://github.com/Tugamer89/quiz-forge/commit/9d8cee5b247f12b997c8592b86d977705524e3ff))
+
 # [1.7.0](https://github.com/Tugamer89/quiz-forge/compare/v1.6.5...v1.7.0) (2026-05-05)
 
 ### Features
