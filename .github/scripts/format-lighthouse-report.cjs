@@ -13,8 +13,8 @@ module.exports = function formatLighthouseReport({ core }) {
   const links = fs.existsSync(linksPath) ? JSON.parse(fs.readFileSync(linksPath, 'utf8')) : {};
 
   let comment = '## ⚡ Lighthouse CI Report\n\n';
-  comment += '| URL | Device | Performance | Accessibility | Best Practices | SEO |\n';
-  comment += '| --- | --- | --- | --- | --- | --- |\n';
+  comment += '| URL | Performance | Accessibility | Best Practices | SEO |\n';
+  comment += '| --- | --- | --- | --- | --- |\n';
 
   const formatScore = (score) => {
     const val = Math.round(score * 100);
@@ -27,10 +27,9 @@ module.exports = function formatLighthouseReport({ core }) {
 
   results.forEach((result) => {
     const summary = result.summary;
-    const device = result.config?.settings?.emulatedFormFactor || 'N/A';
     const reportUrl = links[result.url] ? `[View Report](${links[result.url]})` : result.url;
 
-    comment += `| ${reportUrl} | **${device.toUpperCase()}** | ${formatScore(summary.performance)} | ${formatScore(summary.accessibility)} | ${formatScore(summary['best-practices'])} | ${formatScore(summary.seo)} |\n`;
+    comment += `| ${reportUrl} | ${formatScore(summary.performance)} | ${formatScore(summary.accessibility)} | ${formatScore(summary['best-practices'])} | ${formatScore(summary.seo)} |\n`;
   });
 
   return comment;
