@@ -13,13 +13,6 @@ on:
       - 'LICENSE'
   workflow_dispatch:
 
-permissions:
-  contents: write
-  pages: write
-  id-token: write
-  issues: write
-  pull-requests: write
-
 concurrency:
   group: "pages-main"
   cancel-in-progress: true
@@ -27,6 +20,10 @@ concurrency:
 jobs:
   audit-and-release:
     runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      issues: write
+      pull-requests: write
     outputs:
       published: ${{ steps.semantic.outputs.new_release_published }}
       version: ${{ steps.semantic.outputs.new_release_version }}
@@ -43,7 +40,7 @@ jobs:
           cache: 'npm'
 
       - name: Install dependencies
-        run: npm ci
+        run: npm ci --ignore-scripts
 
       - name: Run Linter
         run: npm run lint
@@ -60,6 +57,10 @@ jobs:
   build-and-deploy:
     needs: audit-and-release
     if: needs.audit-and-release.outputs.published == 'true'
+    permissions:
+      contents: read
+      pages: write
+      id-token: write
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
@@ -77,7 +78,7 @@ jobs:
           cache: 'npm'
 
       - name: Install dependencies
-        run: npm ci
+        run: npm ci --ignore-scripts
 
       - name: Build Project
         run: npm run build
