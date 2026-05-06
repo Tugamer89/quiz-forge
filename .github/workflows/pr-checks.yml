@@ -44,17 +44,12 @@ jobs:
         if: always()
         uses: actions/github-script@v9
         with:
+          result-encoding: string
           script: |
             const path = require('path');
             const scriptPath = path.resolve(process.env.GITHUB_WORKSPACE, '.github/scripts/format-lighthouse-report.cjs');
-            
-            try {
-              const formatReport = require(scriptPath);
-              return formatReport({ core });
-            } catch (err) {
-              core.error(`Error: ${err.message}`);
-              return "❌ Unable to load .cjs script";
-            }
+            const formatReport = require(scriptPath);
+            return formatReport({ core });
 
       - name: Add PR Comment
         if: always()
