@@ -1,3 +1,10 @@
+## [1.9.4](https://github.com/Tugamer89/quiz-forge/compare/v1.9.3...v1.9.4) (2026-05-06)
+
+
+### Bug Fixes
+
+* **ci:** new lighthouse settings ([b44083d](https://github.com/Tugamer89/quiz-forge/commit/b44083db8419c0f84cbf449f9cb7ac9da8ebe045))
+
 ## [1.9.3](https://github.com/Tugamer89/quiz-forge/compare/v1.9.2...v1.9.3) (2026-05-06)
 
 
