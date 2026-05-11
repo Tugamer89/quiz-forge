@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types';
 
 export const ProgressBar = ({ current, total }) => {
-  const progress = Math.round((current / total) * 100);
+  const progress = total > 0 ? Math.round((current / total) * 100) : 0;
   const percentage = Math.max(0, Math.min(progress, 100));
 
   return (
@@ -13,11 +13,14 @@ export const ProgressBar = ({ current, total }) => {
         </span>
       </div>
       <div className="w-full bg-slate-200 dark:bg-slate-700 rounded-full h-2.5 overflow-hidden">
-        <div
-          data-testid="progress-fill"
-          className="bg-indigo-600 h-2.5 rounded-full transition-[width] duration-500 ease-out"
-          style={{ width: `${percentage}%` }}
-        ></div>
+        <progress
+          id="quiz-progress"
+          value={current}
+          max={total}
+          className="w-full h-2.5 rounded-full appearance-none block [&::-webkit-progress-bar]:bg-slate-200 dark:[&::-webkit-progress-bar]:bg-slate-700 [&::-webkit-progress-bar]:rounded-full [&::-webkit-progress-value]:bg-indigo-600 [&::-webkit-progress-value]:rounded-full [&::-webkit-progress-value]:transition-[width] [&::-webkit-progress-value]:duration-500 [&::-moz-progress-bar]:bg-indigo-600 [&::-moz-progress-bar]:rounded-full"
+        >
+          {percentage}%
+        </progress>
       </div>
     </div>
   );

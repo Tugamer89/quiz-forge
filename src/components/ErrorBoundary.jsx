@@ -35,6 +35,7 @@ export class ErrorBoundary extends Component {
           {this.state.eventId && (
             <button
               onClick={() => Sentry.showReportDialog({ eventId: this.state.eventId })}
+              title="Report this issue to help us improve"
               className="flex items-center justify-center px-3 py-1.5 bg-red-100 hover:bg-red-200 dark:bg-red-800/50 dark:hover:bg-red-700/50 rounded-md transition-colors text-xs font-semibold"
             >
               <MessageSquare className="w-4 h-4 mr-1.5" />

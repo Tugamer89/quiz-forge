@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useCallback } from 'react';
 import * as Sentry from '@sentry/react';
 
 export function useQuizSession(questions, setQuestions, settings, selectedDeckId, showToast) {
@@ -115,9 +115,12 @@ export function useQuizSession(questions, setQuestions, settings, selectedDeckId
     setShowAnswer(false);
   };
 
-  const cancelSession = () => setQuizSession((p) => ({ ...p, active: false }));
-  const resetSession = () => setQuizSession((p) => ({ ...p, isFinished: false, active: false }));
-  const revealAnswer = () => setShowAnswer(true);
+  const cancelSession = useCallback(() => setQuizSession((p) => ({ ...p, active: false })), []);
+  const resetSession = useCallback(
+    () => setQuizSession((p) => ({ ...p, isFinished: false, active: false })),
+    []
+  );
+  const revealAnswer = useCallback(() => setShowAnswer(true), []);
 
   return {
     quizSession,

@@ -1,42 +1,50 @@
-import { render, screen } from '@testing-library/react';
+import { render, screen, waitFor } from '@testing-library/react';
 import { describe, it, expect } from 'vitest';
 import SafeMarkdown from './SafeMarkdown';
-import rehypeRaw from 'rehype-raw';
 
-describe('SafeMarkdown Component', () => {
-  it('renders standard markdown headings correctly', () => {
+describe('SafeMarkdown Component (Lazy & Suspense)', () => {
+  it('renders the loading placeholder initially', () => {
+    const { container } = render(<SafeMarkdown># Test</SafeMarkdown>);
+
+    const placeholder = container.querySelector('.animate-pulse');
+    expect(placeholder).toBeInTheDocument();
+  });
+
+  it('renders standard markdown headings correctly after loading', async () => {
     const markdown = '# Hello World\nThis is **bold** text';
     render(<SafeMarkdown>{markdown}</SafeMarkdown>);
 
-    expect(screen.getByRole('heading', { level: 1 })).toHaveTextContent('Hello World');
+    const heading = await screen.findByText('Hello World');
+    expect(heading.tagName).toBe('H1');
   });
 
-  it('renders bold text correctly', () => {
+  it('renders bold text correctly after loading', async () => {
     const markdown = 'This is **bold** text';
     render(<SafeMarkdown>{markdown}</SafeMarkdown>);
 
-    const boldText = screen.getByText('bold');
+    const boldText = await screen.findByText('bold');
     expect(boldText.tagName).toBe('STRONG');
   });
 
-  it('blocks malicious script tags (XSS Prevention)', () => {
+  it('blocks malicious script tags (XSS Prevention)', async () => {
     const maliciousInput = 'Safe text <script>alert("Hacked!")</script>';
-    const { container } = render(
-      <SafeMarkdown rehypePlugins={[rehypeRaw]}>{maliciousInput}</SafeMarkdown>
-    );
+    const { container } = render(<SafeMarkdown>{maliciousInput}</SafeMarkdown>);
 
-    expect(screen.getByText(/Safe text/)).toBeInTheDocument();
+    const safeText = await screen.findByText(/Safe text/);
+    expect(safeText).toBeInTheDocument();
+
     const scriptTag = container.querySelector('script');
     expect(scriptTag).toBeNull();
   });
 
-  it('strips dangerous event attributes', () => {
+  it('strips dangerous event attributes', async () => {
     const maliciousHtml = '<img src="x" onerror="alert(1)" alt="Hacker" />';
-    const { container } = render(
-      <SafeMarkdown rehypePlugins={[rehypeRaw]}>{maliciousHtml}</SafeMarkdown>
-    );
+    render(<SafeMarkdown>{maliciousHtml}</SafeMarkdown>);
 
-    const elementWithOnError = container.querySelector('[onerror]');
-    expect(elementWithOnError).toBeNull();
+    await waitFor(() => {
+      const img = screen.getByAltText('Hacker');
+      expect(img).toBeInTheDocument();
+      expect(img).not.toHaveAttribute('onerror');
+    });
   });
 });

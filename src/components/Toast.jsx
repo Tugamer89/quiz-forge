@@ -23,7 +23,12 @@ export const Toast = ({ toast }) => {
   };
 
   return (
-    <div key={toast.id} className="fixed bottom-6 right-6 z-50 animate-toast-enter">
+    <div
+      key={toast.id}
+      role="alert"
+      aria-live="assertive"
+      className="fixed bottom-6 right-6 z-50 animate-toast-enter"
+    >
       <div
         className={`${bgColors[toast.type]} text-white rounded-lg shadow-xl overflow-hidden min-w-70 max-w-sm flex flex-col`}
       >

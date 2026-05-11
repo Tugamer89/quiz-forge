@@ -4,13 +4,31 @@ import { vscDarkPlus, vs } from 'react-syntax-highlighter/dist/esm/styles/prism'
 import PropTypes from 'prop-types';
 
 export default function CodeRenderer({ inline, className, children, ...rest }) {
-  const [isDark, setIsDark] = useState(false);
+  const [isDark, setIsDark] = useState(() => {
+    try {
+      const localTheme = globalThis.localStorage.getItem('quiz_theme_dark');
+      if (localTheme !== null) {
+        return JSON.parse(localTheme);
+      }
+    } catch (e) {
+      console.error(e);
+    }
+    return document?.documentElement.classList.contains('dark');
+  });
 
   useEffect(() => {
-    const checkTheme = () => setIsDark(document.documentElement.classList.contains('dark'));
+    const root = document.documentElement;
+
+    const checkTheme = () => {
+      setIsDark(root.classList.contains('dark'));
+    };
     checkTheme();
     const observer = new MutationObserver(checkTheme);
-    observer.observe(document.documentElement, { attributes: true, attributeFilter: ['class'] });
+    observer.observe(root, {
+      attributes: true,
+      attributeFilter: ['class'],
+    });
+
     return () => observer.disconnect();
   }, []);
 

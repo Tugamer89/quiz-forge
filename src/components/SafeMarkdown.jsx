@@ -1,37 +1,38 @@
-import ReactMarkdown from 'react-markdown';
-import rehypeSanitize, { defaultSchema } from 'rehype-sanitize';
+import { lazy, Suspense } from 'react';
 import PropTypes from 'prop-types';
-import CodeRenderer from './CodeRenderer';
+import { ErrorBoundary } from './ErrorBoundary';
+import remarkGfm from 'remark-gfm';
+import remarkMath from 'remark-math';
+import rehypeKatex from 'rehype-katex';
+import rehypeRaw from 'rehype-raw';
 
-export default function SafeMarkdown({ children, remarkPlugins, rehypePlugins, ...props }) {
-  const sanitizeOptions = {
-    ...defaultSchema,
-    attributes: {
-      ...defaultSchema.attributes,
-      code: ['className', ...(defaultSchema.attributes.code || [])],
-      span: ['className', 'style', ...(defaultSchema.attributes.span || [])],
-    },
-  };
+const SafeMarkdownCore = lazy(() => import('./SafeMarkdownCore'));
 
-  const combinedRehypePlugins = [...(rehypePlugins || []), [rehypeSanitize, sanitizeOptions]];
+const MarkdownPlaceholder = () => (
+  <div className="h-4 w-full max-w-50 bg-slate-100 dark:bg-slate-700 animate-pulse rounded mt-1" />
+);
 
-  const preRemoveWrapper = ({ children }) => <>{children}</>;
-
-  const aRemoveWrapper = ({ ...rest }) => <a target="_blank" rel="noopener noreferrer" {...rest} />;
+export default function SafeMarkdown({
+  children,
+  remarkPlugins = [],
+  rehypePlugins = [],
+  ...rest
+}) {
+  const defaultRemark = [remarkGfm, remarkMath];
+  const defaultRehype = [rehypeKatex, rehypeRaw];
 
   return (
-    <ReactMarkdown
-      remarkPlugins={remarkPlugins}
-      rehypePlugins={combinedRehypePlugins}
-      components={{
-        code: CodeRenderer,
-        pre: preRemoveWrapper,
-        a: aRemoveWrapper,
-      }}
-      {...props}
-    >
-      {children}
-    </ReactMarkdown>
+    <ErrorBoundary>
+      <Suspense fallback={<MarkdownPlaceholder />}>
+        <SafeMarkdownCore
+          {...rest}
+          remarkPlugins={[...defaultRemark, ...remarkPlugins]}
+          rehypePlugins={[...defaultRehype, ...rehypePlugins]}
+        >
+          {children}
+        </SafeMarkdownCore>
+      </Suspense>
+    </ErrorBoundary>
   );
 }
 

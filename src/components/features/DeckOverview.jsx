@@ -12,12 +12,7 @@ import {
   ChevronUp,
   AlertCircle,
 } from 'lucide-react';
-import { ErrorBoundary } from '../ErrorBoundary';
 import SafeMarkdown from '../SafeMarkdown';
-import remarkGfm from 'remark-gfm';
-import remarkMath from 'remark-math';
-import rehypeKatex from 'rehype-katex';
-import rehypeRaw from 'rehype-raw';
 
 export const DeckOverview = ({ questions, stats, onMarkQuestion }) => {
   const [searchTerm, setSearchTerm] = useState('');
@@ -128,8 +123,10 @@ export const DeckOverview = ({ questions, stats, onMarkQuestion }) => {
               <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
                 <button
                   type="button"
+                  title="Expand question to see answer"
+                  aria-expanded={expandedId === q.id}
                   onClick={() => toggleExpand(q.id)}
-                  className="flex-1 min-w-0 text-left focus:outline-none focus:ring-2 focus:ring-indigo-500/50 rounded-lg p-1 -m-1"
+                  className="flex-1 min-w-0 text-left focus:outline-none rounded-lg p-1 -m-1"
                 >
                   <div className="text-sm font-medium text-slate-800 dark:text-slate-200 flex items-start gap-2 overflow-hidden">
                     {expandedId === q.id ? (
@@ -142,14 +139,7 @@ export const DeckOverview = ({ questions, stats, onMarkQuestion }) => {
                         {q.number}.
                       </span>
                       <div className="truncate prose prose-sm dark:prose-invert max-w-none prose-pre:bg-slate-100 dark:prose-pre:bg-slate-900 prose-pre:text-slate-800 dark:prose-pre:text-slate-200 [&>p]:m-0 [&>p]:inline [&_h1]:m-0 [&_h1]:text-sm [&_h1]:inline [&_h2]:m-0 [&_h2]:text-sm [&_h2]:inline [&_h3]:m-0 [&_h3]:text-sm [&_h3]:inline [&_ul]:m-0 [&_ul]:inline [&_li]:m-0 [&_li]:inline [&_li]:list-none">
-                        <ErrorBoundary>
-                          <SafeMarkdown
-                            remarkPlugins={[remarkGfm, remarkMath]}
-                            rehypePlugins={[rehypeKatex, rehypeRaw]}
-                          >
-                            {q.text}
-                          </SafeMarkdown>
-                        </ErrorBoundary>
+                        <SafeMarkdown>{q.text}</SafeMarkdown>
                       </div>
                     </div>
                   </div>
@@ -158,7 +148,7 @@ export const DeckOverview = ({ questions, stats, onMarkQuestion }) => {
                       {q.tags.map((tag) => (
                         <span
                           key={tag}
-                          className="text-[10px] flex items-center px-2 py-0.5 bg-indigo-50 dark:bg-indigo-900/30 text-indigo-600 dark:text-indigo-400 rounded-full"
+                          className="text-[10px] font-medium flex items-center px-2 py-0.5 bg-indigo-50 dark:bg-indigo-900/30 text-indigo-700 dark:text-indigo-300 rounded-full"
                         >
                           <Tag className="w-3 h-3 mr-1" /> {tag}
                         </span>
@@ -173,6 +163,7 @@ export const DeckOverview = ({ questions, stats, onMarkQuestion }) => {
                     onClick={() => onMarkQuestion(q.id, 'unanswered')}
                     className={`p-2 rounded-md transition-colors ${q.status === 'unanswered' ? 'bg-slate-200 dark:bg-slate-600 text-slate-700 dark:text-slate-200' : 'text-slate-400 hover:text-slate-600 dark:hover:text-slate-200 hover:bg-slate-50 dark:hover:bg-slate-700'}`}
                     title="Mark as unanswered"
+                    aria-label="Mark as unanswered"
                   >
                     <Circle className="w-4 h-4" />
                   </button>
@@ -181,6 +172,7 @@ export const DeckOverview = ({ questions, stats, onMarkQuestion }) => {
                     onClick={() => onMarkQuestion(q.id, 'correct')}
                     className={`p-2 rounded-md transition-colors ${q.status === 'correct' ? 'bg-green-100 dark:bg-green-900/50 text-green-600 dark:text-green-400' : 'text-slate-400 hover:text-green-600 hover:bg-green-50 dark:hover:bg-green-900/20'}`}
                     title="Mark as correct"
+                    aria-label="Mark as correct"
                   >
                     <CheckCircle2 className="w-4 h-4" />
                   </button>
@@ -189,6 +181,7 @@ export const DeckOverview = ({ questions, stats, onMarkQuestion }) => {
                     onClick={() => onMarkQuestion(q.id, 'partially-correct')}
                     className={`p-2 rounded-md transition-colors ${q.status === 'partially-correct' ? 'bg-amber-100 dark:bg-amber-900/50 text-amber-600 dark:text-amber-400' : 'text-slate-400 hover:text-amber-600 hover:bg-amber-50 dark:hover:bg-amber-900/20'}`}
                     title="Mark as partially correct"
+                    aria-label="Mark as partially correct"
                   >
                     <AlertCircle className="w-4 h-4" />
                   </button>
@@ -197,6 +190,7 @@ export const DeckOverview = ({ questions, stats, onMarkQuestion }) => {
                     onClick={() => onMarkQuestion(q.id, 'incorrect')}
                     className={`p-2 rounded-md transition-colors ${q.status === 'incorrect' ? 'bg-red-100 dark:bg-red-900/50 text-red-600 dark:text-red-400' : 'text-slate-400 hover:text-red-600 hover:bg-red-50 dark:hover:bg-red-900/20'}`}
                     title="Mark as incorrect"
+                    aria-label="Mark as incorrect"
                   >
                     <XCircle className="w-4 h-4" />
                   </button>
@@ -206,14 +200,9 @@ export const DeckOverview = ({ questions, stats, onMarkQuestion }) => {
               {expandedId === q.id && (
                 <div className="mt-3 ml-6 pt-3 border-t border-slate-100 dark:border-slate-700/50">
                   <div className="prose prose-sm dark:prose-invert max-w-none prose-p:my-1 prose-pre:bg-slate-100 dark:prose-pre:bg-slate-900 prose-pre:text-slate-800 dark:prose-pre:text-slate-200 text-slate-600 dark:text-slate-300">
-                    <ErrorBoundary>
-                      <SafeMarkdown
-                        remarkPlugins={[remarkGfm, remarkMath]}
-                        rehypePlugins={[rehypeKatex, rehypeRaw]}
-                      >
-                        {q.answer || '*No text answers found for this question.*'}
-                      </SafeMarkdown>
-                    </ErrorBoundary>
+                    <SafeMarkdown>
+                      {q.answer || '*No text answers found for this question.*'}
+                    </SafeMarkdown>
                   </div>
                 </div>
               )}

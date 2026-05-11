@@ -1,18 +1,16 @@
 import PropTypes from 'prop-types';
-import { useRef, useEffect, useState } from 'react';
+import { useRef, useEffect, useState, useCallback } from 'react';
 import { Play, ArrowRight, XCircle, CheckCircle2, AlertCircle } from 'lucide-react';
-import { ErrorBoundary } from '../ErrorBoundary';
 import SafeMarkdown from '../SafeMarkdown';
-import remarkGfm from 'remark-gfm';
-import remarkMath from 'remark-math';
-import rehypeKatex from 'rehype-katex';
-import rehypeRaw from 'rehype-raw';
 import { ProgressBar } from '../ProgressBar';
+import { useShortcuts } from '../../hooks/useShortcuts';
 
 export const LiveSession = ({ session, onCancel, showAnswer, onReveal, onAnswer }) => {
   const currentQ = session.questions[session.currentIndex];
   const containerRef = useRef(null);
+  const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
   const [tempAnswer, setTempAnswer] = useState('');
+  const [activeKey, setActiveKey] = useState(null);
 
   useEffect(() => {
     setTimeout(() => {
@@ -21,6 +19,52 @@ export const LiveSession = ({ session, onCancel, showAnswer, onReveal, onAnswer 
       }
     }, 50);
   }, [session.currentIndex]);
+
+  const handleActionWithFeedback = useCallback(
+    (key, actionCallback) => {
+      if (activeKey) return;
+      setActiveKey(key);
+
+      setTimeout(() => {
+        setActiveKey(null);
+        actionCallback();
+      }, 250);
+    },
+    [activeKey]
+  );
+
+  useShortcuts({
+    onFlip: () => {
+      if (!showAnswer) handleActionWithFeedback('reveal', onReveal);
+    },
+    onGradeWrong: () => {
+      if (showAnswer) {
+        handleActionWithFeedback('wrong', () => {
+          handleGrade('incorrect');
+        });
+      }
+    },
+    onGradePartial: () => {
+      if (showAnswer) {
+        handleActionWithFeedback('partial', () => {
+          handleGrade('partially-correct');
+        });
+      }
+    },
+    onGradeCorrect: () => {
+      if (showAnswer) {
+        handleActionWithFeedback('correct', () => {
+          handleGrade('correct');
+        });
+      }
+    },
+    onExit: () => handleActionWithFeedback('cancel', onCancel),
+  });
+
+  const handleGrade = (grade) => {
+    setTempAnswer('');
+    onAnswer(grade);
+  };
 
   const highlightTags = (text) => {
     if (!text) return '';
@@ -50,9 +94,13 @@ export const LiveSession = ({ session, onCancel, showAnswer, onReveal, onAnswer 
         </h2>
         <button
           onClick={onCancel}
-          className="text-sm font-medium text-slate-400 hover:text-slate-600 dark:hover:text-slate-200 transition-colors"
+          className={`text-sm font-medium transition-colors ${
+            activeKey === 'cancel'
+              ? 'text-slate-600 dark:text-slate-200'
+              : 'text-slate-400 hover:text-slate-600 dark:hover:text-slate-200'
+          }`}
         >
-          Cancel
+          {`Cancel ${isMobile ? '' : '(Esc)'}`}
         </button>
       </div>
 
@@ -60,14 +108,7 @@ export const LiveSession = ({ session, onCancel, showAnswer, onReveal, onAnswer 
 
       <div className="flex-1 overflow-y-auto custom-scrollbar pr-2 py-4">
         <div className="mb-6 prose prose-slate prose-indigo prose-lg dark:prose-invert max-w-none font-medium text-slate-900 dark:text-white leading-relaxed">
-          <ErrorBoundary>
-            <SafeMarkdown
-              remarkPlugins={[remarkGfm, remarkMath]}
-              rehypePlugins={[rehypeKatex, rehypeRaw]}
-            >
-              {highlightTags(currentQ?.text)}
-            </SafeMarkdown>
-          </ErrorBoundary>
+          <SafeMarkdown>{highlightTags(currentQ?.text)}</SafeMarkdown>
         </div>
 
         {showAnswer ? (
@@ -78,14 +119,7 @@ export const LiveSession = ({ session, onCancel, showAnswer, onReveal, onAnswer 
                   Your Answer
                 </h3>
                 <div className="prose prose-slate prose-indigo dark:prose-invert max-w-none">
-                  <ErrorBoundary>
-                    <SafeMarkdown
-                      remarkPlugins={[remarkGfm, remarkMath]}
-                      rehypePlugins={[rehypeKatex, rehypeRaw]}
-                    >
-                      {highlightTags(tempAnswer)}
-                    </SafeMarkdown>
-                  </ErrorBoundary>
+                  <SafeMarkdown>{highlightTags(tempAnswer)}</SafeMarkdown>
                 </div>
               </div>
             )}
@@ -94,14 +128,7 @@ export const LiveSession = ({ session, onCancel, showAnswer, onReveal, onAnswer 
                 Correct Answer
               </h3>
               <div className="prose prose-slate prose-indigo prose-lg dark:prose-invert max-w-none">
-                <ErrorBoundary>
-                  <SafeMarkdown
-                    remarkPlugins={[remarkGfm, remarkMath]}
-                    rehypePlugins={[rehypeKatex, rehypeRaw]}
-                  >
-                    {highlightTags(currentQ?.answer)}
-                  </SafeMarkdown>
-                </ErrorBoundary>
+                <SafeMarkdown>{highlightTags(currentQ?.answer)}</SafeMarkdown>
               </div>
             </div>
           </div>
@@ -115,46 +142,66 @@ export const LiveSession = ({ session, onCancel, showAnswer, onReveal, onAnswer 
             />
             <button
               onClick={onReveal}
-              className="flex items-center justify-center space-x-2 py-4 border-2 border-dashed border-slate-300 dark:border-slate-600 hover:border-indigo-400 dark:hover:border-indigo-500 hover:bg-slate-50 dark:hover:bg-slate-800/50 rounded-xl text-slate-500 hover:text-indigo-600 dark:text-slate-400 dark:hover:text-indigo-400 transition-all font-medium text-lg w-full group"
+              className={`flex items-center justify-center space-x-2 py-4 border-2 border-dashed rounded-xl transition-all font-medium text-lg w-full group active:scale-95 ${
+                activeKey === 'reveal'
+                  ? 'scale-95 border-indigo-400 dark:border-indigo-500 bg-slate-50 dark:bg-slate-800/50 text-indigo-600 dark:text-indigo-400'
+                  : 'border-slate-300 dark:border-slate-600 hover:border-indigo-400 dark:hover:border-indigo-500 hover:bg-slate-50 dark:hover:bg-slate-800/50 text-slate-500 hover:text-indigo-600 dark:text-slate-400 dark:hover:text-indigo-400'
+              }`}
             >
-              <span>Reveal Answer</span>
-              <ArrowRight className="w-5 h-5 opacity-0 group-hover:opacity-100 transition-opacity -ml-4 group-hover:ml-0" />
+              <span>{`Reveal Answer ${isMobile ? '' : '(Space)'}`}</span>
+              <ArrowRight
+                className={`w-5 h-5 transition-all ${activeKey === 'reveal' ? 'opacity-100 ml-0' : 'opacity-0 group-hover:opacity-100 -ml-4 group-hover:ml-0'}`}
+              />
             </button>
           </div>
         )}
       </div>
 
       {showAnswer && (
-        <div className="mt-6 flex gap-4 animate-in slide-in-from-bottom-4 duration-300">
+        <div className="mt-6 flex gap-2 md:gap-4 animate-in slide-in-from-bottom-4 duration-300">
           <button
             onClick={() => {
-              setTempAnswer('');
-              onAnswer('incorrect');
+              handleGrade('incorrect');
             }}
-            className="flex-1 flex flex-col items-center justify-center p-4 bg-white dark:bg-slate-800 border-2 border-red-200 dark:border-red-900/50 hover:bg-red-50 dark:hover:bg-red-900/20 text-red-600 dark:text-red-400 rounded-xl transition-all active:scale-95"
+            className={`flex-1 flex flex-col items-center justify-center px-1 py-4 sm:p-4 border-2 border-red-200 dark:border-red-900/50 rounded-xl transition-all active:scale-95 text-red-600 dark:text-red-400 ${
+              activeKey === 'wrong'
+                ? 'scale-95 bg-red-50 dark:bg-red-900/20'
+                : 'hover:bg-red-50 dark:hover:bg-red-900/20'
+            }`}
+            title="Press '1' on keyboard"
           >
             <XCircle className="w-8 h-8 mb-2" />
-            <span className="font-bold">Incorrect</span>
+            <span className="font-bold">{`Incorrect ${isMobile ? '' : '(1)'}`}</span>
           </button>
+
           <button
             onClick={() => {
-              setTempAnswer('');
-              onAnswer('partially-correct');
+              handleGrade('partially-correct');
             }}
-            className="flex-1 flex flex-col items-center justify-center p-4 bg-white dark:bg-slate-800 border-2 border-amber-200 dark:border-amber-900/50 hover:bg-amber-50 dark:hover:bg-amber-900/20 text-amber-600 dark:text-amber-400 rounded-xl transition-all active:scale-95"
+            className={`flex-1 flex flex-col items-center justify-center px-1 py-4 sm:p-4 border-2 border-amber-200 dark:border-amber-900/50 rounded-xl transition-all active:scale-95 text-amber-600 dark:text-amber-400 ${
+              activeKey === 'partial'
+                ? 'scale-95 bg-amber-50 dark:bg-amber-900/20'
+                : 'hover:bg-amber-50 dark:hover:bg-amber-900/20'
+            }`}
+            title="Press '2' on keyboard"
           >
             <AlertCircle className="w-8 h-8 mb-2" />
-            <span className="font-bold text-sm">Partial</span>
+            <span className="font-bold">{`Partial ${isMobile ? '' : '(2)'}`}</span>
           </button>
+
           <button
             onClick={() => {
-              setTempAnswer('');
-              onAnswer('correct');
+              handleGrade('correct');
             }}
-            className="flex-1 flex flex-col items-center justify-center p-4 bg-white dark:bg-slate-800 border-2 border-green-200 dark:border-green-900/50 hover:bg-green-50 dark:hover:bg-green-900/20 text-green-600 dark:text-green-400 rounded-xl transition-all active:scale-95"
+            className={`flex-1 flex flex-col items-center justify-center px-1 py-4 sm:p-4 border-2 border-green-200 dark:border-green-900/50 rounded-xl transition-all active:scale-95 text-green-600 dark:text-green-400 ${
+              activeKey === 'correct'
+                ? 'scale-95 bg-green-50 dark:bg-green-900/20'
+                : 'hover:bg-green-50 dark:hover:bg-green-900/20'
+            }`}
+            title="Press '3' on keyboard"
           >
             <CheckCircle2 className="w-8 h-8 mb-2" />
-            <span className="font-bold">Correct</span>
+            <span className="font-bold">{`Correct ${isMobile ? '' : '(3)'}`}</span>
           </button>
         </div>
       )}
