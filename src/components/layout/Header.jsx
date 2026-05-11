@@ -130,7 +130,7 @@ export const Header = ({
           )}
         </div>
 
-        <div className="h-6 w-px bg-slate-300 dark:bg-slate-700 mr-3 hidden md:block"></div>
+        <div className="h-6 w-px bg-slate-300 dark:bg-slate-700 hidden md:block"></div>
 
         <button
           onClick={toggleTheme}
