@@ -1,3 +1,10 @@
+## [1.9.6](https://github.com/Tugamer89/quiz-forge/compare/v1.9.5...v1.9.6) (2026-05-11)
+
+
+### Bug Fixes
+
+* separator margin from Data & Sync button and theme button ([87aff59](https://github.com/Tugamer89/quiz-forge/commit/87aff59cf30d19ef9441bced9e927a4075dbea1b))
+
 ## [1.9.5](https://github.com/Tugamer89/quiz-forge/compare/v1.9.4...v1.9.5) (2026-05-06)
 
 
