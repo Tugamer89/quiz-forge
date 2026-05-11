@@ -1,3 +1,10 @@
+# [1.10.0](https://github.com/Tugamer89/quiz-forge/compare/v1.9.6...v1.10.0) (2026-05-11)
+
+
+### Features
+
+* Enhance components with accessibility improvements and error handling ([01e3e11](https://github.com/Tugamer89/quiz-forge/commit/01e3e1154ad9a7f102bd34b7afcb7cfb657cded4)), closes [#27](https://github.com/Tugamer89/quiz-forge/issues/27)
+
 ## [1.9.6](https://github.com/Tugamer89/quiz-forge/compare/v1.9.5...v1.9.6) (2026-05-11)
 
 
