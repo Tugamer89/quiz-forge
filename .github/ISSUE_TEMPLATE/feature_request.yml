@@ -1,7 +1,7 @@
 name: Feature Request
 description: Suggest an idea for Quiz Forge
-title: "feat: [Short description of the feature]"
-labels: ["enhancement"]
+title: 'feat: [Short description of the feature]'
+labels: ['enhancement']
 body:
   - type: markdown
     attributes:

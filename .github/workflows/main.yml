@@ -2,7 +2,7 @@ name: Production Release & Deploy
 
 on:
   push:
-    branches: ["main"]
+    branches: ['main']
     paths-ignore:
       - '**/*.md'
       - '.github/**'
@@ -14,7 +14,7 @@ on:
   workflow_dispatch:
 
 concurrency:
-  group: "pages-main"
+  group: 'pages-main'
   cancel-in-progress: true
 
 jobs:

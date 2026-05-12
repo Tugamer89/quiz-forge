@@ -13,7 +13,7 @@ jobs:
 
     steps:
       - uses: actions/checkout@v6
-      
+
       - uses: actions/setup-node@v6
         with:
           node-version: 22
@@ -37,7 +37,7 @@ jobs:
           configPath: './lighthouserc.json'
           uploadArtifacts: true
           temporaryPublicStorage: true
-      
+
       # 'if: always()' ensures the report is generated even if Lighthouse assertions fail
       - name: Format Lighthouse Score
         id: format_lighthouse_score

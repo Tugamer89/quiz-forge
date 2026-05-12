@@ -9,36 +9,36 @@ import rehypeRaw from 'rehype-raw';
 const SafeMarkdownCore = lazy(() => import('./SafeMarkdownCore'));
 
 const MarkdownPlaceholder = () => (
-  <div className="h-4 w-full max-w-50 bg-slate-100 dark:bg-slate-700 animate-pulse rounded mt-1" />
+    <div className="h-4 w-full max-w-50 bg-slate-100 dark:bg-slate-700 animate-pulse rounded mt-1" />
 );
 
 export default function SafeMarkdown({
-  children,
-  remarkPlugins = [],
-  rehypePlugins = [],
-  ...rest
+    children,
+    remarkPlugins = [],
+    rehypePlugins = [],
+    ...rest
 }) {
-  const defaultRemark = [remarkGfm, remarkMath];
-  const defaultRehype = [rehypeKatex, rehypeRaw];
+    const defaultRemark = [remarkGfm, remarkMath];
+    const defaultRehype = [rehypeKatex, rehypeRaw];
 
-  return (
-    <ErrorBoundary>
-      <Suspense fallback={<MarkdownPlaceholder />}>
-        <SafeMarkdownCore
-          {...rest}
-          remarkPlugins={[...defaultRemark, ...remarkPlugins]}
-          rehypePlugins={[...defaultRehype, ...rehypePlugins]}
-        >
-          {children}
-        </SafeMarkdownCore>
-      </Suspense>
-    </ErrorBoundary>
-  );
+    return (
+        <ErrorBoundary>
+            <Suspense fallback={<MarkdownPlaceholder />}>
+                <SafeMarkdownCore
+                    {...rest}
+                    remarkPlugins={[...defaultRemark, ...remarkPlugins]}
+                    rehypePlugins={[...defaultRehype, ...rehypePlugins]}
+                >
+                    {children}
+                </SafeMarkdownCore>
+            </Suspense>
+        </ErrorBoundary>
+    );
 }
 
 SafeMarkdown.propTypes = {
-  children: PropTypes.string.isRequired,
-  className: PropTypes.string,
-  remarkPlugins: PropTypes.array,
-  rehypePlugins: PropTypes.array,
+    children: PropTypes.string.isRequired,
+    className: PropTypes.string,
+    remarkPlugins: PropTypes.array,
+    rehypePlugins: PropTypes.array,
 };

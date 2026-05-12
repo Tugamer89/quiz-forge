@@ -1,7 +1,7 @@
 name: Bug Report
 description: Create a report to help us improve Quiz Forge
-title: "bug: [Short description of the bug]"
-labels: ["bug"]
+title: 'bug: [Short description of the bug]'
+labels: ['bug']
 body:
   - type: markdown
     attributes:
@@ -46,7 +46,7 @@ body:
     attributes:
       label: Browser & OS Environment
       description: e.g. Chrome 120 on macOS Sonoma
-      placeholder: "Browser: [e.g. Chrome, Safari], OS: [e.g. Windows 11, macOS]"
+      placeholder: 'Browser: [e.g. Chrome, Safari], OS: [e.g. Windows 11, macOS]'
     validations:
       required: true
   - type: input
@@ -54,6 +54,6 @@ body:
     attributes:
       label: Node.js Version (if running locally)
       description: What version of Node.js are you using? (Leave blank if you are using the web version)
-      placeholder: "e.g. v20.11.0"
+      placeholder: 'e.g. v20.11.0'
     validations:
       required: false
