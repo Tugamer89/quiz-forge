@@ -1,3 +1,9 @@
+## [1.12.0](https://github.com/Tugamer89/quiz-forge/compare/v1.11.0...v1.12.0) (2026-05-12)
+
+### Features
+
+* add ActivityHeatmap component and integrate activity logging ([04a287e](https://github.com/Tugamer89/quiz-forge/commit/04a287e0239474981146cc170de7b02f08e60170))
+
 ## [1.11.0](https://github.com/Tugamer89/quiz-forge/compare/v1.10.0...v1.11.0) (2026-05-12)
 
 ### Features
