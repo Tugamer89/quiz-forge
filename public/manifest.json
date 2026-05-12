@@ -1,0 +1,86 @@
+{
+  "id": "quiz-forge-pwa",
+  "name": "Quiz Forge",
+  "short_name": "Quiz Forge",
+  "description": "An advanced study app for flashcards and quizzes with Markdown support.",
+  "categories": ["education", "productivity"],
+  "lang": "en",
+  "start_url": "/quiz-forge/",
+  "scope": "/quiz-forge/",
+  "theme_color": "#4f46e5",
+  "background_color": "#f8fafc",
+  "display": "standalone",
+  "orientation": "portrait",
+  "display_override": ["window-controls-overlay", "standalone"],
+  "protocol_handlers": [
+    {
+      "protocol": "web+quizforge",
+      "url": "/quiz-forge/?action=%s"
+    }
+  ],
+  "shortcuts": [
+    {
+      "name": "Quick Review",
+      "short_name": "Review",
+      "description": "Start your study session with your expiring flashcards.",
+      "url": "/quiz-forge/?action=review",
+      "icons": [
+        {
+          "src": "manifest-icon-192.maskable.png",
+          "sizes": "192x192"
+        }
+      ]
+    },
+    {
+      "name": "Create Flashcard",
+      "short_name": "New",
+      "description": "Add a new Markdown note",
+      "url": "/quiz-forge/?action=new",
+      "icons": [
+        {
+          "src": "manifest-icon-192.maskable.png",
+          "sizes": "192x192"
+        }
+      ]
+    }
+  ],
+  "screenshots": [
+    {
+      "src": "screenshot-desktop.png",
+      "sizes": "1919x1079",
+      "type": "image/png",
+      "form_factor": "wide"
+    },
+    {
+      "src": "screenshot-mobile.png",
+      "sizes": "1082x2402",
+      "type": "image/png"
+    }
+  ],
+  "icons": [
+    {
+      "src": "manifest-icon-192.maskable.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "manifest-icon-192.maskable.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "maskable"
+    },
+    {
+      "src": "manifest-icon-512.maskable.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "manifest-icon-512.maskable.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "maskable"
+    }
+  ]
+}
