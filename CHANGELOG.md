@@ -1,3 +1,9 @@
+## [1.12.2](https://github.com/Tugamer89/quiz-forge/compare/v1.12.1...v1.12.2) (2026-05-12)
+
+### Bug Fixes
+
+* **heatmap:** added more columns to render ([6dbf6fd](https://github.com/Tugamer89/quiz-forge/commit/6dbf6fd274965d97ab3d50b5d050b93df4b9419c))
+
 ## [1.12.1](https://github.com/Tugamer89/quiz-forge/compare/v1.12.0...v1.12.1) (2026-05-12)
 
 ### Bug Fixes
