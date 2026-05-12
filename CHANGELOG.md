@@ -1,3 +1,9 @@
+## [1.11.0](https://github.com/Tugamer89/quiz-forge/compare/v1.10.0...v1.11.0) (2026-05-12)
+
+### Features
+
+* add PWA support with asset generation and manifest configuration ([ec08175](https://github.com/Tugamer89/quiz-forge/commit/ec08175c7c0f3c5cdd84d7b58413a226d67e5769)), closes [#29](https://github.com/Tugamer89/quiz-forge/issues/29)
+
 # [1.10.0](https://github.com/Tugamer89/quiz-forge/compare/v1.9.6...v1.10.0) (2026-05-11)
 
 
