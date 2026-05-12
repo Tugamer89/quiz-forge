@@ -1,3 +1,9 @@
+## [1.12.1](https://github.com/Tugamer89/quiz-forge/compare/v1.12.0...v1.12.1) (2026-05-12)
+
+### Bug Fixes
+
+* **heatmap:** force english language for months rendering ([35409aa](https://github.com/Tugamer89/quiz-forge/commit/35409aa85ca90933ba846dd21e7a4abda689727e)), closes [#26](https://github.com/Tugamer89/quiz-forge/issues/26)
+
 ## [1.12.0](https://github.com/Tugamer89/quiz-forge/compare/v1.11.0...v1.12.0) (2026-05-12)
 
 ### Features
