@@ -9,7 +9,7 @@ const getLocalYYYYMMDD = (date = new Date()) => {
 };
 
 export const ActivityHeatmap = ({ deckLog = {} }) => {
-    const COLUMNS = 24;
+    const COLUMNS = 104;
 
     const { days, currentStreak, totalCards, monthLabels } = useMemo(() => {
         const todayDate = new Date();
