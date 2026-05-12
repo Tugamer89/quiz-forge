@@ -1,7 +1,14 @@
 import { useState, useCallback } from 'react';
 import * as Sentry from '@sentry/react';
 
-export function useQuizSession(questions, setQuestions, settings, selectedDeckId, showToast) {
+export function useQuizSession(
+  questions,
+  setQuestions,
+  settings,
+  selectedDeckId,
+  showToast,
+  logActivity
+) {
   const [quizSession, setQuizSession] = useState({
     active: false,
     isFinished: false,
@@ -98,6 +105,10 @@ export function useQuizSession(questions, setQuestions, settings, selectedDeckId
           : item
       )
     );
+
+    if (logActivity) {
+      logActivity(selectedDeckId, 1);
+    }
 
     setQuizSession((prev) => {
       const nextIndex = prev.currentIndex + 1;

@@ -15,6 +15,7 @@ import {
   Italic,
   Code as CodeIcon,
 } from 'lucide-react';
+import { ActivityHeatmap } from './ActivityHeatmap';
 
 export const SidebarControls = ({
   decks,
@@ -32,6 +33,7 @@ export const SidebarControls = ({
   stats,
   activeDeckQuestionsLength,
   onGenerateQuiz,
+  deckLog,
 }) => {
   const textareaRef = useRef(null);
 
@@ -93,6 +95,8 @@ export const SidebarControls = ({
           </button>
         </div>
       </div>
+
+      <ActivityHeatmap deckLog={deckLog} />
 
       {/* Raw Text Input */}
       <div className="bg-white dark:bg-slate-800 p-5 rounded-xl shadow-sm border border-slate-200 dark:border-slate-700 transition-colors">
@@ -254,7 +258,12 @@ export const SidebarControls = ({
                       type="checkbox"
                       aria-label={`Include ${displayLabel} questions`}
                       checked={settings[key]}
-                      onChange={(e) => onSettingsChange({ ...settings, [key]: e.target.checked })}
+                      onChange={(e) =>
+                        onSettingsChange({
+                          ...settings,
+                          [key]: e.target.checked,
+                        })
+                      }
                       className="rounded w-4 h-4 cursor-pointer transition-colors"
                     />
                     <div className="flex justify-between flex-1 text-sm text-slate-600 dark:text-slate-300 group-hover:text-slate-900 dark:group-hover:text-white transition-colors">
@@ -306,4 +315,5 @@ SidebarControls.propTypes = {
   stats: PropTypes.object.isRequired,
   activeDeckQuestionsLength: PropTypes.number.isRequired,
   onGenerateQuiz: PropTypes.func.isRequired,
+  deckLog: PropTypes.object.isRequired,
 };

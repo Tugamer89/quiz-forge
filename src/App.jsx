@@ -19,16 +19,19 @@ const LiveSession = lazy(() =>
 import { useAppUI } from './hooks/useAppUI';
 import { useQuizData } from './hooks/useQuizData';
 import { useQuizSession } from './hooks/useQuizSession';
+import { useActivityLog } from './hooks/useActivityLog';
 
 export default function App() {
   const ui = useAppUI();
+  const { activityLog, logStudyActivity } = useActivityLog();
   const data = useQuizData(ui.showToast, ui.setDialog);
   const session = useQuizSession(
     data.questions,
     data.setQuestions,
     data.settings,
     data.selectedDeckId,
-    ui.showToast
+    ui.showToast,
+    logStudyActivity
   );
 
   return (
@@ -76,6 +79,7 @@ export default function App() {
               activeDeckQuestionsLength={data.activeDeckQuestions.length}
               stats={data.stats}
               onGenerateQuiz={session.generateQuiz}
+              deckLog={activityLog[data.selectedDeckId] || {}}
             />
           </div>
 
