@@ -1,12 +1,7 @@
 import { useMemo } from 'react';
 import PropTypes from 'prop-types';
 import { Flame, Activity } from 'lucide-react';
-
-const getLocalYYYYMMDD = (date = new Date()) => {
-    const offset = date.getTimezoneOffset();
-    const dateLocal = new Date(date.getTime() - offset * 60 * 1000);
-    return dateLocal.toISOString().split('T')[0];
-};
+import { getLocalYYYYMMDD } from '../../utils/helpers';
 
 export const ActivityHeatmap = ({ deckLog = {} }) => {
     const COLUMNS = 104;
@@ -24,6 +19,7 @@ export const ActivityHeatmap = ({ deckLog = {} }) => {
             const d = new Date(todayDate);
             d.setDate(todayDate.getDate() - i);
             const dateStr = getLocalYYYYMMDD(d);
+            if (!dateStr) continue;
             const count = deckLog[dateStr] || 0;
             daysArray.push({ date: dateStr, count, nativeDate: d });
             total += count;
@@ -53,6 +49,7 @@ export const ActivityHeatmap = ({ deckLog = {} }) => {
         }
         while (true) {
             const dStr = getLocalYYYYMMDD(checkDate);
+            if (!dStr) break;
             if (deckLog[dStr] > 0) {
                 streak++;
                 checkDate.setDate(checkDate.getDate() - 1);

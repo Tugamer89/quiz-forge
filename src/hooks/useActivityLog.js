@@ -1,11 +1,6 @@
 import { useCallback } from 'react';
 import { useLocalStorage } from './useLocalStorage';
-
-const getLocalYYYYMMDD = (date = new Date()) => {
-    const offset = date.getTimezoneOffset();
-    const dateLocal = new Date(date.getTime() - offset * 60 * 1000);
-    return dateLocal.toISOString().split('T')[0];
-};
+import { getLocalYYYYMMDD } from '../utils/helpers';
 
 export function useActivityLog() {
     const [activityLog, setActivityLog] = useLocalStorage('quiz_activity_log', {});
@@ -14,6 +9,7 @@ export function useActivityLog() {
         (deckId, count = 1) => {
             if (!deckId) return;
             const today = getLocalYYYYMMDD();
+            if (!today) return;
 
             setActivityLog((prev) => {
                 const deckLog = prev[deckId] || {};
