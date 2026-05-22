@@ -199,6 +199,7 @@ export const SidebarControls = ({
                             <input
                                 type="checkbox"
                                 className="sr-only peer"
+                                aria-label="Toggle Spaced Repetition"
                                 checked={settings.srsEnabled || false}
                                 onChange={(e) =>
                                     onSettingsChange({ ...settings, srsEnabled: e.target.checked })

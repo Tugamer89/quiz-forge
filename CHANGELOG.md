@@ -1,3 +1,21 @@
+## [1.12.6](https://github.com/Tugamer89/quiz-forge/compare/v1.12.5...v1.12.6) (2026-05-22)
+
+### Performance Improvements
+
+* prevent unnecessary re-renders in DeckOverview ([#40](https://github.com/Tugamer89/quiz-forge/issues/40)) ([0decb71](https://github.com/Tugamer89/quiz-forge/commit/0decb71fb3c5ab1b23eebcd08e7b1648826b6df6))
+
+## [1.12.5](https://github.com/Tugamer89/quiz-forge/compare/v1.12.4...v1.12.5) (2026-05-22)
+
+### Bug Fixes
+
+* **security:** [MEDIUM] add security headers to nginx configuration ([#38](https://github.com/Tugamer89/quiz-forge/issues/38)) ([917f093](https://github.com/Tugamer89/quiz-forge/commit/917f093b897c5b1246b0a338a8b877e5ee35468f))
+
+## [1.12.4](https://github.com/Tugamer89/quiz-forge/compare/v1.12.3...v1.12.4) (2026-05-22)
+
+### Bug Fixes
+
+* **ui:** add aria-labels to input elements for better accessibility ([#39](https://github.com/Tugamer89/quiz-forge/issues/39)) ([f5c5a9b](https://github.com/Tugamer89/quiz-forge/commit/f5c5a9bd04471f57fcd520423f23e4ebee7b890e))
+
 ## [1.12.3](https://github.com/Tugamer89/quiz-forge/compare/v1.12.2...v1.12.3) (2026-05-22)
 
 ### Bug Fixes

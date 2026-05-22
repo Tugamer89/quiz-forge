@@ -1,4 +1,4 @@
-import { useState, useMemo } from 'react';
+import { useState, useMemo, memo } from 'react';
 import PropTypes from 'prop-types';
 import {
     BookOpen,
@@ -14,7 +14,8 @@ import {
 } from 'lucide-react';
 import SafeMarkdown from '../SafeMarkdown';
 
-export const DeckOverview = ({ questions, stats, onMarkQuestion }) => {
+// perf: Wrapped DeckOverview in React.memo to prevent unnecessary re-renders when parent state changes (e.g., when user is typing in SidebarControls)
+export const DeckOverview = memo(({ questions, stats, onMarkQuestion }) => {
     const [searchTerm, setSearchTerm] = useState('');
     const [selectedTags, setSelectedTags] = useState([]);
     const [expandedId, setExpandedId] = useState(null);
@@ -68,6 +69,7 @@ export const DeckOverview = ({ questions, stats, onMarkQuestion }) => {
                         <input
                             type="text"
                             placeholder="Search questions..."
+                            aria-label="Search questions"
                             value={searchTerm}
                             onChange={(e) => setSearchTerm(e.target.value)}
                             className="w-full pl-10 pr-4 py-2 bg-slate-50 dark:bg-slate-900 border border-slate-300 dark:border-slate-600 rounded-lg text-sm focus:ring-2 focus:ring-indigo-500 outline-none transition-colors dark:text-white"
@@ -218,7 +220,7 @@ export const DeckOverview = ({ questions, stats, onMarkQuestion }) => {
             )}
         </div>
     );
-};
+});
 
 DeckOverview.propTypes = {
     questions: PropTypes.array.isRequired,
