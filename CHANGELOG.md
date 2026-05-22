@@ -1,3 +1,9 @@
+## [1.12.7](https://github.com/Tugamer89/quiz-forge/compare/v1.12.6...v1.12.7) (2026-05-22)
+
+### Bug Fixes
+
+* Add security headers ([#41](https://github.com/Tugamer89/quiz-forge/issues/41)) ([1a9e3d5](https://github.com/Tugamer89/quiz-forge/commit/1a9e3d5a6ed9a1b1974203502490ef22636b428a))
+
 ## [1.12.6](https://github.com/Tugamer89/quiz-forge/compare/v1.12.5...v1.12.6) (2026-05-22)
 
 ### Performance Improvements
