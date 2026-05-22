@@ -242,9 +242,10 @@ export function useQuizData(showToast, setDialog) {
         }
     };
 
-    const handleMarkQuestion = (id, status) => {
+    // perf: Wrap handleMarkQuestion in useCallback to prevent unnecessary re-renders of child components like DeckOverview
+    const handleMarkQuestion = useCallback((id, status) => {
         setQuestions(setQuestionStatus(id, status));
-    };
+    }, [setQuestions]);
 
     return {
         decks,
