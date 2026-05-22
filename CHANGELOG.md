@@ -1,3 +1,9 @@
+## [1.12.5](https://github.com/Tugamer89/quiz-forge/compare/v1.12.4...v1.12.5) (2026-05-22)
+
+### Bug Fixes
+
+* **security:** [MEDIUM] add security headers to nginx configuration ([#38](https://github.com/Tugamer89/quiz-forge/issues/38)) ([917f093](https://github.com/Tugamer89/quiz-forge/commit/917f093b897c5b1246b0a338a8b877e5ee35468f))
+
 ## [1.12.4](https://github.com/Tugamer89/quiz-forge/compare/v1.12.3...v1.12.4) (2026-05-22)
 
 ### Bug Fixes
