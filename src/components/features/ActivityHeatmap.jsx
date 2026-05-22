@@ -1,11 +1,70 @@
 import { useMemo } from 'react';
 import PropTypes from 'prop-types';
 import { Flame, Activity } from 'lucide-react';
+import { getLocalYYYYMMDD } from '../../utils/helpers';
 
-const getLocalYYYYMMDD = (date = new Date()) => {
-    const offset = date.getTimezoneOffset();
-    const dateLocal = new Date(date.getTime() - offset * 60 * 1000);
-    return dateLocal.toISOString().split('T')[0];
+const buildHeatmapData = (deckLog, todayDate, columns) => {
+    const daysArray = [];
+    const todayStr = getLocalYYYYMMDD(todayDate);
+    let total = 0;
+
+    const totalDaysToShow = columns * 7 - 1;
+
+    for (let i = totalDaysToShow; i >= 0; i--) {
+        const d = new Date(todayDate);
+        d.setDate(todayDate.getDate() - i);
+        const dateStr = getLocalYYYYMMDD(d);
+        if (!dateStr) continue;
+
+        const count = deckLog[dateStr] || 0;
+        daysArray.push({ date: dateStr, count, nativeDate: d });
+        total += count;
+    }
+
+    return { daysArray, total, todayStr };
+};
+
+const getMonthLabels = (daysArray, columns) => {
+    const labels = [];
+    let lastMonth = -1;
+
+    for (let i = 0; i < columns; i++) {
+        const dayIndex = i * 7;
+        if (dayIndex >= daysArray.length) continue;
+
+        const date = daysArray[dayIndex].nativeDate;
+        const month = date.getMonth();
+        if (month === lastMonth) continue;
+
+        labels.push({
+            name: date.toLocaleString('en-US', { month: 'short' }),
+            index: i,
+        });
+        lastMonth = month;
+    }
+
+    return labels;
+};
+
+const getCurrentStreak = (deckLog, todayDate, todayStr) => {
+    let streak = 0;
+    const checkDate = new Date(todayDate);
+
+    if (!deckLog[todayStr]) {
+        checkDate.setDate(checkDate.getDate() - 1);
+    }
+
+    let safetyLimit = 5000;
+    while (safetyLimit > 0) {
+        const dStr = getLocalYYYYMMDD(checkDate);
+        if (!dStr || deckLog[dStr] <= 0) break;
+
+        checkDate.setDate(checkDate.getDate() - 1);
+        streak++;
+        safetyLimit--;
+    }
+
+    return streak;
 };
 
 export const ActivityHeatmap = ({ deckLog = {} }) => {
@@ -13,53 +72,9 @@ export const ActivityHeatmap = ({ deckLog = {} }) => {
 
     const { days, currentStreak, totalCards, monthLabels } = useMemo(() => {
         const todayDate = new Date();
-        const daysArray = [];
-        const todayStr = getLocalYYYYMMDD(todayDate);
-        let streak = 0;
-        let total = 0;
-
-        const totalDaysToShow = COLUMNS * 7 - 1;
-
-        for (let i = totalDaysToShow; i >= 0; i--) {
-            const d = new Date(todayDate);
-            d.setDate(todayDate.getDate() - i);
-            const dateStr = getLocalYYYYMMDD(d);
-            const count = deckLog[dateStr] || 0;
-            daysArray.push({ date: dateStr, count, nativeDate: d });
-            total += count;
-        }
-
-        const labels = [];
-        let lastMonth = -1;
-
-        for (let i = 0; i < COLUMNS; i++) {
-            const dayIndex = i * 7;
-            if (dayIndex < daysArray.length) {
-                const date = daysArray[dayIndex].nativeDate;
-                const month = date.getMonth();
-                if (month !== lastMonth) {
-                    labels.push({
-                        name: date.toLocaleString('en-US', { month: 'short' }),
-                        index: i,
-                    });
-                    lastMonth = month;
-                }
-            }
-        }
-
-        let checkDate = new Date(todayDate);
-        if (!deckLog[todayStr]) {
-            checkDate.setDate(checkDate.getDate() - 1);
-        }
-        while (true) {
-            const dStr = getLocalYYYYMMDD(checkDate);
-            if (deckLog[dStr] > 0) {
-                streak++;
-                checkDate.setDate(checkDate.getDate() - 1);
-            } else {
-                break;
-            }
-        }
+        const { daysArray, total, todayStr } = buildHeatmapData(deckLog, todayDate, COLUMNS);
+        const labels = getMonthLabels(daysArray, COLUMNS);
+        const streak = getCurrentStreak(deckLog, todayDate, todayStr);
 
         return { days: daysArray, currentStreak: streak, totalCards: total, monthLabels: labels };
     }, [deckLog]);

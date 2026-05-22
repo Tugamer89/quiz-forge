@@ -1,4 +1,4 @@
-import { Suspense, lazy } from 'react';
+import { Suspense, lazy, useMemo } from 'react';
 
 import { CustomDialog } from './components/CustomDialog';
 import { Toast } from './components/Toast';
@@ -25,6 +25,9 @@ export default function App() {
     const ui = useAppUI();
     const { activityLog, logStudyActivity } = useActivityLog();
     const data = useQuizData(ui.showToast, ui.setDialog);
+    const currentDeckLog = useMemo(() => {
+        return activityLog[data.selectedDeckId] || {};
+    }, [activityLog, data.selectedDeckId]);
     const session = useQuizSession(
         data.questions,
         data.setQuestions,
@@ -79,7 +82,7 @@ export default function App() {
                             activeDeckQuestionsLength={data.activeDeckQuestions.length}
                             stats={data.stats}
                             onGenerateQuiz={session.generateQuiz}
-                            deckLog={activityLog[data.selectedDeckId] || {}}
+                            deckLog={currentDeckLog}
                         />
                     </div>
 
