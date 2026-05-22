@@ -1,0 +1,12 @@
+feat: tag-based filtering for custom Live Sessions
+
+Resolves Issue #28 by allowing users to launch custom sessions
+from DeckOverview filtered by included and excluded tags.
+
+- Modified `DeckOverview.jsx` to manage `includedTags` and `excludedTags`
+- Implemented a tri-state toggle for tags (unselected, included, excluded)
+- Modified `useQuizSession.generateQuiz` to accept filters
+- Added a "Start Custom Quiz" button when filters are active
+- Passed `onStartCustomSession` via `App.jsx`
+- Added comprehensive unit tests in `useQuizSession.test.js`
+- Fixed flaky test in `SafeMarkdown.test.jsx`

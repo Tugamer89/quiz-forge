@@ -1,3 +1,5 @@
+#!/bin/bash
+cat << 'INNER_EOF' > src/App.jsx
 import { Suspense, lazy, useMemo } from 'react';
 
 import { CustomDialog } from './components/CustomDialog';
@@ -99,9 +101,7 @@ export default function App() {
                                         questions={data.activeDeckQuestions}
                                         stats={data.stats}
                                         onMarkQuestion={data.handleMarkQuestion}
-                                        onStartCustomSession={(filters) =>
-                                            session.generateQuiz(filters)
-                                        }
+                                        onStartCustomSession={(filters) => session.generateQuiz(filters)}
                                     />
                                 )}
                             </Suspense>
@@ -114,3 +114,4 @@ export default function App() {
         </div>
     );
 }
+INNER_EOF

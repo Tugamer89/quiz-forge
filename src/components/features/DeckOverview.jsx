@@ -11,12 +11,14 @@ import {
     ChevronDown,
     ChevronUp,
     AlertCircle,
+    Play,
 } from 'lucide-react';
 import SafeMarkdown from '../SafeMarkdown';
 
-export const DeckOverview = ({ questions, stats, onMarkQuestion }) => {
+export const DeckOverview = ({ questions, stats, onMarkQuestion, onStartCustomSession }) => {
     const [searchTerm, setSearchTerm] = useState('');
-    const [selectedTags, setSelectedTags] = useState([]);
+    const [includedTags, setIncludedTags] = useState([]);
+    const [excludedTags, setExcludedTags] = useState([]);
     const [expandedId, setExpandedId] = useState(null);
 
     const allTags = useMemo(() => {
@@ -30,24 +32,40 @@ export const DeckOverview = ({ questions, stats, onMarkQuestion }) => {
             const matchesSearch =
                 q.text.toLowerCase().includes(searchTerm.toLowerCase()) ||
                 q.answer.toLowerCase().includes(searchTerm.toLowerCase());
-            const matchesTag = selectedTags.every((t) => q.tags?.includes(t));
-            return matchesSearch && matchesTag;
+
+            const matchesIncluded =
+                includedTags.length === 0 || includedTags.every((t) => q.tags?.includes(t));
+            const matchesExcluded =
+                excludedTags.length === 0 || !excludedTags.some((t) => q.tags?.includes(t));
+
+            return matchesSearch && matchesIncluded && matchesExcluded;
         });
-    }, [questions, searchTerm, selectedTags]);
+    }, [questions, searchTerm, includedTags, excludedTags]);
 
     const toggleTag = (tag) => {
         if (tag === null) {
-            setSelectedTags([]);
+            setIncludedTags([]);
+            setExcludedTags([]);
         } else {
-            setSelectedTags((prev) =>
-                prev.includes(tag) ? prev.filter((t) => t !== tag) : [...prev, tag]
-            );
+            const isIncluded = includedTags.includes(tag);
+            const isExcluded = excludedTags.includes(tag);
+
+            if (isIncluded) {
+                setIncludedTags((prev) => prev.filter((t) => t !== tag));
+                setExcludedTags((prev) => [...prev, tag]);
+            } else if (isExcluded) {
+                setExcludedTags((prev) => prev.filter((t) => t !== tag));
+            } else {
+                setIncludedTags((prev) => [...prev, tag]);
+            }
         }
     };
 
     const toggleExpand = (id) => {
         setExpandedId(expandedId === id ? null : id);
     };
+
+    const isCustomSessionActive = includedTags.length > 0 || excludedTags.length > 0;
 
     return (
         <div className="bg-white dark:bg-slate-800 p-6 rounded-xl shadow-sm border border-slate-200 dark:border-slate-700 transition-colors flex flex-col h-full min-h-125">
@@ -56,50 +74,82 @@ export const DeckOverview = ({ questions, stats, onMarkQuestion }) => {
                     <BookOpen className="w-5 h-5 text-indigo-500 dark:text-indigo-400 mr-2" />
                     Deck Overview
                 </h2>
-                <span className="bg-slate-100 dark:bg-slate-700 text-slate-600 dark:text-slate-300 text-sm font-semibold px-3 py-1 rounded-full">
-                    {stats.total} Total
-                </span>
+                <div className="flex space-x-2 text-sm text-slate-500 dark:text-slate-400 font-medium bg-slate-50 dark:bg-slate-900 px-3 py-1.5 rounded-lg border border-slate-200 dark:border-slate-600">
+                    <span>
+                        Total:{' '}
+                        <span className="text-slate-700 dark:text-slate-200 font-bold">
+                            {stats.total}
+                        </span>
+                    </span>
+                </div>
             </div>
 
             {questions.length > 0 && (
                 <div className="mb-4 space-y-3">
-                    <div className="relative">
-                        <Search className="w-5 h-5 absolute left-3 top-1/2 transform -translate-y-1/2 text-slate-400" />
-                        <input
-                            type="text"
-                            placeholder="Search questions..."
-                            aria-label="Search questions"
-                            value={searchTerm}
-                            onChange={(e) => setSearchTerm(e.target.value)}
-                            className="w-full pl-10 pr-4 py-2 bg-slate-50 dark:bg-slate-900 border border-slate-300 dark:border-slate-600 rounded-lg text-sm focus:ring-2 focus:ring-indigo-500 outline-none transition-colors dark:text-white"
-                        />
+                    <div className="flex gap-3 mb-2 flex-col md:flex-row md:items-center">
+                        <div className="relative flex-1">
+                            <Search className="w-5 h-5 absolute left-3 top-1/2 transform -translate-y-1/2 text-slate-400" />
+                            <input
+                                type="text"
+                                placeholder="Search questions..."
+                                aria-label="Search questions"
+                                value={searchTerm}
+                                onChange={(e) => setSearchTerm(e.target.value)}
+                                className="w-full pl-10 pr-4 py-2 bg-slate-50 dark:bg-slate-900 border border-slate-300 dark:border-slate-600 rounded-lg text-sm focus:ring-2 focus:ring-indigo-500 outline-none transition-colors dark:text-white"
+                            />
+                        </div>
+                        {isCustomSessionActive && (
+                            <button
+                                onClick={() => onStartCustomSession({ includedTags, excludedTags })}
+                                className="flex items-center justify-center space-x-2 px-4 py-2 bg-indigo-600 hover:bg-indigo-700 text-white font-medium rounded-lg transition-colors whitespace-nowrap shadow-sm text-sm"
+                            >
+                                <Play className="w-4 h-4 fill-current" />
+                                <span>Start Custom Quiz</span>
+                            </button>
+                        )}
                     </div>
 
                     {allTags.length > 0 && (
-                        <div className="flex flex-wrap gap-2">
+                        <div className="flex flex-wrap gap-2 items-center">
                             <button
                                 onClick={() => toggleTag(null)}
                                 className={`px-3 py-1 text-xs font-medium rounded-full transition-colors ${
-                                    selectedTags.length === 0
+                                    !isCustomSessionActive
                                         ? 'bg-indigo-500 text-white'
                                         : 'bg-slate-100 text-slate-600 dark:bg-slate-700 dark:text-slate-300 hover:bg-slate-200 dark:hover:bg-slate-600'
                                 }`}
                             >
                                 All
                             </button>
-                            {allTags.map((tag) => (
-                                <button
-                                    key={tag}
-                                    onClick={() => toggleTag(tag)}
-                                    className={`px-3 py-1 text-xs font-medium flex items-center rounded-full transition-colors ${
-                                        selectedTags.includes(tag)
-                                            ? 'bg-indigo-500 text-white'
-                                            : 'bg-slate-100 text-slate-600 dark:bg-slate-700 dark:text-slate-300 hover:bg-slate-200 dark:hover:bg-slate-600'
-                                    }`}
-                                >
-                                    {tag}
-                                </button>
-                            ))}
+                            {allTags.map((tag) => {
+                                const isIncluded = includedTags.includes(tag);
+                                const isExcluded = excludedTags.includes(tag);
+
+                                let tagStyle =
+                                    'bg-slate-100 text-slate-600 dark:bg-slate-700 dark:text-slate-300 hover:bg-slate-200 dark:hover:bg-slate-600';
+                                if (isIncluded) {
+                                    tagStyle = 'bg-indigo-500 text-white';
+                                } else if (isExcluded) {
+                                    tagStyle = 'bg-red-500 text-white line-through';
+                                }
+
+                                return (
+                                    <button
+                                        key={tag}
+                                        onClick={() => toggleTag(tag)}
+                                        className={`px-3 py-1 text-xs font-medium flex items-center rounded-full transition-colors ${tagStyle}`}
+                                        title={
+                                            isIncluded
+                                                ? 'Included'
+                                                : isExcluded
+                                                  ? 'Excluded'
+                                                  : 'Unselected'
+                                        }
+                                    >
+                                        {tag}
+                                    </button>
+                                );
+                            })}
                         </div>
                     )}
                 </div>
@@ -225,4 +275,5 @@ DeckOverview.propTypes = {
     questions: PropTypes.array.isRequired,
     stats: PropTypes.object.isRequired,
     onMarkQuestion: PropTypes.func.isRequired,
+    onStartCustomSession: PropTypes.func,
 };

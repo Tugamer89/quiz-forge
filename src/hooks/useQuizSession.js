@@ -20,9 +20,17 @@ export function useQuizSession(
     });
     const [showAnswer, setShowAnswer] = useState(false);
 
-    const generateQuiz = () => {
+    const generateQuiz = ({ includedTags = [], excludedTags = [] } = {}) => {
         const eligible = questions.filter((q) => {
             if (q.deckId !== selectedDeckId) return false;
+
+            if (includedTags.length > 0 && !includedTags.every((t) => q.tags?.includes(t))) {
+                return false;
+            }
+
+            if (excludedTags.length > 0 && excludedTags.some((t) => q.tags?.includes(t))) {
+                return false;
+            }
 
             if (settings.srsEnabled) {
                 if (!q.nextReviewDate) return true;
