@@ -1,5 +1,5 @@
 export const getLocalYYYYMMDD = (date = new Date()) => {
-    if (!(date instanceof Date) || isNaN(date.getTime())) return null;
+    if (!(date instanceof Date) || Number.isNaN(date.getTime())) return null;
     const offset = date.getTimezoneOffset();
     const dateLocal = new Date(date.getTime() - offset * 60 * 1000);
     return dateLocal.toISOString().split('T')[0];
