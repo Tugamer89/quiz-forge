@@ -46,6 +46,7 @@ export const CustomDialog = ({ dialog, onClose }) => {
             {dialog.type === 'prompt' && (
                 <input
                     autoFocus
+                    aria-label={dialog.message || dialog.title}
                     value={inputVal}
                     onChange={(e) => setInputVal(e.target.value)}
                     onKeyDown={(e) => e.key === 'Enter' && handleConfirm()}
