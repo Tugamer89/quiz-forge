@@ -1,3 +1,9 @@
+## [1.12.3](https://github.com/Tugamer89/quiz-forge/compare/v1.12.2...v1.12.3) (2026-05-22)
+
+### Bug Fixes
+
+* **activity:** Handle invalid dates in activity logging and heatmap ([#34](https://github.com/Tugamer89/quiz-forge/issues/34)) ([1e17d56](https://github.com/Tugamer89/quiz-forge/commit/1e17d56dcad7234d661af49091768c138657946a))
+
 ## [1.12.2](https://github.com/Tugamer89/quiz-forge/compare/v1.12.1...v1.12.2) (2026-05-12)
 
 ### Bug Fixes
