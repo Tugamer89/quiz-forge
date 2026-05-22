@@ -1,3 +1,9 @@
+## [1.12.6](https://github.com/Tugamer89/quiz-forge/compare/v1.12.5...v1.12.6) (2026-05-22)
+
+### Performance Improvements
+
+* prevent unnecessary re-renders in DeckOverview ([#40](https://github.com/Tugamer89/quiz-forge/issues/40)) ([0decb71](https://github.com/Tugamer89/quiz-forge/commit/0decb71fb3c5ab1b23eebcd08e7b1648826b6df6))
+
 ## [1.12.5](https://github.com/Tugamer89/quiz-forge/compare/v1.12.4...v1.12.5) (2026-05-22)
 
 ### Bug Fixes
