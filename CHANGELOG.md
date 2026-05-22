@@ -1,3 +1,9 @@
+## [1.12.4](https://github.com/Tugamer89/quiz-forge/compare/v1.12.3...v1.12.4) (2026-05-22)
+
+### Bug Fixes
+
+* **ui:** add aria-labels to input elements for better accessibility ([#39](https://github.com/Tugamer89/quiz-forge/issues/39)) ([f5c5a9b](https://github.com/Tugamer89/quiz-forge/commit/f5c5a9bd04471f57fcd520423f23e4ebee7b890e))
+
 ## [1.12.3](https://github.com/Tugamer89/quiz-forge/compare/v1.12.2...v1.12.3) (2026-05-22)
 
 ### Bug Fixes
