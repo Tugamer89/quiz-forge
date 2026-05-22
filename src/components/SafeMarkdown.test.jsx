@@ -14,8 +14,10 @@ describe('SafeMarkdown Component (Lazy & Suspense)', () => {
         const markdown = '# Hello World\nThis is **bold** text';
         render(<SafeMarkdown>{markdown}</SafeMarkdown>);
 
-        const heading = await screen.findByText('Hello World');
-        expect(heading.tagName).toBe('H1');
+        await waitFor(() => {
+            const heading = screen.getByRole('heading', { level: 1 });
+            expect(heading).toHaveTextContent('Hello World');
+        });
     });
 
     it('renders bold text correctly after loading', async () => {
