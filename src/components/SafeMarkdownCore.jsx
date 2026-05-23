@@ -17,9 +17,12 @@ export default function SafeMarkdownCore({ children, remarkPlugins, rehypePlugin
 
     const preRemoveWrapper = ({ children }) => <>{children}</>;
 
-    const aRemoveWrapper = ({ ...rest }) => (
-        <a target="_blank" rel="noopener noreferrer" {...rest} />
-    );
+    const aRemoveWrapper = ({ href, ...rest }) => {
+        if (href && href.trim().toLowerCase().startsWith('javascript:')) {
+            return <a target="_blank" rel="noopener noreferrer" {...rest} />;
+        }
+        return <a href={href} target="_blank" rel="noopener noreferrer" {...rest} />;
+    };
 
     return (
         <ReactMarkdown
