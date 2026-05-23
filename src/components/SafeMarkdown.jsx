@@ -12,7 +12,6 @@ const MarkdownPlaceholder = () => (
     <div className="h-4 w-full max-w-50 bg-slate-100 dark:bg-slate-700 animate-pulse rounded mt-1" />
 );
 
-// perf: Wrapped SafeMarkdown in React.memo to prevent unnecessary re-renders of expensive markdown parsing, especially during live session text input or expanding/collapsing questions
 const SafeMarkdown = memo(function SafeMarkdown({
     children,
     remarkPlugins = [],
