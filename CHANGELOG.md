@@ -1,3 +1,19 @@
+## [1.13.0](https://github.com/Tugamer89/quiz-forge/compare/v1.12.7...v1.13.0) (2026-05-23)
+
+### Features
+
+* **ui:** add focus states and aria labels to LiveSession buttons and fix flaky test ([#45](https://github.com/Tugamer89/quiz-forge/issues/45)) ([5661b39](https://github.com/Tugamer89/quiz-forge/commit/5661b397043f1b269bcde8393fe3bbdc57fb56b3))
+
+### Bug Fixes
+
+* revert changes ([59a6631](https://github.com/Tugamer89/quiz-forge/commit/59a6631a198105fe47b0ce236781ab058646cde1))
+* **security:** [MEDIUM] add defense in depth XSS prevention for links ([#44](https://github.com/Tugamer89/quiz-forge/issues/44)) ([1627003](https://github.com/Tugamer89/quiz-forge/commit/1627003d8f8bd573c78db7a3e74684c8fb8dd3ad))
+* update GitHub App Token usage in workflow for improved security ([251f62d](https://github.com/Tugamer89/quiz-forge/commit/251f62d0ca96bb3751232a34c8f3467ce14fff0a))
+
+### Performance Improvements
+
+* Wrap SafeMarkdown with React.memo ([#43](https://github.com/Tugamer89/quiz-forge/issues/43)) ([c3c430d](https://github.com/Tugamer89/quiz-forge/commit/c3c430d0316f956bf2414f8a87400a43bc20fd1f))
+
 ## [1.12.7](https://github.com/Tugamer89/quiz-forge/compare/v1.12.6...v1.12.7) (2026-05-22)
 
 ### Bug Fixes
