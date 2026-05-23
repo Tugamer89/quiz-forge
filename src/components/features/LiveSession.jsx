@@ -135,6 +135,7 @@ export const LiveSession = ({ session, onCancel, showAnswer, onReveal, onAnswer 
                 ) : (
                     <div className="mt-6 flex flex-col space-y-4">
                         <textarea
+                            aria-label="Your answer"
                             className="w-full p-4 border-2 border-slate-200 dark:border-slate-700 rounded-xl bg-white dark:bg-slate-900 text-slate-800 dark:text-white focus:border-indigo-500 focus:outline-none focus:ring-2 focus:ring-indigo-200 dark:focus:ring-indigo-900/50 transition-all resize-y min-h-30"
                             placeholder="Type your answer here to compare it..."
                             value={tempAnswer}
@@ -163,12 +164,13 @@ export const LiveSession = ({ session, onCancel, showAnswer, onReveal, onAnswer 
                         onClick={() => {
                             handleGrade('incorrect');
                         }}
-                        className={`flex-1 flex flex-col items-center justify-center px-1 py-4 sm:p-4 border-2 border-red-200 dark:border-red-900/50 rounded-xl transition-all active:scale-95 text-red-600 dark:text-red-400 ${
+                        className={`flex-1 flex flex-col items-center justify-center px-1 py-4 sm:p-4 border-2 border-red-200 dark:border-red-900/50 rounded-xl transition-all active:scale-95 text-red-600 dark:text-red-400 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-red-500 dark:focus-visible:ring-offset-slate-800 ${
                             activeKey === 'wrong'
                                 ? 'scale-95 bg-red-50 dark:bg-red-900/20'
                                 : 'hover:bg-red-50 dark:hover:bg-red-900/20'
                         }`}
                         title="Press '1' on keyboard"
+                        aria-keyshortcuts="1"
                     >
                         <XCircle className="w-8 h-8 mb-2" />
                         <span className="font-bold">{`Incorrect ${isMobile ? '' : '(1)'}`}</span>
@@ -178,12 +180,13 @@ export const LiveSession = ({ session, onCancel, showAnswer, onReveal, onAnswer 
                         onClick={() => {
                             handleGrade('partially-correct');
                         }}
-                        className={`flex-1 flex flex-col items-center justify-center px-1 py-4 sm:p-4 border-2 border-amber-200 dark:border-amber-900/50 rounded-xl transition-all active:scale-95 text-amber-600 dark:text-amber-400 ${
+                        className={`flex-1 flex flex-col items-center justify-center px-1 py-4 sm:p-4 border-2 border-amber-200 dark:border-amber-900/50 rounded-xl transition-all active:scale-95 text-amber-600 dark:text-amber-400 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-amber-500 dark:focus-visible:ring-offset-slate-800 ${
                             activeKey === 'partial'
                                 ? 'scale-95 bg-amber-50 dark:bg-amber-900/20'
                                 : 'hover:bg-amber-50 dark:hover:bg-amber-900/20'
                         }`}
                         title="Press '2' on keyboard"
+                        aria-keyshortcuts="2"
                     >
                         <AlertCircle className="w-8 h-8 mb-2" />
                         <span className="font-bold">{`Partial ${isMobile ? '' : '(2)'}`}</span>
@@ -193,12 +196,13 @@ export const LiveSession = ({ session, onCancel, showAnswer, onReveal, onAnswer 
                         onClick={() => {
                             handleGrade('correct');
                         }}
-                        className={`flex-1 flex flex-col items-center justify-center px-1 py-4 sm:p-4 border-2 border-green-200 dark:border-green-900/50 rounded-xl transition-all active:scale-95 text-green-600 dark:text-green-400 ${
+                        className={`flex-1 flex flex-col items-center justify-center px-1 py-4 sm:p-4 border-2 border-green-200 dark:border-green-900/50 rounded-xl transition-all active:scale-95 text-green-600 dark:text-green-400 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-green-500 dark:focus-visible:ring-offset-slate-800 ${
                             activeKey === 'correct'
                                 ? 'scale-95 bg-green-50 dark:bg-green-900/20'
                                 : 'hover:bg-green-50 dark:hover:bg-green-900/20'
                         }`}
                         title="Press '3' on keyboard"
+                        aria-keyshortcuts="3"
                     >
                         <CheckCircle2 className="w-8 h-8 mb-2" />
                         <span className="font-bold">{`Correct ${isMobile ? '' : '(3)'}`}</span>
