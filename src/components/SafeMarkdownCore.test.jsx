@@ -39,4 +39,15 @@ describe('SafeMarkdown Component', () => {
         const elementWithOnError = container.querySelector('[onerror]');
         expect(elementWithOnError).toBeNull();
     });
+
+    it('blocks malicious javascript href (Defense-in-Depth XSS Prevention)', () => {
+        const maliciousInput = '[Click me](javascript:alert("XSS"))';
+        const { container } = render(
+            <SafeMarkdownCore rehypePlugins={[rehypeRaw]}>{maliciousInput}</SafeMarkdownCore>
+        );
+
+        const aTag = container.querySelector('a');
+        expect(aTag).toBeInTheDocument();
+        expect(aTag.getAttribute('href')).toBeNull();
+    });
 });

@@ -1,4 +1,4 @@
-import { useState, useMemo } from 'react';
+import { useState, useMemo, memo } from 'react';
 import PropTypes from 'prop-types';
 import {
     BookOpen,
@@ -15,7 +15,8 @@ import {
 } from 'lucide-react';
 import SafeMarkdown from '../SafeMarkdown';
 
-export const DeckOverview = ({ questions, stats, onMarkQuestion, onStartCustomSession }) => {
+// perf: Wrapped DeckOverview in React.memo to prevent unnecessary re-renders when parent state changes (e.g., when user is typing in SidebarControls)
+export const DeckOverview = memo(({ questions, stats, onMarkQuestion }) => {
     const [searchTerm, setSearchTerm] = useState('');
     const [includedTags, setIncludedTags] = useState([]);
     const [excludedTags, setExcludedTags] = useState([]);
@@ -269,7 +270,7 @@ export const DeckOverview = ({ questions, stats, onMarkQuestion, onStartCustomSe
             )}
         </div>
     );
-};
+});
 
 DeckOverview.propTypes = {
     questions: PropTypes.array.isRequired,

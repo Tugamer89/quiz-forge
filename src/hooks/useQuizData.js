@@ -242,9 +242,12 @@ export function useQuizData(showToast, setDialog) {
         }
     };
 
-    const handleMarkQuestion = (id, status) => {
-        setQuestions(setQuestionStatus(id, status));
-    };
+    const handleMarkQuestion = useCallback(
+        (id, status) => {
+            setQuestions(setQuestionStatus(id, status));
+        },
+        [setQuestions]
+    );
 
     return {
         decks,
