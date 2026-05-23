@@ -1,4 +1,4 @@
-import { lazy, Suspense, memo } from 'react';
+import { lazy, Suspense } from 'react';
 import PropTypes from 'prop-types';
 import { ErrorBoundary } from './ErrorBoundary';
 import remarkGfm from 'remark-gfm';
@@ -12,7 +12,7 @@ const MarkdownPlaceholder = () => (
     <div className="h-4 w-full max-w-50 bg-slate-100 dark:bg-slate-700 animate-pulse rounded mt-1" />
 );
 
-const SafeMarkdown = memo(function SafeMarkdown({
+export default function SafeMarkdown({
     children,
     remarkPlugins = [],
     rehypePlugins = [],
@@ -34,7 +34,7 @@ const SafeMarkdown = memo(function SafeMarkdown({
             </Suspense>
         </ErrorBoundary>
     );
-});
+}
 
 SafeMarkdown.propTypes = {
     children: PropTypes.string.isRequired,
@@ -42,5 +42,3 @@ SafeMarkdown.propTypes = {
     remarkPlugins: PropTypes.array,
     rehypePlugins: PropTypes.array,
 };
-
-export default SafeMarkdown;

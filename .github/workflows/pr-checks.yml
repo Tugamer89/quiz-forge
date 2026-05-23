@@ -44,6 +44,7 @@ jobs:
         if: always()
         uses: actions/github-script@v9
         with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
           result-encoding: string
           script: |
             const path = require('path');
@@ -55,6 +56,7 @@ jobs:
         if: always()
         uses: marocchino/sticky-pull-request-comment@v3
         with:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           header: lighthouse
           message: ${{ steps.format_lighthouse_score.outputs.result || '⚠️ Unable to generate Lighthouse report.' }}
 
