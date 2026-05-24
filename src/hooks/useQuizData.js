@@ -33,14 +33,23 @@ export function useQuizData(showToast, setDialog) {
     );
 
     const stats = useMemo(
-        () => ({
-            total: activeDeckQuestions.length,
-            unanswered: activeDeckQuestions.filter((q) => q.status === 'unanswered').length,
-            correct: activeDeckQuestions.filter((q) => q.status === 'correct').length,
-            incorrect: activeDeckQuestions.filter((q) => q.status === 'incorrect').length,
-            partiallyCorrect: activeDeckQuestions.filter((q) => q.status === 'partially-correct')
-                .length,
-        }),
+        () =>
+            activeDeckQuestions.reduce(
+                (acc, q) => {
+                    if (q.status === 'unanswered') acc.unanswered++;
+                    else if (q.status === 'correct') acc.correct++;
+                    else if (q.status === 'incorrect') acc.incorrect++;
+                    else if (q.status === 'partially-correct') acc.partiallyCorrect++;
+                    return acc;
+                },
+                {
+                    total: activeDeckQuestions.length,
+                    unanswered: 0,
+                    correct: 0,
+                    incorrect: 0,
+                    partiallyCorrect: 0,
+                }
+            ),
         [activeDeckQuestions]
     );
 
