@@ -1,3 +1,9 @@
+## [1.13.1](https://github.com/Tugamer89/quiz-forge/compare/v1.13.0...v1.13.1) (2026-05-24)
+
+### Bug Fixes
+
+* **security:** restrict protocols in markdown rendering to prevent XSS ([#47](https://github.com/Tugamer89/quiz-forge/issues/47)) ([18871ad](https://github.com/Tugamer89/quiz-forge/commit/18871ad8bac9b5c559be674f398209859f59f2e2))
+
 ## [1.13.0](https://github.com/Tugamer89/quiz-forge/compare/v1.12.7...v1.13.0) (2026-05-23)
 
 ### Features
