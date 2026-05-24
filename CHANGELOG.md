@@ -1,3 +1,9 @@
+## [1.14.4](https://github.com/Tugamer89/quiz-forge/compare/v1.14.3...v1.14.4) (2026-05-24)
+
+### Bug Fixes
+
+* **import:** validate JSON backup files with zod schema ([#53](https://github.com/Tugamer89/quiz-forge/issues/53)) ([1caec8b](https://github.com/Tugamer89/quiz-forge/commit/1caec8b1b56f26668f3a1413d45cb55db3dea3ec))
+
 ## [1.14.3](https://github.com/Tugamer89/quiz-forge/compare/v1.14.2...v1.14.3) (2026-05-24)
 
 ### Performance Improvements
