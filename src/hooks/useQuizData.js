@@ -216,14 +216,25 @@ export function useQuizData(showToast, setDialog) {
 
         try {
             const text = await file.text();
-            const data = JSON.parse(text);
-            if (data?.decks && data?.questions) {
-                setDecks(data.decks);
-                setQuestions(data.questions);
-                if (data?.rawTexts) setRawTexts(data.rawTexts);
-                setSelectedDeckId(data.decks[0].id);
-                showToast('Data imported successfully!', 'success');
+            const json = JSON.parse(text);
+
+            // Dynamic import to avoid loading Zod if not importing
+            const { importSchema } = await import('../schemas/importSchema');
+            const result = importSchema.safeParse(json);
+
+            if (result.success) {
+                const data = result.data;
+                if (data.decks.length > 0) {
+                    setDecks(data.decks);
+                    setQuestions(data.questions);
+                    if (data.rawTexts) setRawTexts(data.rawTexts);
+                    setSelectedDeckId(data.decks[0].id);
+                    showToast('Data imported successfully!', 'success');
+                } else {
+                    showToast('Invalid backup file format.', 'error');
+                }
             } else {
+                console.error('Validation errors:', result.error.format());
                 showToast('Invalid backup file format.', 'error');
             }
         } catch (err) {
@@ -233,7 +244,6 @@ export function useQuizData(showToast, setDialog) {
             e.target.value = null;
         }
     };
-
     const handleExport = () => {
         try {
             const dataToExport = { decks, questions, rawTexts };
