@@ -204,7 +204,7 @@ export function useQuizData(showToast, setDialog) {
             const json = JSON.parse(text);
 
             // Dynamic import to avoid loading Zod if not importing
-            const { importSchema } = await import('../schemas/importSchema');
+            const { importSchema } = await import('../schemas/importSchema'); // Handled top-level await where appropriate
             const result = importSchema.safeParse(json);
 
             if (result.success) {
