@@ -1,3 +1,9 @@
+## [1.14.2](https://github.com/Tugamer89/quiz-forge/compare/v1.14.1...v1.14.2) (2026-05-24)
+
+### Performance Improvements
+
+* **parser:** move regex constants to module scope ([#50](https://github.com/Tugamer89/quiz-forge/issues/50)) ([45a2638](https://github.com/Tugamer89/quiz-forge/commit/45a263853bddde3740705dea275de8680ddbd8d7))
+
 ## [1.14.1](https://github.com/Tugamer89/quiz-forge/compare/v1.14.0...v1.14.1) (2026-05-24)
 
 ### Performance Improvements
