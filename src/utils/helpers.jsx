@@ -14,10 +14,16 @@ export const setQuestionStatus = (questionId, newStatus) => (prevQuestions) =>
     prevQuestions.map((q) => (q.id === questionId ? { ...q, status: newStatus } : q));
 
 export function mergeQuestions(prevQuestions, parsed, currentDeckId) {
+    // perf: Replace O(n²) nested loop with O(n) hash map lookup for merging questions
+    const existingMap = new Map();
+    for (const q of prevQuestions) {
+        if (q.deckId === currentDeckId) {
+            existingMap.set(q.text, q);
+        }
+    }
+
     return parsed.map((newQ) => {
-        const existing = prevQuestions.find(
-            (q) => q.text === newQ.text && q.deckId === currentDeckId
-        );
+        const existing = existingMap.get(newQ.text);
         if (existing) {
             return { ...newQ, status: existing.status, id: existing.id, deckId: currentDeckId };
         }
