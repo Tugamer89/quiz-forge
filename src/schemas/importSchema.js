@@ -23,7 +23,6 @@ export const questionSchema = z
     })
     .passthrough();
 
-// Prefer top-level await over using a promise chain.
 export const importSchema = z.object({
     decks: z.array(deckSchema),
     questions: z.array(questionSchema),
