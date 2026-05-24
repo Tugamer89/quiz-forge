@@ -50,4 +50,16 @@ describe('SafeMarkdown Component', () => {
         expect(aTag).toBeInTheDocument();
         expect(aTag.getAttribute('href')).toBeNull();
     });
+
+    it('blocks unsafe protocols like vbscript (Defense-in-Depth XSS Prevention)', () => {
+        const maliciousInput = '[Click me](vbscript:alert(1))';
+        const { container } = render(
+            <SafeMarkdownCore rehypePlugins={[rehypeRaw]}>{maliciousInput}</SafeMarkdownCore>
+        );
+
+        const aTag = container.querySelector('a');
+        expect(aTag).toBeInTheDocument();
+        // The sanitize should remove the href completely or leave it empty, blocking the vbscript
+        expect(aTag.getAttribute('href')).toBeNull();
+    });
 });
