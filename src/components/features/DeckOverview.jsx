@@ -27,7 +27,6 @@ export const DeckOverview = memo(({ questions, stats, onMarkQuestion }) => {
     }, [questions]);
 
     const filteredQuestions = useMemo(() => {
-        // perf: Cache search term lowercase conversion outside the filter loop
         const searchLower = searchTerm.toLowerCase();
         return questions.filter((q) => {
             const matchesSearch =
