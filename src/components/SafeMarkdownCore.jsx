@@ -11,6 +11,12 @@ export default function SafeMarkdownCore({ children, remarkPlugins, rehypePlugin
             code: ['className', ...(defaultSchema.attributes.code || [])],
             span: ['className', 'style', ...(defaultSchema.attributes.span || [])],
         },
+        protocols: {
+            ...defaultSchema.protocols,
+            href: ['http', 'https', 'mailto', 'tel'],
+            src: ['http', 'https'],
+            cite: ['http', 'https'],
+        },
     };
 
     const combinedRehypePlugins = [...(rehypePlugins || []), [rehypeSanitize, sanitizeOptions]];
