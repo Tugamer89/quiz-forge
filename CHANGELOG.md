@@ -1,3 +1,9 @@
+## [1.14.0](https://github.com/Tugamer89/quiz-forge/compare/v1.13.2...v1.14.0) (2026-05-24)
+
+### Features
+
+* **ui:** improve disabled buttons UX with tooltips and visual feedback ([#49](https://github.com/Tugamer89/quiz-forge/issues/49)) ([59add1c](https://github.com/Tugamer89/quiz-forge/commit/59add1cd1ff1294db6b6398a2330eb8d73e56f85))
+
 ## [1.13.2](https://github.com/Tugamer89/quiz-forge/compare/v1.13.1...v1.13.2) (2026-05-24)
 
 ### Performance Improvements
