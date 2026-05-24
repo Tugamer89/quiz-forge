@@ -1,3 +1,9 @@
+## [1.13.2](https://github.com/Tugamer89/quiz-forge/compare/v1.13.1...v1.13.2) (2026-05-24)
+
+### Performance Improvements
+
+* replace O(n2) nested loop with O(n) hash map lookup in mergeQuestions ([#48](https://github.com/Tugamer89/quiz-forge/issues/48)) ([76fd766](https://github.com/Tugamer89/quiz-forge/commit/76fd766f6cedbda894425569a67bc2a429076a0c))
+
 ## [1.13.1](https://github.com/Tugamer89/quiz-forge/compare/v1.13.0...v1.13.1) (2026-05-24)
 
 ### Bug Fixes
