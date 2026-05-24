@@ -1,3 +1,9 @@
+## [1.14.3](https://github.com/Tugamer89/quiz-forge/compare/v1.14.2...v1.14.3) (2026-05-24)
+
+### Performance Improvements
+
+* **hooks:** optimize stats calculation with a single reduce pass ([#52](https://github.com/Tugamer89/quiz-forge/issues/52)) ([b671941](https://github.com/Tugamer89/quiz-forge/commit/b671941f3b49e5fcfc039ff065d1ba3c088a6a19))
+
 ## [1.14.2](https://github.com/Tugamer89/quiz-forge/compare/v1.14.1...v1.14.2) (2026-05-24)
 
 ### Performance Improvements
