@@ -8,6 +8,11 @@ import {
 } from '../utils/helpers';
 import * as Sentry from '@sentry/react';
 
+const CODE_BLOCK_REGEX = /```[\s\S]*?```/g;
+const INLINE_CODE_REGEX = /`[^`]*`/g;
+const TAG_REGEX = /#\w+/g;
+const QUESTION_REGEX = /^(\d+)[.)]\s+(\S.*)$/;
+
 export function useQuizData(showToast, setDialog) {
     const [decks, setDecks] = useLocalStorage('quiz_decks', [
         { id: 'default', name: 'General Knowledge' },
@@ -33,14 +38,23 @@ export function useQuizData(showToast, setDialog) {
     );
 
     const stats = useMemo(
-        () => ({
-            total: activeDeckQuestions.length,
-            unanswered: activeDeckQuestions.filter((q) => q.status === 'unanswered').length,
-            correct: activeDeckQuestions.filter((q) => q.status === 'correct').length,
-            incorrect: activeDeckQuestions.filter((q) => q.status === 'incorrect').length,
-            partiallyCorrect: activeDeckQuestions.filter((q) => q.status === 'partially-correct')
-                .length,
-        }),
+        () =>
+            activeDeckQuestions.reduce(
+                (acc, q) => {
+                    if (q.status === 'unanswered') acc.unanswered++;
+                    else if (q.status === 'correct') acc.correct++;
+                    else if (q.status === 'incorrect') acc.incorrect++;
+                    else if (q.status === 'partially-correct') acc.partiallyCorrect++;
+                    return acc;
+                },
+                {
+                    total: activeDeckQuestions.length,
+                    unanswered: 0,
+                    correct: 0,
+                    incorrect: 0,
+                    partiallyCorrect: 0,
+                }
+            ),
         [activeDeckQuestions]
     );
 
@@ -56,8 +70,10 @@ export function useQuizData(showToast, setDialog) {
     const extractTags = (text) => {
         if (!text) return [];
 
-        const textWithoutCode = text.replaceAll(/```[\s\S]*?```/g, '').replaceAll(/`[^`]*`/g, '');
-        const matches = textWithoutCode.match(/#\w+/g);
+        const textWithoutCode = text
+            .replaceAll(CODE_BLOCK_REGEX, '')
+            .replaceAll(INLINE_CODE_REGEX, '');
+        const matches = textWithoutCode.match(TAG_REGEX);
         return matches ? [...new Set(matches.map((t) => t.toLowerCase()))] : [];
     };
 
@@ -66,10 +82,9 @@ export function useQuizData(showToast, setDialog) {
             const lines = text.split('\n');
             const parsed = [];
             let currentQ = null;
-            const regex = /^(\d+)[.)]\s+(.+)$/;
 
             lines.forEach((line) => {
-                const match = line.match(regex);
+                const match = line.match(QUESTION_REGEX);
                 if (match) {
                     if (currentQ) {
                         currentQ.tags = [

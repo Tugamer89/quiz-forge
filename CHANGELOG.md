@@ -1,3 +1,21 @@
+## [1.14.3](https://github.com/Tugamer89/quiz-forge/compare/v1.14.2...v1.14.3) (2026-05-24)
+
+### Performance Improvements
+
+* **hooks:** optimize stats calculation with a single reduce pass ([#52](https://github.com/Tugamer89/quiz-forge/issues/52)) ([b671941](https://github.com/Tugamer89/quiz-forge/commit/b671941f3b49e5fcfc039ff065d1ba3c088a6a19))
+
+## [1.14.2](https://github.com/Tugamer89/quiz-forge/compare/v1.14.1...v1.14.2) (2026-05-24)
+
+### Performance Improvements
+
+* **parser:** move regex constants to module scope ([#50](https://github.com/Tugamer89/quiz-forge/issues/50)) ([45a2638](https://github.com/Tugamer89/quiz-forge/commit/45a263853bddde3740705dea275de8680ddbd8d7))
+
+## [1.14.1](https://github.com/Tugamer89/quiz-forge/compare/v1.14.0...v1.14.1) (2026-05-24)
+
+### Performance Improvements
+
+* **search:** cache lowercased search term in DeckOverview ([#51](https://github.com/Tugamer89/quiz-forge/issues/51)) ([dd503a4](https://github.com/Tugamer89/quiz-forge/commit/dd503a4e52e641c228d4b2344bc477d5757dd645))
+
 ## [1.14.0](https://github.com/Tugamer89/quiz-forge/compare/v1.13.2...v1.14.0) (2026-05-24)
 
 ### Features
