@@ -11,7 +11,7 @@ import * as Sentry from '@sentry/react';
 const CODE_BLOCK_REGEX = /```[\s\S]*?```/g;
 const INLINE_CODE_REGEX = /`[^`]*`/g;
 const TAG_REGEX = /#\w+/g;
-const QUESTION_REGEX = /^(\d+)[.)]\s+(.+)$/;
+const QUESTION_REGEX = /^(\d+)[.)]\s+(\S.*)$/;
 
 export function useQuizData(showToast, setDialog) {
     const [decks, setDecks] = useLocalStorage('quiz_decks', [
