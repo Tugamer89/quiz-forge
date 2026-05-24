@@ -5,23 +5,19 @@ export const deckSchema = z.object({
     name: z.string(),
 });
 
-export const questionSchema = z
-    .object({
-        id: z.string(),
-        number: z.string().optional().nullable(),
-        text: z.string(),
-        answer: z.string(),
-        status: z
-            .enum(['unanswered', 'correct', 'incorrect', 'partially-correct'])
-            .catch('unanswered'),
-        deckId: z.string(),
-        tags: z.array(z.string()).default([]),
-        easeFactor: z.number().optional().nullable(),
-        interval: z.number().optional().nullable(),
-        repetition: z.number().optional().nullable(),
-        nextReviewDate: z.string().optional().nullable(),
-    })
-    .passthrough();
+export const questionSchema = z.object({
+    id: z.string(),
+    number: z.string().optional().nullable(),
+    text: z.string(),
+    answer: z.string(),
+    status: z.enum(['unanswered', 'correct', 'incorrect', 'partially-correct']).catch('unanswered'),
+    deckId: z.string(),
+    tags: z.array(z.string()).default([]),
+    easeFactor: z.number().optional().nullable(),
+    interval: z.number().optional().nullable(),
+    repetition: z.number().optional().nullable(),
+    nextReviewDate: z.string().optional().nullable(),
+});
 
 export const importSchema = z.object({
     decks: z.array(deckSchema),
