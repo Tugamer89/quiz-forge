@@ -1,3 +1,9 @@
+## [1.14.1](https://github.com/Tugamer89/quiz-forge/compare/v1.14.0...v1.14.1) (2026-05-24)
+
+### Performance Improvements
+
+* **search:** cache lowercased search term in DeckOverview ([#51](https://github.com/Tugamer89/quiz-forge/issues/51)) ([dd503a4](https://github.com/Tugamer89/quiz-forge/commit/dd503a4e52e641c228d4b2344bc477d5757dd645))
+
 ## [1.14.0](https://github.com/Tugamer89/quiz-forge/compare/v1.13.2...v1.14.0) (2026-05-24)
 
 ### Features
