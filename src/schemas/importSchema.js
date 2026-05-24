@@ -10,7 +10,10 @@ export const questionSchema = z.object({
     number: z.string().optional().nullable(),
     text: z.string(),
     answer: z.string(),
-    status: z.enum(['unanswered', 'correct', 'incorrect', 'partially-correct']).catch('unanswered'),
+    status: z
+        .enum(['unanswered', 'correct', 'incorrect', 'partially-correct'])
+        .optional()
+        .default('unanswered'),
     deckId: z.string(),
     tags: z.array(z.string()).default([]),
     easeFactor: z.number().optional().nullable(),
