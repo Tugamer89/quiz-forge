@@ -27,10 +27,12 @@ export const DeckOverview = memo(({ questions, stats, onMarkQuestion }) => {
     }, [questions]);
 
     const filteredQuestions = useMemo(() => {
+        // perf: Cache search term lowercase conversion outside the filter loop
+        const searchLower = searchTerm.toLowerCase();
         return questions.filter((q) => {
             const matchesSearch =
-                q.text.toLowerCase().includes(searchTerm.toLowerCase()) ||
-                q.answer.toLowerCase().includes(searchTerm.toLowerCase());
+                q.text.toLowerCase().includes(searchLower) ||
+                q.answer.toLowerCase().includes(searchLower);
             const matchesTag = selectedTags.every((t) => q.tags?.includes(t));
             return matchesSearch && matchesTag;
         });
