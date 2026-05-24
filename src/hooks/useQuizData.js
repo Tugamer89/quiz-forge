@@ -8,6 +8,11 @@ import {
 } from '../utils/helpers';
 import * as Sentry from '@sentry/react';
 
+const CODE_BLOCK_REGEX = /```[\s\S]*?```/g;
+const INLINE_CODE_REGEX = /`[^`]*`/g;
+const TAG_REGEX = /#\w+/g;
+const QUESTION_REGEX = /^(\d+)[.)]\s+(.+)$/;
+
 export function useQuizData(showToast, setDialog) {
     const [decks, setDecks] = useLocalStorage('quiz_decks', [
         { id: 'default', name: 'General Knowledge' },
@@ -56,8 +61,10 @@ export function useQuizData(showToast, setDialog) {
     const extractTags = (text) => {
         if (!text) return [];
 
-        const textWithoutCode = text.replaceAll(/```[\s\S]*?```/g, '').replaceAll(/`[^`]*`/g, '');
-        const matches = textWithoutCode.match(/#\w+/g);
+        const textWithoutCode = text
+            .replaceAll(CODE_BLOCK_REGEX, '')
+            .replaceAll(INLINE_CODE_REGEX, '');
+        const matches = textWithoutCode.match(TAG_REGEX);
         return matches ? [...new Set(matches.map((t) => t.toLowerCase()))] : [];
     };
 
@@ -66,10 +73,9 @@ export function useQuizData(showToast, setDialog) {
             const lines = text.split('\n');
             const parsed = [];
             let currentQ = null;
-            const regex = /^(\d+)[.)]\s+(.+)$/;
 
             lines.forEach((line) => {
-                const match = line.match(regex);
+                const match = line.match(QUESTION_REGEX);
                 if (match) {
                     if (currentQ) {
                         currentQ.tags = [
