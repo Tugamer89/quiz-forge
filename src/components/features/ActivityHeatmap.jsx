@@ -1,4 +1,4 @@
-import { useMemo } from 'react';
+import { useMemo, memo } from 'react';
 import PropTypes from 'prop-types';
 import { Flame, Activity } from 'lucide-react';
 import { getLocalYYYYMMDD } from '../../utils/helpers';
@@ -67,7 +67,7 @@ const getCurrentStreak = (deckLog, todayDate, todayStr) => {
     return streak;
 };
 
-export const ActivityHeatmap = ({ deckLog = {} }) => {
+export const ActivityHeatmap = memo(({ deckLog = {} }) => {
     const COLUMNS = 104;
 
     const { days, currentStreak, totalCards, monthLabels } = useMemo(() => {
@@ -193,7 +193,7 @@ export const ActivityHeatmap = ({ deckLog = {} }) => {
             </div>
         </div>
     );
-};
+});
 
 ActivityHeatmap.propTypes = {
     deckLog: PropTypes.object,
