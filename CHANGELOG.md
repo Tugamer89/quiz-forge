@@ -1,3 +1,15 @@
+## [1.15.0](https://github.com/Tugamer89/quiz-forge/compare/v1.14.5...v1.15.0) (2026-05-25)
+
+### Features
+
+* **ui:** add aria attributes to data sync dropdown ([#54](https://github.com/Tugamer89/quiz-forge/issues/54)) ([24f9cd6](https://github.com/Tugamer89/quiz-forge/commit/24f9cd685f03fb22ad902848140d9eb09ba4b060))
+
+## [1.14.5](https://github.com/Tugamer89/quiz-forge/compare/v1.14.4...v1.14.5) (2026-05-25)
+
+### Bug Fixes
+
+* **security:** [MEDIUM] add input validation for cloud sync data restore ([#56](https://github.com/Tugamer89/quiz-forge/issues/56)) ([10a5f23](https://github.com/Tugamer89/quiz-forge/commit/10a5f23f51377def37e2d0c64e37be44b2992534))
+
 ## [1.14.4](https://github.com/Tugamer89/quiz-forge/compare/v1.14.3...v1.14.4) (2026-05-24)
 
 ### Bug Fixes

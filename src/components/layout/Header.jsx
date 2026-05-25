@@ -71,6 +71,9 @@ export const Header = ({
                 <div className="relative" ref={menuRef}>
                     <button
                         onClick={() => setIsDataMenuOpen(!isDataMenuOpen)}
+                        aria-expanded={isDataMenuOpen}
+                        aria-haspopup="true"
+                        aria-controls="data-menu"
                         className="flex items-center space-x-2 px-3 py-2 rounded-lg text-sm font-medium bg-white dark:bg-slate-800 shadow-sm border border-slate-200 dark:border-slate-700 hover:bg-slate-50 dark:hover:bg-slate-700 transition-colors focus:ring-2 focus:ring-indigo-500"
                     >
                         <Database className="w-4 h-4" /> <span>Data & Sync</span>
@@ -80,7 +83,10 @@ export const Header = ({
                     </button>
 
                     {isDataMenuOpen && (
-                        <div className="absolute left-0 md:left-auto md:right-0 mt-2 w-64 bg-white dark:bg-slate-800 rounded-xl shadow-lg border border-slate-200 dark:border-slate-700 z-50 overflow-hidden animate-menu-enter transform origin-top">
+                        <div
+                            id="data-menu"
+                            className="absolute left-0 md:left-auto md:right-0 mt-2 w-64 bg-white dark:bg-slate-800 rounded-xl shadow-lg border border-slate-200 dark:border-slate-700 z-50 overflow-hidden animate-menu-enter transform origin-top"
+                        >
                             <div className="py-2">
                                 <div className="px-4 py-1.5 text-[10px] font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider">
                                     Local Storage
