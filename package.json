@@ -59,6 +59,7 @@
     "prettier": "^3.8.3",
     "pwa-asset-generator": "^8.1.4",
     "semantic-release": "^25.0.3",
+    "serve": "^14.2.6",
     "tailwindcss": "^4.2.4",
     "vite": "^6.0.0",
     "vite-plugin-pwa": "^1.3.0",

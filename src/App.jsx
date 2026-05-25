@@ -116,6 +116,7 @@ export default function App() {
                                         questions={data.activeDeckQuestions}
                                         stats={data.stats}
                                         onMarkQuestion={data.handleMarkQuestion}
+                                        onGenerateQuiz={session.generateQuiz}
                                     />
                                 )}
                             </Suspense>
