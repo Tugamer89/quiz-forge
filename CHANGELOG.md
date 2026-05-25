@@ -1,3 +1,9 @@
+## [1.15.0](https://github.com/Tugamer89/quiz-forge/compare/v1.14.5...v1.15.0) (2026-05-25)
+
+### Features
+
+* **ui:** add aria attributes to data sync dropdown ([#54](https://github.com/Tugamer89/quiz-forge/issues/54)) ([24f9cd6](https://github.com/Tugamer89/quiz-forge/commit/24f9cd685f03fb22ad902848140d9eb09ba4b060))
+
 ## [1.14.5](https://github.com/Tugamer89/quiz-forge/compare/v1.14.4...v1.14.5) (2026-05-25)
 
 ### Bug Fixes
