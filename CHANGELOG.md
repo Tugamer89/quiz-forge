@@ -1,3 +1,9 @@
+## [1.15.1](https://github.com/Tugamer89/quiz-forge/compare/v1.15.0...v1.15.1) (2026-05-25)
+
+### Performance Improvements
+
+* memoize ActivityHeatmap to prevent re-renders ([#55](https://github.com/Tugamer89/quiz-forge/issues/55)) ([b944aa8](https://github.com/Tugamer89/quiz-forge/commit/b944aa8c70e78a11c91ea8322241ee06e55e7143))
+
 ## [1.15.0](https://github.com/Tugamer89/quiz-forge/compare/v1.14.5...v1.15.0) (2026-05-25)
 
 ### Features
