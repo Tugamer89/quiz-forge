@@ -67,7 +67,6 @@ const getCurrentStreak = (deckLog, todayDate, todayStr) => {
     return streak;
 };
 
-// perf: Wrapped ActivityHeatmap in React.memo to prevent unnecessary re-renders when parent state changes (e.g., when user is typing in SidebarControls)
 export const ActivityHeatmap = memo(({ deckLog = {} }) => {
     const COLUMNS = 104;
 
