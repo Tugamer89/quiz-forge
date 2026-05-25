@@ -147,10 +147,14 @@ export const CloudSync = ({
 
             if (response.ok) {
                 const data = await response.json();
-                if (data.decks && data.questions) {
-                    onImportData(data);
+                const { importSchema } = await import('../../schemas/importSchema');
+                const result = importSchema.safeParse(data);
+
+                if (result.success) {
+                    onImportData(result.data);
                     showToast('Data successfully restored from the Cloud!', 'success');
                 } else {
+                    console.error('Validation errors:', result.error.format());
                     showToast('The file in the Cloud appears to be corrupted.', 'error');
                 }
             } else {
