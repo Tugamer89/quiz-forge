@@ -27,7 +27,6 @@ export const DeckOverview = memo(({ questions, stats, onMarkQuestion }) => {
     }, [questions]);
 
     const filteredQuestions = useMemo(() => {
-        // perf: Add early return to skip unnecessary processing when no filters are applied
         if (!searchTerm && selectedTags.length === 0) {
             return questions;
         }
