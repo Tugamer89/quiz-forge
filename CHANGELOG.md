@@ -1,3 +1,9 @@
+## [1.16.1](https://github.com/Tugamer89/quiz-forge/compare/v1.16.0...v1.16.1) (2026-05-26)
+
+### Performance Improvements
+
+* optimize DeckOverview question filtering ([#59](https://github.com/Tugamer89/quiz-forge/issues/59)) ([d0a7ad7](https://github.com/Tugamer89/quiz-forge/commit/d0a7ad7df6642dddf6e0e084b29b7055eaa2e221))
+
 ## [1.16.0](https://github.com/Tugamer89/quiz-forge/compare/v1.15.1...v1.16.0) (2026-05-26)
 
 ### Features
