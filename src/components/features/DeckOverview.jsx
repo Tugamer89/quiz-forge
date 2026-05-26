@@ -27,11 +27,16 @@ export const DeckOverview = memo(({ questions, stats, onMarkQuestion }) => {
     }, [questions]);
 
     const filteredQuestions = useMemo(() => {
+        if (!searchTerm && selectedTags.length === 0) {
+            return questions;
+        }
+
         const searchLower = searchTerm.toLowerCase();
         return questions.filter((q) => {
             const matchesSearch =
+                !searchTerm ||
                 q.text.toLowerCase().includes(searchLower) ||
-                q.answer.toLowerCase().includes(searchLower);
+                q.answer?.toLowerCase().includes(searchLower);
             const matchesTag = selectedTags.every((t) => q.tags?.includes(t));
             return matchesSearch && matchesTag;
         });
