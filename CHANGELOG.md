@@ -1,3 +1,9 @@
+## [1.16.0](https://github.com/Tugamer89/quiz-forge/compare/v1.15.1...v1.16.0) (2026-05-26)
+
+### Features
+
+* **ui:** improve accessibility for question expand button ([#58](https://github.com/Tugamer89/quiz-forge/issues/58)) ([54f15de](https://github.com/Tugamer89/quiz-forge/commit/54f15de55a12d34dd3c8201f8754cc9c5d6af07c))
+
 ## [1.15.1](https://github.com/Tugamer89/quiz-forge/compare/v1.15.0...v1.15.1) (2026-05-25)
 
 ### Performance Improvements

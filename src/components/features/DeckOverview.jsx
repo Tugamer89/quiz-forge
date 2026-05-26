@@ -132,9 +132,14 @@ export const DeckOverview = memo(({ questions, stats, onMarkQuestion }) => {
                                 <button
                                     type="button"
                                     title="Expand question to see answer"
+                                    aria-label={
+                                        expandedId === q.id
+                                            ? 'Collapse question'
+                                            : 'Expand question to see answer'
+                                    }
                                     aria-expanded={expandedId === q.id}
                                     onClick={() => toggleExpand(q.id)}
-                                    className="flex-1 min-w-0 text-left focus:outline-none rounded-lg p-1 -m-1"
+                                    className="flex-1 min-w-0 text-left focus:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 dark:focus-visible:ring-indigo-400 rounded-lg p-1 -m-1 transition-shadow"
                                 >
                                     <div className="text-sm font-medium text-slate-800 dark:text-slate-200 flex items-start gap-2 overflow-hidden">
                                         {expandedId === q.id ? (
