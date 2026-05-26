@@ -27,12 +27,19 @@ export const DeckOverview = memo(({ questions, stats, onMarkQuestion }) => {
     }, [questions]);
 
     const filteredQuestions = useMemo(() => {
+        // perf: Add early return to skip unnecessary processing when no filters are applied
+        if (!searchTerm && selectedTags.length === 0) {
+            return questions;
+        }
+
         const searchLower = searchTerm.toLowerCase();
         return questions.filter((q) => {
             const matchesSearch =
+                !searchTerm ||
                 q.text.toLowerCase().includes(searchLower) ||
-                q.answer.toLowerCase().includes(searchLower);
-            const matchesTag = selectedTags.every((t) => q.tags?.includes(t));
+                (q.answer && q.answer.toLowerCase().includes(searchLower));
+            const matchesTag =
+                selectedTags.length === 0 || selectedTags.every((t) => q.tags?.includes(t));
             return matchesSearch && matchesTag;
         });
     }, [questions, searchTerm, selectedTags]);
