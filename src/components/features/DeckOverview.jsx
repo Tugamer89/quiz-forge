@@ -37,9 +37,8 @@ export const DeckOverview = memo(({ questions, stats, onMarkQuestion }) => {
             const matchesSearch =
                 !searchTerm ||
                 q.text.toLowerCase().includes(searchLower) ||
-                (q.answer && q.answer.toLowerCase().includes(searchLower));
-            const matchesTag =
-                selectedTags.length === 0 || selectedTags.every((t) => q.tags?.includes(t));
+                q.answer?.toLowerCase().includes(searchLower);
+            const matchesTag = selectedTags.every((t) => q.tags?.includes(t));
             return matchesSearch && matchesTag;
         });
     }, [questions, searchTerm, selectedTags]);
