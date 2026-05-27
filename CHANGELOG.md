@@ -1,3 +1,9 @@
+## [1.18.0](https://github.com/Tugamer89/quiz-forge/compare/v1.17.2...v1.18.0) (2026-05-27)
+
+### Features
+
+* **ui:** add focus-visible styles to settings checkboxes ([#62](https://github.com/Tugamer89/quiz-forge/issues/62)) ([f9be5cb](https://github.com/Tugamer89/quiz-forge/commit/f9be5cbc94955f4dd895c27964e1f71a46f0a8e9))
+
 ## [1.17.2](https://github.com/Tugamer89/quiz-forge/compare/v1.17.1...v1.17.2) (2026-05-27)
 
 ### Performance Improvements
