@@ -8,17 +8,25 @@ const buildHeatmapData = (deckLog, todayDate, columns) => {
     const todayStr = getLocalYYYYMMDD(todayDate);
     let total = 0;
 
-    const totalDaysToShow = columns * 7 - 1;
+    const currentDayOfWeek = todayDate.getDay() === 0 ? 7 : todayDate.getDay();
+    const emptyDaysAtEnd = 7 - currentDayOfWeek;
 
-    for (let i = totalDaysToShow; i >= 0; i--) {
+    const totalCells = columns * 7;
+    const realDaysCount = totalCells - emptyDaysAtEnd;
+
+    for (let i = realDaysCount - 1; i >= 0; i--) {
         const d = new Date(todayDate);
         d.setDate(todayDate.getDate() - i);
         const dateStr = getLocalYYYYMMDD(d);
         if (!dateStr) continue;
 
         const count = deckLog[dateStr] || 0;
-        daysArray.push({ date: dateStr, count, nativeDate: d });
+        daysArray.push({ date: dateStr, count, nativeDate: d, isFuture: false });
         total += count;
+    }
+
+    for (let i = 1; i <= emptyDaysAtEnd; i++) {
+        daysArray.push({ date: `future-${i}`, count: 0, nativeDate: null, isFuture: true });
     }
 
     return { daysArray, total, todayStr };
@@ -33,6 +41,7 @@ const getMonthLabels = (daysArray, columns) => {
         if (dayIndex >= daysArray.length) continue;
 
         const date = daysArray[dayIndex].nativeDate;
+        if (!date) continue;
         const month = date.getMonth();
         if (month === lastMonth) continue;
 
@@ -119,15 +128,19 @@ export const ActivityHeatmap = memo(({ deckLog = {} }) => {
             <div className="flex w-full mt-4">
                 <div className="flex flex-col pr-2" aria-hidden="true">
                     <div className="h-4 mb-1 pt-1"></div>
-                    <div className="flex flex-col justify-between text-[9px] text-slate-500 dark:text-slate-400 font-medium py-0.5 h-27">
-                        <span>Mon</span>
-                        <span>Wed</span>
-                        <span>Fri</span>
+                    <div className="grid grid-rows-7 gap-1 text-[9px] text-slate-500 dark:text-slate-400 font-medium pr-1 text-right select-none translate-y-0.5">
+                        <div className="flex items-center justify-end h-3">Mon</div>
+                        <div className="flex items-center justify-end h-3"></div>
+                        <div className="flex items-center justify-end h-3"></div>
+                        <div className="flex items-center justify-end h-3">Thu</div>
+                        <div className="flex items-center justify-end h-3"></div>
+                        <div className="flex items-center justify-end h-3"></div>
+                        <div className="flex items-center justify-end h-3">Sun</div>
                     </div>
                 </div>
 
                 <div
-                    className="flex-1 overflow-hidden flex justify-end p-0.5 -m-0.5"
+                    className="flex-1 overflow-x-auto overflow-y-hidden flex justify-end p-1 -m-1 pb-2 scrollbar-hide"
                     aria-hidden="true"
                 >
                     <div className="flex flex-col">
@@ -159,17 +172,28 @@ export const ActivityHeatmap = memo(({ deckLog = {} }) => {
 
                         {/* Heatmap */}
                         <div className="inline-grid grid-rows-7 grid-flow-col gap-1">
-                            {days.map((day) => (
-                                <div
-                                    key={day.date}
-                                    className={`w-3 h-3 rounded-sm ${getColorClass(day.count)} transition-colors hover:ring-1 hover:ring-slate-400 cursor-help`}
-                                    title={
-                                        day.count === 0
-                                            ? `0 reviews on ${day.date}`
-                                            : `${day.count} reviews on ${day.date}`
-                                    }
-                                />
-                            ))}
+                            {days.map((day) => {
+                                if (day.isFuture) {
+                                    return (
+                                        <div
+                                            key={day.date}
+                                            className="w-3 h-3 rounded-sm bg-transparent"
+                                        />
+                                    );
+                                }
+
+                                return (
+                                    <div
+                                        key={day.date}
+                                        className={`w-3 h-3 rounded-sm ${getColorClass(day.count)} transition-colors hover:ring-1 hover:ring-slate-400 cursor-help`}
+                                        title={
+                                            day.count === 0
+                                                ? `0 reviews on ${day.date}`
+                                                : `${day.count} reviews on ${day.date}`
+                                        }
+                                    />
+                                );
+                            })}
                         </div>
                     </div>
                 </div>

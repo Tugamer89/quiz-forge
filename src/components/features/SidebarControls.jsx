@@ -161,7 +161,7 @@ export const SidebarControls = memo(({
                     <button
                         onClick={onCopyText}
                         disabled={!currentRawText}
-                        title={!currentRawText ? "Add text to copy" : "Copy text"}
+                        title={currentRawText ? 'Copy text' : 'Add text to copy'}
                         className="flex-1 flex items-center justify-center space-x-2 bg-slate-100 dark:bg-slate-700 hover:bg-slate-200 dark:hover:bg-slate-600 text-slate-700 dark:text-slate-300 disabled:opacity-50 disabled:cursor-not-allowed font-medium py-2 px-4 rounded-lg transition-colors text-sm"
                     >
                         <Copy className="w-4 h-4" /> <span>Copy</span>
@@ -170,7 +170,7 @@ export const SidebarControls = memo(({
                         onClick={onClearText}
                         disabled={!currentRawText}
                         aria-label="Erase all text"
-                        title={!currentRawText ? "Add text to clear" : "Clear"}
+                        title={currentRawText ? 'Clear' : 'Add text to clear'}
                         className="flex-none p-2.5 text-red-600 dark:text-red-400 hover:bg-red-50 dark:hover:bg-red-950/80 disabled:opacity-50 disabled:cursor-not-allowed rounded-lg transition-colors"
                     >
                         <Eraser className="w-5 h-5" />
@@ -306,7 +306,11 @@ export const SidebarControls = memo(({
                     <button
                         onClick={onGenerateQuiz}
                         disabled={activeDeckQuestionsLength === 0}
-                        title={activeDeckQuestionsLength === 0 ? "Add questions to this deck to start a quiz" : "Start Quiz"}
+                        title={
+                            activeDeckQuestionsLength === 0
+                                ? 'Add questions to this deck to start a quiz'
+                                : 'Start Quiz'
+                        }
                         className="w-full mt-4 flex items-center justify-center space-x-2 bg-indigo-600 hover:bg-indigo-700 disabled:bg-slate-300 dark:disabled:bg-slate-700 disabled:text-slate-500 disabled:cursor-not-allowed text-white font-medium py-3 px-4 rounded-lg transition-all shadow-sm active:scale-[0.98]"
                     >
                         <Play className="w-5 h-5 fill-current" />
