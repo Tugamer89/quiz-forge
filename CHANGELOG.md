@@ -1,3 +1,9 @@
+## [1.17.0](https://github.com/Tugamer89/quiz-forge/compare/v1.16.1...v1.17.0) (2026-05-27)
+
+### Features
+
+* pr deployment ([#64](https://github.com/Tugamer89/quiz-forge/issues/64)) ([143fc50](https://github.com/Tugamer89/quiz-forge/commit/143fc50c9e49691619dc359e1003c9a329c44f40))
+
 ## [1.16.1](https://github.com/Tugamer89/quiz-forge/compare/v1.16.0...v1.16.1) (2026-05-26)
 
 ### Performance Improvements
