@@ -1,4 +1,4 @@
-import { Suspense, lazy, useMemo } from 'react';
+import { Suspense, lazy, useMemo, useCallback } from 'react';
 
 import { CustomDialog } from './components/CustomDialog';
 import { Toast } from './components/Toast';
@@ -37,6 +37,11 @@ export default function App() {
         logStudyActivity
     );
 
+    const handleSelectDeck = useCallback((id) => {
+        data.setSelectedDeckId(id);
+        session.cancelSession();
+    }, [data, session]);
+
     return (
         <div className="min-h-screen bg-slate-50 dark:bg-slate-900 text-slate-800 dark:text-slate-200 font-sans p-4 md:p-8 transition-colors duration-200 selection:bg-indigo-200 dark:selection:bg-indigo-900">
             <Toast toast={ui.toast} />
@@ -66,10 +71,7 @@ export default function App() {
                         <SidebarControls
                             decks={data.decks}
                             selectedDeckId={data.selectedDeckId}
-                            onSelectDeck={(id) => {
-                                data.setSelectedDeckId(id);
-                                session.cancelSession();
-                            }}
+                            onSelectDeck={handleSelectDeck}
                             onAddDeck={data.handleAddDeckClick}
                             onDeleteDeck={data.handleDeleteDeckClick}
                             currentRawText={data.currentRawText}
