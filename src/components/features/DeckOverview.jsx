@@ -35,7 +35,7 @@ export const DeckOverview = memo(({ questions, stats, onMarkQuestion, onGenerate
                 q.text.toLowerCase().includes(searchLower) ||
                 q.answer.toLowerCase().includes(searchLower);
             const matchesIncluded =
-                includedTags.length === 0 || includedTags.every((t) => q.tags?.includes(t));
+                includedTags.length === 0 || includedTags.some((t) => q.tags?.includes(t));
             const matchesExcluded =
                 excludedTags.length === 0 || !excludedTags.some((t) => q.tags?.includes(t));
             return matchesSearch && matchesIncluded && matchesExcluded;

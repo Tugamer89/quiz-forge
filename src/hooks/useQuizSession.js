@@ -29,8 +29,8 @@ export function useQuizSession(
             if (q.deckId !== selectedDeckId) return false;
 
             if (includedTags.length > 0) {
-                const hasAllIncluded = includedTags.every((t) => q.tags?.includes(t));
-                if (!hasAllIncluded) return false;
+                const hasAnyIncluded = includedTags.some((t) => q.tags?.includes(t));
+                if (!hasAnyIncluded) return false;
             }
 
             if (excludedTags.length > 0) {
