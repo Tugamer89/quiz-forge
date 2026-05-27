@@ -2,10 +2,11 @@ name: PR Quality Checks
 
 on:
   pull_request:
-    types: [opened, synchronize, reopened]
+    types: [opened, synchronize, reopened, closed]
 
 jobs:
-  audit:
+  audit-and-preview:
+    if: github.event.action != 'closed'
     runs-on: ubuntu-latest
     permissions:
       contents: read
@@ -28,8 +29,22 @@ jobs:
       - name: Run Unit Tests
         run: npm run test:run
 
-      - name: Build for Lighthouse
+      - name: Build for Lighthouse and Preview
         run: npm run build
+
+      - name: Prepare Surge Preview
+        run: |
+          mkdir -p .surge-preview/quiz-forge
+          cp -a dist/. .surge-preview/quiz-forge/
+          cp dist/index.html .surge-preview/200.html
+
+      - name: Deploy PR Preview to Surge
+        id: surge_deploy
+        env:
+          SURGE_LOGIN: ${{ secrets.SURGE_LOGIN }}
+          SURGE_TOKEN: ${{ secrets.SURGE_TOKEN }}
+        run: |
+          npx surge ./.surge-preview quiz-forge-pr-${{ github.event.pull_request.number }}.surge.sh
 
       - name: Run Lighthouse CI
         uses: treosh/lighthouse-ci-action@v12
@@ -38,7 +53,6 @@ jobs:
           uploadArtifacts: true
           temporaryPublicStorage: true
 
-      # 'if: always()' ensures the report is generated even if Lighthouse assertions fail
       - name: Format Lighthouse Score
         id: format_lighthouse_score
         if: always()
@@ -57,8 +71,13 @@ jobs:
         uses: marocchino/sticky-pull-request-comment@v3
         with:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          header: lighthouse
-          message: ${{ steps.format_lighthouse_score.outputs.result || '⚠️ Unable to generate Lighthouse report.' }}
+          header: pr-summary
+          message: |
+            ### UI Preview
+            The preview for this Pull Request is live at: **[https://quiz-forge-pr-${{ github.event.pull_request.number }}.surge.sh/quiz-forge/](https://quiz-forge-pr-${{ github.event.pull_request.number }}.surge.sh/quiz-forge/)**
+            
+            ### Lighthouse Score
+            ${{ steps.format_lighthouse_score.outputs.result || 'Unable to generate Lighthouse report.' }}
 
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v4
@@ -74,3 +93,14 @@ jobs:
             VITE_SENTRY_DSN=dummy_sentry_dsn
           secrets: |
             "SENTRY_AUTH_TOKEN=${{ secrets.SENTRY_AUTH_TOKEN }}"
+
+  teardown-preview:
+    if: github.event.action == 'closed'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Remove Surge Preview
+        env:
+          SURGE_LOGIN: ${{ secrets.SURGE_LOGIN }}
+          SURGE_TOKEN: ${{ secrets.SURGE_TOKEN }}
+        run: |
+          npx surge teardown quiz-forge-pr-${{ github.event.pull_request.number }}.surge.sh
