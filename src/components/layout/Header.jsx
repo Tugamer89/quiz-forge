@@ -12,7 +12,6 @@ import {
     ChevronDown,
 } from 'lucide-react';
 
-// perf: Wrapped Header in React.memo to prevent unnecessary re-renders when parent App state changes
 export const Header = memo(({
     decks,
     questions,

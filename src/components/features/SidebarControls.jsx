@@ -17,7 +17,6 @@ import {
 } from 'lucide-react';
 import { ActivityHeatmap } from './ActivityHeatmap';
 
-// perf: Wrapped SidebarControls in React.memo to prevent unnecessary re-renders when parent App state changes
 export const SidebarControls = memo(({
     decks,
     selectedDeckId,
