@@ -1,5 +1,5 @@
 import PropTypes from 'prop-types';
-import { useRef } from 'react';
+import { useRef, memo } from 'react';
 import {
     Folder,
     Plus,
@@ -17,7 +17,7 @@ import {
 } from 'lucide-react';
 import { ActivityHeatmap } from './ActivityHeatmap';
 
-export const SidebarControls = ({
+export const SidebarControls = memo(({
     decks,
     selectedDeckId,
     onSelectDeck,
@@ -320,7 +320,7 @@ export const SidebarControls = ({
             </div>
         </div>
     );
-};
+});
 
 SidebarControls.propTypes = {
     decks: PropTypes.array.isRequired,
