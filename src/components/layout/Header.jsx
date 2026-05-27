@@ -1,4 +1,4 @@
-import { useState, useRef, useEffect } from 'react';
+import { useState, useRef, useEffect, memo } from 'react';
 import PropTypes from 'prop-types';
 import { CloudSync } from '../features/CloudSync';
 import {
@@ -12,7 +12,8 @@ import {
     ChevronDown,
 } from 'lucide-react';
 
-export const Header = ({
+// perf: Wrapped Header in React.memo to prevent unnecessary re-renders when parent App state changes
+export const Header = memo(({
     decks,
     questions,
     rawTexts,
@@ -152,7 +153,7 @@ export const Header = ({
             </div>
         </header>
     );
-};
+});
 
 Header.propTypes = {
     decks: PropTypes.array.isRequired,
