@@ -30,13 +30,21 @@ jobs:
         run: npm run test:run
 
       - name: Build for Lighthouse and Preview
-        env:
-          VITE_APP_VERSION: pr-test
-          VITE_GOOGLE_CLIENT_ID: dummy_google_client_id
-          VITE_SENTRY_DSN: dummy_sentry_dsn
+        run: npm run build
+
+      - name: Prepare Surge Preview
         run: |
-          npm run build -- --base=/
-          cp dist/index.html dist/200.html
+          mkdir -p .surge-preview/quiz-forge
+          cp -a dist/. .surge-preview/quiz-forge/
+          cp dist/index.html .surge-preview/200.html
+
+      - name: Deploy PR Preview to Surge
+        id: surge_deploy
+        env:
+          SURGE_LOGIN: ${{ secrets.SURGE_LOGIN }}
+          SURGE_TOKEN: ${{ secrets.SURGE_TOKEN }}
+        run: |
+          npx surge ./.surge-preview quiz-forge-pr-${{ github.event.pull_request.number }}.surge.sh
 
       - name: Run Lighthouse CI
         uses: treosh/lighthouse-ci-action@v12
@@ -58,14 +66,6 @@ jobs:
             const formatReport = require(scriptPath);
             return formatReport({ core });
 
-      - name: Deploy PR Preview to Surge
-        id: surge_deploy
-        env:
-          SURGE_LOGIN: ${{ secrets.SURGE_LOGIN }}
-          SURGE_TOKEN: ${{ secrets.SURGE_TOKEN }}
-        run: |
-          npx surge ./dist quiz-forge-pr-${{ github.event.pull_request.number }}.surge.sh
-
       - name: Add PR Comment
         if: always()
         uses: marocchino/sticky-pull-request-comment@v3
@@ -74,7 +74,7 @@ jobs:
           header: pr-summary
           message: |
             ### UI Preview
-            The preview for this Pull Request is live at: **[https://quiz-forge-pr-${{ github.event.pull_request.number }}.surge.sh](https://quiz-forge-pr-${{ github.event.pull_request.number }}.surge.sh)**
+            The preview for this Pull Request is live at: **[https://quiz-forge-pr-${{ github.event.pull_request.number }}.surge.sh/quiz-forge/](https://quiz-forge-pr-${{ github.event.pull_request.number }}.surge.sh/quiz-forge/)**
             
             ### Lighthouse Score
             ${{ steps.format_lighthouse_score.outputs.result || 'Unable to generate Lighthouse report.' }}
