@@ -1,3 +1,9 @@
+## [1.17.1](https://github.com/Tugamer89/quiz-forge/compare/v1.17.0...v1.17.1) (2026-05-27)
+
+### Bug Fixes
+
+* **security:** [security improvement] ([#61](https://github.com/Tugamer89/quiz-forge/issues/61)) ([b922ed4](https://github.com/Tugamer89/quiz-forge/commit/b922ed4c7f865e7bc5a6f1e1515e176a75b479ec))
+
 ## [1.17.0](https://github.com/Tugamer89/quiz-forge/compare/v1.16.1...v1.17.0) (2026-05-27)
 
 ### Features
