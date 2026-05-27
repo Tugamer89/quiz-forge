@@ -206,7 +206,7 @@ export const SidebarControls = memo(({
                                     onSettingsChange({ ...settings, srsEnabled: e.target.checked })
                                 }
                             />
-                            <div className="w-9 h-5 bg-slate-300 peer-focus:outline-none rounded-full peer dark:bg-slate-600 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-0.5 after:left-0.5 after:bg-white after:border-gray-300 after:border after:rounded-full after:h-4 after:w-4 after:transition-all dark:border-gray-600 peer-checked:bg-indigo-500"></div>
+                            <div className="w-9 h-5 bg-slate-300 peer-focus:outline-none peer-focus-visible:ring-2 peer-focus-visible:ring-indigo-500 peer-focus-visible:ring-offset-2 dark:peer-focus-visible:ring-offset-slate-800 rounded-full peer dark:bg-slate-600 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-0.5 after:left-0.5 after:bg-white after:border-gray-300 after:border after:rounded-full after:h-4 after:w-4 after:transition-all dark:border-gray-600 peer-checked:bg-indigo-500"></div>
                         </div>
                     </label>
 
@@ -280,7 +280,7 @@ export const SidebarControls = memo(({
                                                         [key]: e.target.checked,
                                                     })
                                                 }
-                                                className="rounded w-4 h-4 cursor-pointer transition-colors"
+                                                className="rounded w-4 h-4 cursor-pointer transition-colors focus-visible:ring-2 focus-visible:ring-indigo-500 focus-visible:ring-offset-2 dark:focus-visible:ring-offset-slate-800"
                                             />
                                             <div className="flex justify-between flex-1 text-sm text-slate-600 dark:text-slate-300 group-hover:text-slate-900 dark:group-hover:text-white transition-colors">
                                                 <span>{displayLabel}</span>
