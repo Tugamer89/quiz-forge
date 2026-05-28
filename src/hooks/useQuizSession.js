@@ -20,7 +20,9 @@ export function useQuizSession(
     });
     const [showAnswer, setShowAnswer] = useState(false);
 
-    const generateQuiz = () => {
+    // perf: Memoize generateQuiz with useCallback to prevent unnecessary re-renders
+    // of child components (like SidebarControls) that receive this function as a prop.
+    const generateQuiz = useCallback(() => {
         const eligible = questions.filter((q) => {
             if (q.deckId !== selectedDeckId) return false;
 
@@ -65,7 +67,7 @@ export function useQuizSession(
             partiallyCorrectCount: 0,
         });
         setShowAnswer(false);
-    };
+    }, [questions, selectedDeckId, settings, showToast]);
 
     const handleAnswer = (answerStatus) => {
         const currentQ = quizSession.questions[quizSession.currentIndex];
