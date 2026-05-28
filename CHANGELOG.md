@@ -1,3 +1,9 @@
+## [1.18.2](https://github.com/Tugamer89/quiz-forge/compare/v1.18.1...v1.18.2) (2026-05-28)
+
+### Performance Improvements
+
+* memoize generateQuiz to prevent SidebarControls re-renders ([#66](https://github.com/Tugamer89/quiz-forge/issues/66)) ([5c98d6d](https://github.com/Tugamer89/quiz-forge/commit/5c98d6d204af42da5c9f45b01c9961f85a529967))
+
 ## [1.18.1](https://github.com/Tugamer89/quiz-forge/compare/v1.18.0...v1.18.1) (2026-05-28)
 
 ### Bug Fixes
