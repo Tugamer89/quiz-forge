@@ -20,8 +20,6 @@ export function useQuizSession(
     });
     const [showAnswer, setShowAnswer] = useState(false);
 
-    // perf: Memoize generateQuiz with useCallback to prevent unnecessary re-renders
-    // of child components (like SidebarControls) that receive this function as a prop.
     const generateQuiz = useCallback(() => {
         const eligible = questions.filter((q) => {
             if (q.deckId !== selectedDeckId) return false;
