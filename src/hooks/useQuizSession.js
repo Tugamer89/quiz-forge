@@ -20,7 +20,7 @@ export function useQuizSession(
     });
     const [showAnswer, setShowAnswer] = useState(false);
 
-    const generateQuiz = () => {
+    const generateQuiz = useCallback(() => {
         const eligible = questions.filter((q) => {
             if (q.deckId !== selectedDeckId) return false;
 
@@ -65,7 +65,7 @@ export function useQuizSession(
             partiallyCorrectCount: 0,
         });
         setShowAnswer(false);
-    };
+    }, [questions, selectedDeckId, settings, showToast]);
 
     const handleAnswer = (answerStatus) => {
         const currentQ = quizSession.questions[quizSession.currentIndex];
