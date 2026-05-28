@@ -1,3 +1,9 @@
+## [1.18.1](https://github.com/Tugamer89/quiz-forge/compare/v1.18.0...v1.18.1) (2026-05-28)
+
+### Bug Fixes
+
+* **security:** [security improvement] delegate url sanitization to rehype-sanitize ([#65](https://github.com/Tugamer89/quiz-forge/issues/65)) ([f548582](https://github.com/Tugamer89/quiz-forge/commit/f548582a68b97afed299db4dcee8ae00d12f9a98))
+
 ## [1.18.0](https://github.com/Tugamer89/quiz-forge/compare/v1.17.2...v1.18.0) (2026-05-27)
 
 ### Features
