@@ -1,3 +1,9 @@
+## [1.18.3](https://github.com/Tugamer89/quiz-forge/compare/v1.18.2...v1.18.3) (2026-05-29)
+
+### Performance Improvements
+
+* memoize react-markdown plugin arrays to prevent unnecessary re-renders ([#68](https://github.com/Tugamer89/quiz-forge/issues/68)) ([99751df](https://github.com/Tugamer89/quiz-forge/commit/99751dfaaf717f075effb24336cae4ef27fc02fe))
+
 ## [1.18.2](https://github.com/Tugamer89/quiz-forge/compare/v1.18.1...v1.18.2) (2026-05-28)
 
 ### Performance Improvements
