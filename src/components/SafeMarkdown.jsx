@@ -22,7 +22,6 @@ const SafeMarkdown = memo(function SafeMarkdown({
     rehypePlugins = EMPTY_ARRAY,
     ...rest
 }) {
-    // Memoize the combined plugins to prevent unnecessary re-renders of the heavy markdown core
     const combinedRemark = useMemo(() => [...defaultRemark, ...remarkPlugins], [remarkPlugins]);
     const combinedRehype = useMemo(() => [...defaultRehype, ...rehypePlugins], [rehypePlugins]);
 

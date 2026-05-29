@@ -32,7 +32,6 @@ const markdownComponents = {
 };
 
 export default function SafeMarkdownCore({ children, remarkPlugins, rehypePlugins, ...props }) {
-    // Memoize plugins to avoid breaking ReactMarkdown's internal memoization
     const combinedRehypePlugins = useMemo(
         () => [...(rehypePlugins || []), [rehypeSanitize, sanitizeOptions]],
         [rehypePlugins]
