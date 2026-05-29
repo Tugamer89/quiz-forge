@@ -1,4 +1,4 @@
-import { lazy, Suspense, memo } from 'react';
+import { lazy, Suspense, memo, useMemo } from 'react';
 import PropTypes from 'prop-types';
 import { ErrorBoundary } from './ErrorBoundary';
 import remarkGfm from 'remark-gfm';
@@ -12,22 +12,26 @@ const MarkdownPlaceholder = () => (
     <div className="h-4 w-full max-w-50 bg-slate-100 dark:bg-slate-700 animate-pulse rounded mt-1" />
 );
 
+const defaultRemark = [remarkGfm, remarkMath];
+const defaultRehype = [rehypeKatex, rehypeRaw];
+const EMPTY_ARRAY = [];
+
 const SafeMarkdown = memo(function SafeMarkdown({
     children,
-    remarkPlugins = [],
-    rehypePlugins = [],
+    remarkPlugins = EMPTY_ARRAY,
+    rehypePlugins = EMPTY_ARRAY,
     ...rest
 }) {
-    const defaultRemark = [remarkGfm, remarkMath];
-    const defaultRehype = [rehypeKatex, rehypeRaw];
+    const combinedRemark = useMemo(() => [...defaultRemark, ...remarkPlugins], [remarkPlugins]);
+    const combinedRehype = useMemo(() => [...defaultRehype, ...rehypePlugins], [rehypePlugins]);
 
     return (
         <ErrorBoundary>
             <Suspense fallback={<MarkdownPlaceholder />}>
                 <SafeMarkdownCore
                     {...rest}
-                    remarkPlugins={[...defaultRemark, ...remarkPlugins]}
-                    rehypePlugins={[...defaultRehype, ...rehypePlugins]}
+                    remarkPlugins={combinedRemark}
+                    rehypePlugins={combinedRehype}
                 >
                     {children}
                 </SafeMarkdownCore>
