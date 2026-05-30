@@ -1,3 +1,9 @@
+## [1.19.0](https://github.com/Tugamer89/quiz-forge/compare/v1.18.3...v1.19.0) (2026-05-30)
+
+### Features
+
+* **ui:** add aria-labels to deck overview tag filters ([#70](https://github.com/Tugamer89/quiz-forge/issues/70)) ([c2b0310](https://github.com/Tugamer89/quiz-forge/commit/c2b0310e6d7206f00ca7bfd1a6407fe5f19ecf2c))
+
 ## [1.18.3](https://github.com/Tugamer89/quiz-forge/compare/v1.18.2...v1.18.3) (2026-05-29)
 
 ### Performance Improvements

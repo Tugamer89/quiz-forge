@@ -86,6 +86,7 @@ export const DeckOverview = memo(({ questions, stats, onMarkQuestion }) => {
                         <div className="flex flex-wrap gap-2">
                             <button
                                 onClick={() => toggleTag(null)}
+                                aria-label="Show all tags"
                                 className={`px-3 py-1 text-xs font-medium rounded-full transition-colors ${
                                     selectedTags.length === 0
                                         ? 'bg-indigo-500 text-white'
@@ -98,6 +99,7 @@ export const DeckOverview = memo(({ questions, stats, onMarkQuestion }) => {
                                 <button
                                     key={tag}
                                     onClick={() => toggleTag(tag)}
+                                    aria-label={`Filter by tag ${tag}`}
                                     className={`px-3 py-1 text-xs font-medium flex items-center rounded-full transition-colors ${
                                         selectedTags.includes(tag)
                                             ? 'bg-indigo-500 text-white'
