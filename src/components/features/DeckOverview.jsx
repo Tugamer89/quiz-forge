@@ -118,9 +118,9 @@ export const DeckOverview = memo(({ questions, stats, onMarkQuestion, onGenerate
                             {(includedTags.length > 0 || excludedTags.length > 0) && (
                                 <button
                                     onClick={() => onGenerateQuiz({ includedTags, excludedTags })}
-                                    className="ml-auto flex items-center space-x-1 px-3 py-1 text-xs font-medium bg-indigo-600 hover:bg-indigo-700 text-white rounded-full transition-colors shadow-sm"
+                                    className="ml-auto flex items-center space-x-2 px-4 py-1.5 text-sm font-semibold bg-indigo-600 hover:bg-indigo-700 text-white rounded-full transition-all shadow hover:shadow-md transform hover:-translate-y-0.5 active:translate-y-0 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 dark:focus:ring-offset-slate-800"
                                 >
-                                    <Play className="w-3 h-3 fill-current" />
+                                    <Play className="w-4 h-4 fill-current" aria-hidden="true" />
                                     <span>Start Custom Session</span>
                                 </button>
                             )}

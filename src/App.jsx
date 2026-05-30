@@ -108,7 +108,9 @@ export default function App() {
                                     <SummaryScreen
                                         session={session.quizSession}
                                         onReset={session.resetSession}
-                                        onPlayAgain={session.generateQuiz}
+                                        onPlayAgain={() =>
+                                            session.generateQuiz(session.quizSession.lastOptions)
+                                        }
                                     />
                                 )}
                                 {!session.quizSession.active && !session.quizSession.isFinished && (

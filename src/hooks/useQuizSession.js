@@ -17,6 +17,7 @@ export function useQuizSession(
         correctCount: 0,
         incorrectCount: 0,
         partiallyCorrectCount: 0,
+        lastOptions: {},
     });
     const [showAnswer, setShowAnswer] = useState(false);
 
@@ -77,6 +78,7 @@ export function useQuizSession(
             correctCount: 0,
             incorrectCount: 0,
             partiallyCorrectCount: 0,
+            lastOptions: opts,
         });
         setShowAnswer(false);
     };
