@@ -1,3 +1,9 @@
+## [1.19.1](https://github.com/Tugamer89/quiz-forge/compare/v1.19.0...v1.19.1) (2026-05-30)
+
+### Performance Improvements
+
+* use shared MutationObserver and cache theme in CodeRenderer ([#71](https://github.com/Tugamer89/quiz-forge/issues/71)) ([8fb3d74](https://github.com/Tugamer89/quiz-forge/commit/8fb3d7439a8b8decbd9984f9149b5d2cf5ae9c58))
+
 ## [1.19.0](https://github.com/Tugamer89/quiz-forge/compare/v1.18.3...v1.19.0) (2026-05-30)
 
 ### Features
