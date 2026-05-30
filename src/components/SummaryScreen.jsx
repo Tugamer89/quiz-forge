@@ -92,10 +92,10 @@ export const SummaryScreen = ({ session, onReset, onPlayAgain }) => {
                 </button>
 
                 <button
-                    onClick={onPlayAgain}
-                    className="flex items-center justify-center gap-2.5 px-8 py-3.5 rounded-xl bg-indigo-600 hover:bg-indigo-700 text-white font-semibold transition-all duration-200 shadow-md shadow-indigo-200 dark:shadow-none active:scale-95 group"
+                    onClick={() => onPlayAgain()}
+                    className="flex items-center justify-center gap-2.5 px-8 py-3.5 rounded-xl bg-indigo-600 hover:bg-indigo-700 text-white font-semibold transition-all duration-200 shadow-md shadow-indigo-200 dark:shadow-none active:scale-95 group focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 dark:focus:ring-offset-slate-800"
                 >
-                    <Zap className="w-5 h-5 group-hover:animate-pulse" />
+                    <Zap className="w-5 h-5 group-hover:animate-pulse" aria-hidden="true" />
                     Play Again
                 </button>
             </div>

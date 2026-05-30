@@ -17,12 +17,27 @@ export function useQuizSession(
         correctCount: 0,
         incorrectCount: 0,
         partiallyCorrectCount: 0,
+        lastOptions: {},
     });
     const [showAnswer, setShowAnswer] = useState(false);
 
-    const generateQuiz = useCallback(() => {
+    const generateQuiz = (options = {}) => {
+        const isMouseEvent = options && options.nativeEvent instanceof Event;
+        const opts = isMouseEvent ? {} : options || {};
+        const { includedTags = [], excludedTags = [] } = opts;
+
         const eligible = questions.filter((q) => {
             if (q.deckId !== selectedDeckId) return false;
+
+            if (includedTags.length > 0) {
+                const hasAnyIncluded = includedTags.some((t) => q.tags?.includes(t));
+                if (!hasAnyIncluded) return false;
+            }
+
+            if (excludedTags.length > 0) {
+                const hasAnyExcluded = excludedTags.some((t) => q.tags?.includes(t));
+                if (hasAnyExcluded) return false;
+            }
 
             if (settings.srsEnabled) {
                 if (!q.nextReviewDate) return true;
@@ -63,9 +78,10 @@ export function useQuizSession(
             correctCount: 0,
             incorrectCount: 0,
             partiallyCorrectCount: 0,
+            lastOptions: opts,
         });
         setShowAnswer(false);
-    }, [questions, selectedDeckId, settings, showToast]);
+    };
 
     const handleAnswer = (answerStatus) => {
         const currentQ = quizSession.questions[quizSession.currentIndex];

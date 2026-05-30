@@ -11,13 +11,14 @@ import {
     ChevronDown,
     ChevronUp,
     AlertCircle,
+    Play,
 } from 'lucide-react';
 import SafeMarkdown from '../SafeMarkdown';
 
-// perf: Wrapped DeckOverview in React.memo to prevent unnecessary re-renders when parent state changes (e.g., when user is typing in SidebarControls)
-export const DeckOverview = memo(({ questions, stats, onMarkQuestion }) => {
+export const DeckOverview = memo(({ questions, stats, onMarkQuestion, onGenerateQuiz }) => {
     const [searchTerm, setSearchTerm] = useState('');
-    const [selectedTags, setSelectedTags] = useState([]);
+    const [includedTags, setIncludedTags] = useState([]);
+    const [excludedTags, setExcludedTags] = useState([]);
     const [expandedId, setExpandedId] = useState(null);
 
     const allTags = useMemo(() => {
@@ -27,7 +28,7 @@ export const DeckOverview = memo(({ questions, stats, onMarkQuestion }) => {
     }, [questions]);
 
     const filteredQuestions = useMemo(() => {
-        if (!searchTerm && selectedTags.length === 0) {
+        if (!searchTerm && includedTags.length === 0 && excludedTags.length === 0) {
             return questions;
         }
 
@@ -36,19 +37,26 @@ export const DeckOverview = memo(({ questions, stats, onMarkQuestion }) => {
             const matchesSearch =
                 !searchTerm ||
                 q.text.toLowerCase().includes(searchLower) ||
-                q.answer?.toLowerCase().includes(searchLower);
-            const matchesTag = selectedTags.every((t) => q.tags?.includes(t));
-            return matchesSearch && matchesTag;
+                q.answer.toLowerCase().includes(searchLower);
+            const matchesIncluded =
+                includedTags.length === 0 || includedTags.some((t) => q.tags?.includes(t));
+            const matchesExcluded =
+                excludedTags.length === 0 || !excludedTags.some((t) => q.tags?.includes(t));
+            return matchesSearch && matchesIncluded && matchesExcluded;
         });
-    }, [questions, searchTerm, selectedTags]);
+    }, [questions, searchTerm, includedTags, excludedTags]);
 
     const toggleTag = (tag) => {
         if (tag === null) {
-            setSelectedTags([]);
+            setIncludedTags([]);
+            setExcludedTags([]);
+        } else if (includedTags.includes(tag)) {
+            setIncludedTags((prev) => prev.filter((t) => t !== tag));
+            setExcludedTags((prev) => [...prev, tag]);
+        } else if (excludedTags.includes(tag)) {
+            setExcludedTags((prev) => prev.filter((t) => t !== tag));
         } else {
-            setSelectedTags((prev) =>
-                prev.includes(tag) ? prev.filter((t) => t !== tag) : [...prev, tag]
-            );
+            setIncludedTags((prev) => [...prev, tag]);
         }
     };
 
@@ -83,12 +91,12 @@ export const DeckOverview = memo(({ questions, stats, onMarkQuestion }) => {
                     </div>
 
                     {allTags.length > 0 && (
-                        <div className="flex flex-wrap gap-2">
+                        <div className="flex flex-wrap items-center gap-2">
                             <button
                                 onClick={() => toggleTag(null)}
                                 aria-label="Show all tags"
                                 className={`px-3 py-1 text-xs font-medium rounded-full transition-colors ${
-                                    selectedTags.length === 0
+                                    includedTags.length === 0 && excludedTags.length === 0
                                         ? 'bg-indigo-500 text-white'
                                         : 'bg-slate-100 text-slate-600 dark:bg-slate-700 dark:text-slate-300 hover:bg-slate-200 dark:hover:bg-slate-600'
                                 }`}
@@ -100,15 +108,30 @@ export const DeckOverview = memo(({ questions, stats, onMarkQuestion }) => {
                                     key={tag}
                                     onClick={() => toggleTag(tag)}
                                     aria-label={`Filter by tag ${tag}`}
-                                    className={`px-3 py-1 text-xs font-medium flex items-center rounded-full transition-colors ${
-                                        selectedTags.includes(tag)
-                                            ? 'bg-indigo-500 text-white'
-                                            : 'bg-slate-100 text-slate-600 dark:bg-slate-700 dark:text-slate-300 hover:bg-slate-200 dark:hover:bg-slate-600'
-                                    }`}
+                                    className={`px-3 py-1 text-xs font-medium flex items-center rounded-full transition-colors ${(() => {
+                                        if (includedTags.includes(tag)) {
+                                            return 'bg-indigo-500 text-white';
+                                        }
+
+                                        if (excludedTags.includes(tag)) {
+                                            return 'bg-red-500 text-white line-through';
+                                        }
+
+                                        return 'bg-slate-100 text-slate-600 dark:bg-slate-700 dark:text-slate-300 hover:bg-slate-200 dark:hover:bg-slate-600';
+                                    })()}`}
                                 >
                                     {tag}
                                 </button>
                             ))}
+                            {(includedTags.length > 0 || excludedTags.length > 0) && (
+                                <button
+                                    onClick={() => onGenerateQuiz({ includedTags, excludedTags })}
+                                    className="ml-auto flex items-center space-x-2 px-4 py-1.5 text-sm font-semibold bg-indigo-600 hover:bg-indigo-700 text-white rounded-full transition-all shadow hover:shadow-md transform hover:-translate-y-0.5 active:translate-y-0 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 dark:focus:ring-offset-slate-800"
+                                >
+                                    <Play className="w-4 h-4 fill-current" aria-hidden="true" />
+                                    <span>Start Custom Session</span>
+                                </button>
+                            )}
                         </div>
                     )}
                 </div>
@@ -239,4 +262,5 @@ DeckOverview.propTypes = {
     questions: PropTypes.array.isRequired,
     stats: PropTypes.object.isRequired,
     onMarkQuestion: PropTypes.func.isRequired,
+    onGenerateQuiz: PropTypes.func.isRequired,
 };
