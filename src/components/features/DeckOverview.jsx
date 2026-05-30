@@ -15,7 +15,6 @@ import {
 } from 'lucide-react';
 import SafeMarkdown from '../SafeMarkdown';
 
-// perf: Wrapped DeckOverview in React.memo to prevent unnecessary re-renders when parent state changes (e.g., when user is typing in SidebarControls)
 export const DeckOverview = memo(({ questions, stats, onMarkQuestion, onGenerateQuiz }) => {
     const [searchTerm, setSearchTerm] = useState('');
     const [includedTags, setIncludedTags] = useState([]);
@@ -51,15 +50,13 @@ export const DeckOverview = memo(({ questions, stats, onMarkQuestion, onGenerate
         if (tag === null) {
             setIncludedTags([]);
             setExcludedTags([]);
+        } else if (includedTags.includes(tag)) {
+            setIncludedTags((prev) => prev.filter((t) => t !== tag));
+            setExcludedTags((prev) => [...prev, tag]);
+        } else if (excludedTags.includes(tag)) {
+            setExcludedTags((prev) => prev.filter((t) => t !== tag));
         } else {
-            if (includedTags.includes(tag)) {
-                setIncludedTags((prev) => prev.filter((t) => t !== tag));
-                setExcludedTags((prev) => [...prev, tag]);
-            } else if (excludedTags.includes(tag)) {
-                setExcludedTags((prev) => prev.filter((t) => t !== tag));
-            } else {
-                setIncludedTags((prev) => [...prev, tag]);
-            }
+            setIncludedTags((prev) => [...prev, tag]);
         }
     };
 
@@ -111,13 +108,17 @@ export const DeckOverview = memo(({ questions, stats, onMarkQuestion, onGenerate
                                     key={tag}
                                     onClick={() => toggleTag(tag)}
                                     aria-label={`Filter by tag ${tag}`}
-                                    className={`px-3 py-1 text-xs font-medium flex items-center rounded-full transition-colors ${
-                                        includedTags.includes(tag)
-                                            ? 'bg-indigo-500 text-white'
-                                            : excludedTags.includes(tag)
-                                              ? 'bg-red-500 text-white line-through'
-                                              : 'bg-slate-100 text-slate-600 dark:bg-slate-700 dark:text-slate-300 hover:bg-slate-200 dark:hover:bg-slate-600'
-                                    }`}
+                                    className={`px-3 py-1 text-xs font-medium flex items-center rounded-full transition-colors ${(() => {
+                                        if (includedTags.includes(tag)) {
+                                            return 'bg-indigo-500 text-white';
+                                        }
+
+                                        if (excludedTags.includes(tag)) {
+                                            return 'bg-red-500 text-white line-through';
+                                        }
+
+                                        return 'bg-slate-100 text-slate-600 dark:bg-slate-700 dark:text-slate-300 hover:bg-slate-200 dark:hover:bg-slate-600';
+                                    })()}`}
                                 >
                                     {tag}
                                 </button>
