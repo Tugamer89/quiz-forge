@@ -3,7 +3,6 @@ import { PrismAsync as SyntaxHighlighter } from 'react-syntax-highlighter';
 import { vscDarkPlus, vs } from 'react-syntax-highlighter/dist/esm/styles/prism';
 import PropTypes from 'prop-types';
 
-// perf: Cache initial theme and use shared observer to prevent memory leaks and redundant operations
 let cachedInitialTheme = null;
 let sharedObserver = null;
 const subscribers = new Set();
@@ -44,7 +43,6 @@ export default function CodeRenderer({ inline, className, children, ...rest }) {
     const [isDark, setIsDark] = useState(getInitialTheme);
 
     useEffect(() => {
-        // perf: Skip observing theme changes for inline code block since it relies on CSS classes
         if (inline) return;
 
         setupSharedObserver();
