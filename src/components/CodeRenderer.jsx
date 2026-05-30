@@ -3,34 +3,59 @@ import { PrismAsync as SyntaxHighlighter } from 'react-syntax-highlighter';
 import { vscDarkPlus, vs } from 'react-syntax-highlighter/dist/esm/styles/prism';
 import PropTypes from 'prop-types';
 
-export default function CodeRenderer({ inline, className, children, ...rest }) {
-    const [isDark, setIsDark] = useState(() => {
-        try {
-            const localTheme = globalThis.localStorage.getItem('quiz_theme_dark');
-            if (localTheme !== null) {
-                return JSON.parse(localTheme);
-            }
-        } catch (e) {
-            console.error(e);
+// perf: Cache initial theme and use shared observer to prevent memory leaks and redundant operations
+let cachedInitialTheme = null;
+let sharedObserver = null;
+const subscribers = new Set();
+
+const getInitialTheme = () => {
+    if (cachedInitialTheme !== null) return cachedInitialTheme;
+    try {
+        const localTheme = globalThis.localStorage.getItem('quiz_theme_dark');
+        if (localTheme !== null) {
+            cachedInitialTheme = JSON.parse(localTheme);
+            return cachedInitialTheme;
         }
-        return document?.documentElement.classList.contains('dark');
+    } catch (e) {
+        console.error(e);
+    }
+    cachedInitialTheme = document?.documentElement.classList.contains('dark');
+    return cachedInitialTheme;
+};
+
+const notifySubscribers = (isDark) => {
+    cachedInitialTheme = isDark;
+    subscribers.forEach((cb) => cb(isDark));
+};
+
+const setupSharedObserver = () => {
+    if (sharedObserver) return;
+    const root = document.documentElement;
+    sharedObserver = new MutationObserver(() => {
+        notifySubscribers(root.classList.contains('dark'));
     });
+    sharedObserver.observe(root, {
+        attributes: true,
+        attributeFilter: ['class'],
+    });
+};
+
+export default function CodeRenderer({ inline, className, children, ...rest }) {
+    const [isDark, setIsDark] = useState(getInitialTheme);
 
     useEffect(() => {
-        const root = document.documentElement;
+        // perf: Skip observing theme changes for inline code block since it relies on CSS classes
+        if (inline) return;
 
-        const checkTheme = () => {
-            setIsDark(root.classList.contains('dark'));
+        setupSharedObserver();
+
+        const handleThemeChange = (dark) => setIsDark(dark);
+        subscribers.add(handleThemeChange);
+
+        return () => {
+            subscribers.delete(handleThemeChange);
         };
-        checkTheme();
-        const observer = new MutationObserver(checkTheme);
-        observer.observe(root, {
-            attributes: true,
-            attributeFilter: ['class'],
-        });
-
-        return () => observer.disconnect();
-    }, []);
+    }, [inline]);
 
     const match = /language-(\w+)/.exec(className || '');
 
