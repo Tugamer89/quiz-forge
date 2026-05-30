@@ -1,3 +1,9 @@
+## [1.19.2](https://github.com/Tugamer89/quiz-forge/compare/v1.19.1...v1.19.2) (2026-05-30)
+
+### Bug Fixes
+
+* **security:** add Permissions-Policy security header ([#72](https://github.com/Tugamer89/quiz-forge/issues/72)) ([b7eb8c8](https://github.com/Tugamer89/quiz-forge/commit/b7eb8c8f8b94f77881f50841d3295a6d0f3cf549))
+
 ## [1.19.1](https://github.com/Tugamer89/quiz-forge/compare/v1.19.0...v1.19.1) (2026-05-30)
 
 ### Performance Improvements
