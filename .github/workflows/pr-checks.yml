@@ -75,7 +75,7 @@ jobs:
           message: |
             ### UI Preview
             The preview for this Pull Request is live at: **[https://quiz-forge-pr-${{ github.event.pull_request.number }}.surge.sh/quiz-forge/](https://quiz-forge-pr-${{ github.event.pull_request.number }}.surge.sh/quiz-forge/)**
-            
+
             ### Lighthouse Score
             ${{ steps.format_lighthouse_score.outputs.result || 'Unable to generate Lighthouse report.' }}
 
