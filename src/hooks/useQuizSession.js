@@ -81,7 +81,7 @@ export function useQuizSession(
             lastOptions: opts,
         });
         setShowAnswer(false);
-    };
+    }, [questions, selectedDeckId, settings, showToast]);
 
     const handleAnswer = (answerStatus) => {
         const currentQ = quizSession.questions[quizSession.currentIndex];

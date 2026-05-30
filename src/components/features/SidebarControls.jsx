@@ -1,5 +1,5 @@
 import PropTypes from 'prop-types';
-import { useRef } from 'react';
+import { useRef, memo } from 'react';
 import {
     Folder,
     Plus,
@@ -17,7 +17,7 @@ import {
 } from 'lucide-react';
 import { ActivityHeatmap } from './ActivityHeatmap';
 
-export const SidebarControls = ({
+export const SidebarControls = memo(({
     decks,
     selectedDeckId,
     onSelectDeck,
@@ -161,7 +161,7 @@ export const SidebarControls = ({
                     <button
                         onClick={onCopyText}
                         disabled={!currentRawText}
-                        title={!currentRawText ? "Add text to copy" : "Copy text"}
+                        title={currentRawText ? 'Copy text' : 'Add text to copy'}
                         className="flex-1 flex items-center justify-center space-x-2 bg-slate-100 dark:bg-slate-700 hover:bg-slate-200 dark:hover:bg-slate-600 text-slate-700 dark:text-slate-300 disabled:opacity-50 disabled:cursor-not-allowed font-medium py-2 px-4 rounded-lg transition-colors text-sm"
                     >
                         <Copy className="w-4 h-4" /> <span>Copy</span>
@@ -170,7 +170,7 @@ export const SidebarControls = ({
                         onClick={onClearText}
                         disabled={!currentRawText}
                         aria-label="Erase all text"
-                        title={!currentRawText ? "Add text to clear" : "Clear"}
+                        title={currentRawText ? 'Clear' : 'Add text to clear'}
                         className="flex-none p-2.5 text-red-600 dark:text-red-400 hover:bg-red-50 dark:hover:bg-red-950/80 disabled:opacity-50 disabled:cursor-not-allowed rounded-lg transition-colors"
                     >
                         <Eraser className="w-5 h-5" />
@@ -206,7 +206,7 @@ export const SidebarControls = ({
                                     onSettingsChange({ ...settings, srsEnabled: e.target.checked })
                                 }
                             />
-                            <div className="w-9 h-5 bg-slate-300 peer-focus:outline-none rounded-full peer dark:bg-slate-600 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-0.5 after:left-0.5 after:bg-white after:border-gray-300 after:border after:rounded-full after:h-4 after:w-4 after:transition-all dark:border-gray-600 peer-checked:bg-indigo-500"></div>
+                            <div className="w-9 h-5 bg-slate-300 peer-focus:outline-none peer-focus-visible:ring-2 peer-focus-visible:ring-indigo-500 peer-focus-visible:ring-offset-2 dark:peer-focus-visible:ring-offset-slate-800 rounded-full peer dark:bg-slate-600 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-0.5 after:left-0.5 after:bg-white after:border-gray-300 after:border after:rounded-full after:h-4 after:w-4 after:transition-all dark:border-gray-600 peer-checked:bg-indigo-500"></div>
                         </div>
                     </label>
 
@@ -280,7 +280,7 @@ export const SidebarControls = ({
                                                         [key]: e.target.checked,
                                                     })
                                                 }
-                                                className="rounded w-4 h-4 cursor-pointer transition-colors"
+                                                className="rounded w-4 h-4 cursor-pointer transition-colors focus-visible:ring-2 focus-visible:ring-indigo-500 focus-visible:ring-offset-2 dark:focus-visible:ring-offset-slate-800"
                                             />
                                             <div className="flex justify-between flex-1 text-sm text-slate-600 dark:text-slate-300 group-hover:text-slate-900 dark:group-hover:text-white transition-colors">
                                                 <span>{displayLabel}</span>
@@ -306,7 +306,11 @@ export const SidebarControls = ({
                     <button
                         onClick={onGenerateQuiz}
                         disabled={activeDeckQuestionsLength === 0}
-                        title={activeDeckQuestionsLength === 0 ? "Add questions to this deck to start a quiz" : "Start Quiz"}
+                        title={
+                            activeDeckQuestionsLength === 0
+                                ? 'Add questions to this deck to start a quiz'
+                                : 'Start Quiz'
+                        }
                         className="w-full mt-4 flex items-center justify-center space-x-2 bg-indigo-600 hover:bg-indigo-700 disabled:bg-slate-300 dark:disabled:bg-slate-700 disabled:text-slate-500 disabled:cursor-not-allowed text-white font-medium py-3 px-4 rounded-lg transition-all shadow-sm active:scale-[0.98]"
                     >
                         <Play className="w-5 h-5 fill-current" />
@@ -316,7 +320,7 @@ export const SidebarControls = ({
             </div>
         </div>
     );
-};
+});
 
 SidebarControls.propTypes = {
     decks: PropTypes.array.isRequired,

@@ -1,44 +1,47 @@
+import { useMemo } from 'react';
 import ReactMarkdown from 'react-markdown';
 import rehypeSanitize, { defaultSchema } from 'rehype-sanitize';
 import PropTypes from 'prop-types';
 import CodeRenderer from './CodeRenderer';
 
+const sanitizeOptions = {
+    ...defaultSchema,
+    attributes: {
+        ...defaultSchema.attributes,
+        code: ['className', ...(defaultSchema.attributes.code || [])],
+        span: ['className', 'style', ...(defaultSchema.attributes.span || [])],
+    },
+    protocols: {
+        ...defaultSchema.protocols,
+        href: ['http', 'https', 'mailto', 'tel'],
+        src: ['http', 'https'],
+        cite: ['http', 'https'],
+    },
+};
+
+const preRemoveWrapper = ({ children }) => <>{children}</>;
+
+const aRemoveWrapper = ({ href, ...rest }) => {
+    return <a href={href} target="_blank" rel="noopener noreferrer" {...rest} />;
+};
+
+const markdownComponents = {
+    code: CodeRenderer,
+    pre: preRemoveWrapper,
+    a: aRemoveWrapper,
+};
+
 export default function SafeMarkdownCore({ children, remarkPlugins, rehypePlugins, ...props }) {
-    const sanitizeOptions = {
-        ...defaultSchema,
-        attributes: {
-            ...defaultSchema.attributes,
-            code: ['className', ...(defaultSchema.attributes.code || [])],
-            span: ['className', 'style', ...(defaultSchema.attributes.span || [])],
-        },
-        protocols: {
-            ...defaultSchema.protocols,
-            href: ['http', 'https', 'mailto', 'tel'],
-            src: ['http', 'https'],
-            cite: ['http', 'https'],
-        },
-    };
-
-    const combinedRehypePlugins = [...(rehypePlugins || []), [rehypeSanitize, sanitizeOptions]];
-
-    const preRemoveWrapper = ({ children }) => <>{children}</>;
-
-    const aRemoveWrapper = ({ href, ...rest }) => {
-        if (href?.trim().toLowerCase().startsWith('javascript:')) {
-            return <a target="_blank" rel="noopener noreferrer" {...rest} />;
-        }
-        return <a href={href} target="_blank" rel="noopener noreferrer" {...rest} />;
-    };
+    const combinedRehypePlugins = useMemo(
+        () => [...(rehypePlugins || []), [rehypeSanitize, sanitizeOptions]],
+        [rehypePlugins]
+    );
 
     return (
         <ReactMarkdown
             remarkPlugins={remarkPlugins}
             rehypePlugins={combinedRehypePlugins}
-            components={{
-                code: CodeRenderer,
-                pre: preRemoveWrapper,
-                a: aRemoveWrapper,
-            }}
+            components={markdownComponents}
             {...props}
         >
             {children}

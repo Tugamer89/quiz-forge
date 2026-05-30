@@ -29,9 +29,14 @@ export const DeckOverview = memo(({ questions, stats, onMarkQuestion, onGenerate
     }, [questions]);
 
     const filteredQuestions = useMemo(() => {
+        if (!searchTerm && selectedTags.length === 0) {
+            return questions;
+        }
+
         const searchLower = searchTerm.toLowerCase();
         return questions.filter((q) => {
             const matchesSearch =
+                !searchTerm ||
                 q.text.toLowerCase().includes(searchLower) ||
                 q.answer.toLowerCase().includes(searchLower);
             const matchesIncluded =
@@ -92,6 +97,7 @@ export const DeckOverview = memo(({ questions, stats, onMarkQuestion, onGenerate
                         <div className="flex flex-wrap items-center gap-2">
                             <button
                                 onClick={() => toggleTag(null)}
+                                aria-label="Show all tags"
                                 className={`px-3 py-1 text-xs font-medium rounded-full transition-colors ${
                                     includedTags.length === 0 && excludedTags.length === 0
                                         ? 'bg-indigo-500 text-white'
@@ -104,6 +110,7 @@ export const DeckOverview = memo(({ questions, stats, onMarkQuestion, onGenerate
                                 <button
                                     key={tag}
                                     onClick={() => toggleTag(tag)}
+                                    aria-label={`Filter by tag ${tag}`}
                                     className={`px-3 py-1 text-xs font-medium flex items-center rounded-full transition-colors ${
                                         includedTags.includes(tag)
                                             ? 'bg-indigo-500 text-white'
@@ -149,9 +156,14 @@ export const DeckOverview = memo(({ questions, stats, onMarkQuestion, onGenerate
                                 <button
                                     type="button"
                                     title="Expand question to see answer"
+                                    aria-label={
+                                        expandedId === q.id
+                                            ? 'Collapse question'
+                                            : 'Expand question to see answer'
+                                    }
                                     aria-expanded={expandedId === q.id}
                                     onClick={() => toggleExpand(q.id)}
-                                    className="flex-1 min-w-0 text-left focus:outline-none rounded-lg p-1 -m-1"
+                                    className="flex-1 min-w-0 text-left focus:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 dark:focus-visible:ring-indigo-400 rounded-lg p-1 -m-1 transition-shadow"
                                 >
                                     <div className="text-sm font-medium text-slate-800 dark:text-slate-200 flex items-start gap-2 overflow-hidden">
                                         {expandedId === q.id ? (

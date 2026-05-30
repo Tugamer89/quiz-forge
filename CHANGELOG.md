@@ -1,3 +1,75 @@
+## [1.19.2](https://github.com/Tugamer89/quiz-forge/compare/v1.19.1...v1.19.2) (2026-05-30)
+
+### Bug Fixes
+
+* **security:** add Permissions-Policy security header ([#72](https://github.com/Tugamer89/quiz-forge/issues/72)) ([b7eb8c8](https://github.com/Tugamer89/quiz-forge/commit/b7eb8c8f8b94f77881f50841d3295a6d0f3cf549))
+
+## [1.19.1](https://github.com/Tugamer89/quiz-forge/compare/v1.19.0...v1.19.1) (2026-05-30)
+
+### Performance Improvements
+
+* use shared MutationObserver and cache theme in CodeRenderer ([#71](https://github.com/Tugamer89/quiz-forge/issues/71)) ([8fb3d74](https://github.com/Tugamer89/quiz-forge/commit/8fb3d7439a8b8decbd9984f9149b5d2cf5ae9c58))
+
+## [1.19.0](https://github.com/Tugamer89/quiz-forge/compare/v1.18.3...v1.19.0) (2026-05-30)
+
+### Features
+
+* **ui:** add aria-labels to deck overview tag filters ([#70](https://github.com/Tugamer89/quiz-forge/issues/70)) ([c2b0310](https://github.com/Tugamer89/quiz-forge/commit/c2b0310e6d7206f00ca7bfd1a6407fe5f19ecf2c))
+
+## [1.18.3](https://github.com/Tugamer89/quiz-forge/compare/v1.18.2...v1.18.3) (2026-05-29)
+
+### Performance Improvements
+
+* memoize react-markdown plugin arrays to prevent unnecessary re-renders ([#68](https://github.com/Tugamer89/quiz-forge/issues/68)) ([99751df](https://github.com/Tugamer89/quiz-forge/commit/99751dfaaf717f075effb24336cae4ef27fc02fe))
+
+## [1.18.2](https://github.com/Tugamer89/quiz-forge/compare/v1.18.1...v1.18.2) (2026-05-28)
+
+### Performance Improvements
+
+* memoize generateQuiz to prevent SidebarControls re-renders ([#66](https://github.com/Tugamer89/quiz-forge/issues/66)) ([5c98d6d](https://github.com/Tugamer89/quiz-forge/commit/5c98d6d204af42da5c9f45b01c9961f85a529967))
+
+## [1.18.1](https://github.com/Tugamer89/quiz-forge/compare/v1.18.0...v1.18.1) (2026-05-28)
+
+### Bug Fixes
+
+* **security:** [security improvement] delegate url sanitization to rehype-sanitize ([#65](https://github.com/Tugamer89/quiz-forge/issues/65)) ([f548582](https://github.com/Tugamer89/quiz-forge/commit/f548582a68b97afed299db4dcee8ae00d12f9a98))
+
+## [1.18.0](https://github.com/Tugamer89/quiz-forge/compare/v1.17.2...v1.18.0) (2026-05-27)
+
+### Features
+
+* **ui:** add focus-visible styles to settings checkboxes ([#62](https://github.com/Tugamer89/quiz-forge/issues/62)) ([f9be5cb](https://github.com/Tugamer89/quiz-forge/commit/f9be5cbc94955f4dd895c27964e1f71a46f0a8e9))
+
+## [1.17.2](https://github.com/Tugamer89/quiz-forge/compare/v1.17.1...v1.17.2) (2026-05-27)
+
+### Performance Improvements
+
+* prevent unnecessary re-renders with React.memo ([#63](https://github.com/Tugamer89/quiz-forge/issues/63)) ([3fa50f0](https://github.com/Tugamer89/quiz-forge/commit/3fa50f0006ff4bc27706cd1b70113875b37bc952))
+
+## [1.17.1](https://github.com/Tugamer89/quiz-forge/compare/v1.17.0...v1.17.1) (2026-05-27)
+
+### Bug Fixes
+
+* **security:** [security improvement] ([#61](https://github.com/Tugamer89/quiz-forge/issues/61)) ([b922ed4](https://github.com/Tugamer89/quiz-forge/commit/b922ed4c7f865e7bc5a6f1e1515e176a75b479ec))
+
+## [1.17.0](https://github.com/Tugamer89/quiz-forge/compare/v1.16.1...v1.17.0) (2026-05-27)
+
+### Features
+
+* pr deployment ([#64](https://github.com/Tugamer89/quiz-forge/issues/64)) ([143fc50](https://github.com/Tugamer89/quiz-forge/commit/143fc50c9e49691619dc359e1003c9a329c44f40))
+
+## [1.16.1](https://github.com/Tugamer89/quiz-forge/compare/v1.16.0...v1.16.1) (2026-05-26)
+
+### Performance Improvements
+
+* optimize DeckOverview question filtering ([#59](https://github.com/Tugamer89/quiz-forge/issues/59)) ([d0a7ad7](https://github.com/Tugamer89/quiz-forge/commit/d0a7ad7df6642dddf6e0e084b29b7055eaa2e221))
+
+## [1.16.0](https://github.com/Tugamer89/quiz-forge/compare/v1.15.1...v1.16.0) (2026-05-26)
+
+### Features
+
+* **ui:** improve accessibility for question expand button ([#58](https://github.com/Tugamer89/quiz-forge/issues/58)) ([54f15de](https://github.com/Tugamer89/quiz-forge/commit/54f15de55a12d34dd3c8201f8754cc9c5d6af07c))
+
 ## [1.15.1](https://github.com/Tugamer89/quiz-forge/compare/v1.15.0...v1.15.1) (2026-05-25)
 
 ### Performance Improvements
