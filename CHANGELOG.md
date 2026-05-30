@@ -1,3 +1,9 @@
+## [1.20.0](https://github.com/Tugamer89/quiz-forge/compare/v1.19.2...v1.20.0) (2026-05-30)
+
+### Features
+
+* **ui:** add custom session feature with tag filtering ([#57](https://github.com/Tugamer89/quiz-forge/issues/57)) ([3e8d746](https://github.com/Tugamer89/quiz-forge/commit/3e8d746302a52d8f00a39c32827d7d89cd08a5ea))
+
 ## [1.19.2](https://github.com/Tugamer89/quiz-forge/compare/v1.19.1...v1.19.2) (2026-05-30)
 
 ### Bug Fixes
