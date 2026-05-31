@@ -21,7 +21,8 @@ export function useQuizSession(
     });
     const [showAnswer, setShowAnswer] = useState(false);
 
-    const generateQuiz = (options = {}) => {
+    // perf: Wrap generateQuiz and handleAnswer in useCallback to prevent unnecessary re-renders of child components
+    const generateQuiz = useCallback((options = {}) => {
         const isMouseEvent = options && options.nativeEvent instanceof Event;
         const opts = isMouseEvent ? {} : options || {};
         const { includedTags = [], excludedTags = [] } = opts;
@@ -81,9 +82,9 @@ export function useQuizSession(
             lastOptions: opts,
         });
         setShowAnswer(false);
-    };
+    }, [questions, selectedDeckId, settings, showToast]);
 
-    const handleAnswer = (answerStatus) => {
+    const handleAnswer = useCallback((answerStatus) => {
         const currentQ = quizSession.questions[quizSession.currentIndex];
 
         // Spaced Repetition
@@ -142,7 +143,7 @@ export function useQuizSession(
             };
         });
         setShowAnswer(false);
-    };
+    }, [quizSession.questions, quizSession.currentIndex, settings.srsEnabled, selectedDeckId, logActivity, setQuestions]);
 
     const cancelSession = useCallback(() => setQuizSession((p) => ({ ...p, active: false })), []);
     const resetSession = useCallback(

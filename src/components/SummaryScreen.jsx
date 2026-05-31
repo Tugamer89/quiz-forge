@@ -1,7 +1,9 @@
+import { memo } from 'react';
 import PropTypes from 'prop-types';
 import { PieChart, Database, Zap } from 'lucide-react';
 
-export const SummaryScreen = ({ session, onReset, onPlayAgain }) => {
+// perf: Memoize SummaryScreen component to prevent unnecessary re-renders
+export const SummaryScreen = memo(({ session, onReset, onPlayAgain }) => {
     const total = session.questions.length;
     const percentage = Math.round((session.correctCount / total) * 100);
 
@@ -101,7 +103,7 @@ export const SummaryScreen = ({ session, onReset, onPlayAgain }) => {
             </div>
         </div>
     );
-};
+});
 
 SummaryScreen.propTypes = {
     session: PropTypes.shape({
