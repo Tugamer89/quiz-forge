@@ -1,3 +1,9 @@
+## [1.20.3](https://github.com/Tugamer89/quiz-forge/compare/v1.20.2...v1.20.3) (2026-05-31)
+
+### Bug Fixes
+
+* **ui:** improve icon semantics for exit quiz button ([#73](https://github.com/Tugamer89/quiz-forge/issues/73)) ([4e4fe53](https://github.com/Tugamer89/quiz-forge/commit/4e4fe53552158236ff149f827d30ae42bea5ce83))
+
 ## [1.20.2](https://github.com/Tugamer89/quiz-forge/compare/v1.20.1...v1.20.2) (2026-05-31)
 
 ### Performance Improvements
