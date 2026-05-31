@@ -1,5 +1,5 @@
 import PropTypes from 'prop-types';
-import { PieChart, Database, Zap } from 'lucide-react';
+import { PieChart, LogOut, Zap } from 'lucide-react';
 
 export const SummaryScreen = ({ session, onReset, onPlayAgain }) => {
     const total = session.questions.length;
@@ -87,7 +87,7 @@ export const SummaryScreen = ({ session, onReset, onPlayAgain }) => {
                     onClick={onReset}
                     className="flex items-center justify-center gap-2.5 px-8 py-3.5 rounded-xl border border-slate-300 dark:border-slate-600 bg-slate-200 hover:bg-slate-300 dark:bg-slate-700 dark:hover:bg-slate-600 text-slate-800 dark:text-slate-100 font-semibold transition-all duration-200 active:scale-95 group shadow-sm"
                 >
-                    <Database className="w-5 h-5 text-slate-500 group-hover:scale-110 transition-transform" />
+                    <LogOut className="w-5 h-5 text-slate-500 group-hover:scale-110 transition-transform" />
                     Exit Quiz
                 </button>
 
