@@ -1,11 +1,12 @@
 import PropTypes from 'prop-types';
-import { useRef, useEffect, useState, useCallback } from 'react';
+import { useRef, useEffect, useState, useCallback, memo } from 'react';
 import { Play, ArrowRight, XCircle, CheckCircle2, AlertCircle } from 'lucide-react';
 import SafeMarkdown from '../SafeMarkdown';
 import { ProgressBar } from '../ProgressBar';
 import { useShortcuts } from '../../hooks/useShortcuts';
 
-export const LiveSession = ({ session, onCancel, showAnswer, onReveal, onAnswer }) => {
+// perf: Memoize LiveSession component to prevent unnecessary re-renders
+export const LiveSession = memo(({ session, onCancel, showAnswer, onReveal, onAnswer }) => {
     const currentQ = session.questions[session.currentIndex];
     const containerRef = useRef(null);
     const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
@@ -211,7 +212,7 @@ export const LiveSession = ({ session, onCancel, showAnswer, onReveal, onAnswer 
             )}
         </div>
     );
-};
+});
 
 LiveSession.propTypes = {
     session: PropTypes.shape({

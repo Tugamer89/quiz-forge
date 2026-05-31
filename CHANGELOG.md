@@ -1,3 +1,9 @@
+## [1.20.1](https://github.com/Tugamer89/quiz-forge/compare/v1.20.0...v1.20.1) (2026-05-31)
+
+### Bug Fixes
+
+* **security:** update Referrer-Policy to strict-origin-when-cross-origin ([#75](https://github.com/Tugamer89/quiz-forge/issues/75)) ([637161a](https://github.com/Tugamer89/quiz-forge/commit/637161af9e643215575aeec6699866702120491e))
+
 ## [1.20.0](https://github.com/Tugamer89/quiz-forge/compare/v1.19.2...v1.20.0) (2026-05-30)
 
 ### Features
