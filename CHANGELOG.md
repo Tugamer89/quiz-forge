@@ -1,3 +1,9 @@
+## [1.20.2](https://github.com/Tugamer89/quiz-forge/compare/v1.20.1...v1.20.2) (2026-05-31)
+
+### Performance Improvements
+
+* prevent unnecessary re-renders in quiz components ([#74](https://github.com/Tugamer89/quiz-forge/issues/74)) ([5f8346e](https://github.com/Tugamer89/quiz-forge/commit/5f8346ea855d58560815af0c9389a2fc261c2ffd))
+
 ## [1.20.1](https://github.com/Tugamer89/quiz-forge/compare/v1.20.0...v1.20.1) (2026-05-31)
 
 ### Bug Fixes
