@@ -68,7 +68,7 @@ export function useQuizData(showToast, setDialog) {
     };
 
     const extractTags = (text) => {
-        if (!text) return [];
+        if (!text?.includes('#')) return [];
 
         const textWithoutCode = text
             .replaceAll(CODE_BLOCK_REGEX, '')

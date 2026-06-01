@@ -21,22 +21,24 @@ export function useQuizSession(
     });
     const [showAnswer, setShowAnswer] = useState(false);
 
-    // perf: Wrap generateQuiz and handleAnswer in useCallback to prevent unnecessary re-renders of child components
     const generateQuiz = useCallback((options = {}) => {
         const isMouseEvent = options && options.nativeEvent instanceof Event;
         const opts = isMouseEvent ? {} : options || {};
         const { includedTags = [], excludedTags = [] } = opts;
 
+        const includedSet = new Set(includedTags);
+        const excludedSet = new Set(excludedTags);
+
         const eligible = questions.filter((q) => {
             if (q.deckId !== selectedDeckId) return false;
 
-            if (includedTags.length > 0) {
-                const hasAnyIncluded = includedTags.some((t) => q.tags?.includes(t));
+            if (includedSet.size > 0) {
+                const hasAnyIncluded = q.tags?.some((t) => includedSet.has(t));
                 if (!hasAnyIncluded) return false;
             }
 
-            if (excludedTags.length > 0) {
-                const hasAnyExcluded = excludedTags.some((t) => q.tags?.includes(t));
+            if (excludedSet.size > 0) {
+                const hasAnyExcluded = q.tags?.some((t) => excludedSet.has(t));
                 if (hasAnyExcluded) return false;
             }
 
