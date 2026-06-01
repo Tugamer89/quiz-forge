@@ -1,3 +1,9 @@
+## [1.20.8](https://github.com/Tugamer89/quiz-forge/compare/v1.20.7...v1.20.8) (2026-06-01)
+
+### Performance Improvements
+
+* optimize tag filtering and extraction logic ([#78](https://github.com/Tugamer89/quiz-forge/issues/78)) ([0d69cdf](https://github.com/Tugamer89/quiz-forge/commit/0d69cdfdf684e3bca9582902bd432c5ad276f4c6))
+
 ## [1.20.7](https://github.com/Tugamer89/quiz-forge/compare/v1.20.6...v1.20.7) (2026-06-01)
 
 ### Performance Improvements
