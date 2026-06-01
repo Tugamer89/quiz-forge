@@ -38,7 +38,6 @@ export function useQuizData(showToast, setDialog) {
     );
 
     const stats = useMemo(() => {
-        // Optimization: avoid array reduce overhead on hot path for stats
         const acc = {
             total: activeDeckQuestions.length,
             unanswered: 0,
