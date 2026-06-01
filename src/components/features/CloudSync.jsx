@@ -33,12 +33,9 @@ export const CloudSync = ({
         const existingScript = document.getElementById('google-gsi-client');
 
         if (existingScript) {
-            if (globalThis.google?.accounts) {
-                initGoogleClient();
-            } else {
-                existingScript.addEventListener('load', initGoogleClient);
-            }
-            return;
+            if (globalThis.google?.accounts) return initGoogleClient();
+            existingScript.addEventListener('load', initGoogleClient);
+            return () => existingScript.removeEventListener('load', initGoogleClient);
         }
 
         const script = document.createElement('script');
@@ -51,7 +48,7 @@ export const CloudSync = ({
         document.body.appendChild(script);
 
         return () => {
-            if (existingScript) existingScript.removeEventListener('load', initGoogleClient);
+            script.removeEventListener('load', initGoogleClient);
         };
     }, []);
 
@@ -166,35 +163,39 @@ export const CloudSync = ({
         }
     };
 
+    const buttonConfig = [
+        {
+            action: uploadToDrive,
+            Icon: CloudUpload,
+            text: 'Save to Google Drive',
+            title: 'Save backup to Google Drive',
+        },
+        {
+            action: downloadFromDrive,
+            Icon: CloudDownload,
+            text: 'Restore from Google Drive',
+            title: 'Restore from Google Drive',
+        },
+    ];
+
     return (
         <div className="flex flex-col w-full">
-            <button
-                onClick={() => handleAuth(uploadToDrive)}
-                disabled={isSyncing}
-                className="w-full flex items-center px-4 py-2.5 text-sm text-slate-700 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-700 transition-colors disabled:opacity-50 disabled:cursor-not-allowed group"
-                title="Save backup to Google Drive"
-            >
-                {isSyncing ? (
-                    <Loader2 className="w-4 h-4 mr-2.5 animate-spin text-indigo-500" />
-                ) : (
-                    <CloudUpload className="w-4 h-4 mr-2.5 text-indigo-500 group-hover:scale-110 transition-transform" />
-                )}
-                Save to Google Drive
-            </button>
-
-            <button
-                onClick={() => handleAuth(downloadFromDrive)}
-                disabled={isSyncing}
-                className="w-full flex items-center px-4 py-2.5 text-sm text-slate-700 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-700 transition-colors disabled:opacity-50 disabled:cursor-not-allowed group"
-                title="Restore from Google Drive"
-            >
-                {isSyncing ? (
-                    <Loader2 className="w-4 h-4 mr-2.5 animate-spin text-indigo-500" />
-                ) : (
-                    <CloudDownload className="w-4 h-4 mr-2.5 text-indigo-500 group-hover:scale-110 transition-transform" />
-                )}
-                Restore from Google Drive
-            </button>
+            {buttonConfig.map(({ action, Icon, text, title }, index) => (
+                <button
+                    key={index}
+                    onClick={() => handleAuth(action)}
+                    disabled={isSyncing}
+                    className="w-full flex items-center px-4 py-2.5 text-sm text-slate-700 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-700 transition-colors disabled:opacity-50 disabled:cursor-not-allowed group"
+                    title={title}
+                >
+                    {isSyncing ? (
+                        <Loader2 className="w-4 h-4 mr-2.5 animate-spin text-indigo-500" />
+                    ) : (
+                        <Icon className="w-4 h-4 mr-2.5 text-indigo-500 group-hover:scale-110 transition-transform" />
+                    )}
+                    {text}
+                </button>
+            ))}
         </div>
     );
 };
