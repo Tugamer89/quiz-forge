@@ -1,3 +1,9 @@
+## [1.20.10](https://github.com/Tugamer89/quiz-forge/compare/v1.20.9...v1.20.10) (2026-06-01)
+
+### Performance Improvements
+
+* optimize stats calculation using for loop ([#79](https://github.com/Tugamer89/quiz-forge/issues/79)) ([affbc31](https://github.com/Tugamer89/quiz-forge/commit/affbc31df149dc5a49cb7fe55c30ab0e76cb270c))
+
 ## [1.20.9](https://github.com/Tugamer89/quiz-forge/compare/v1.20.8...v1.20.9) (2026-06-01)
 
 ### Performance Improvements
