@@ -16,8 +16,8 @@ export function useLocalStorage(key, initialValue) {
             try {
                 const valueToStore = typeof value === 'function' ? value(storedValue) : value;
                 setStoredValue(valueToStore);
-                if (typeof window !== 'undefined') {
-                    window.localStorage.setItem(key, JSON.stringify(valueToStore));
+                if (typeof globalThis.window !== 'undefined') {
+                    globalThis.window.localStorage.setItem(key, JSON.stringify(valueToStore));
                 }
             } catch (error) {
                 console.error('Error saving to localStorage:', error);
