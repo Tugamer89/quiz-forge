@@ -14,7 +14,6 @@ export const setQuestionStatus = (questionId, newStatus) => (prevQuestions) =>
     prevQuestions.map((q) => (q.id === questionId ? { ...q, status: newStatus } : q));
 
 export function mergeQuestions(prevQuestions, parsed, currentDeckId) {
-    // perf: Replace O(n²) nested loop with O(n) hash map lookup for merging questions
     const existingMap = new Map();
     for (const q of prevQuestions) {
         if (q.deckId === currentDeckId) {

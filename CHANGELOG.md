@@ -1,3 +1,39 @@
+## [1.20.10](https://github.com/Tugamer89/quiz-forge/compare/v1.20.9...v1.20.10) (2026-06-01)
+
+### Performance Improvements
+
+* optimize stats calculation using for loop ([#79](https://github.com/Tugamer89/quiz-forge/issues/79)) ([affbc31](https://github.com/Tugamer89/quiz-forge/commit/affbc31df149dc5a49cb7fe55c30ab0e76cb270c))
+
+## [1.20.9](https://github.com/Tugamer89/quiz-forge/compare/v1.20.8...v1.20.9) (2026-06-01)
+
+### Performance Improvements
+
+* optimize tag extraction in DeckOverview ([#88](https://github.com/Tugamer89/quiz-forge/issues/88)) ([77fbc1c](https://github.com/Tugamer89/quiz-forge/commit/77fbc1c59533091b4448c011d1c206eed2c7d325))
+
+## [1.20.8](https://github.com/Tugamer89/quiz-forge/compare/v1.20.7...v1.20.8) (2026-06-01)
+
+### Performance Improvements
+
+* optimize tag filtering and extraction logic ([#78](https://github.com/Tugamer89/quiz-forge/issues/78)) ([0d69cdf](https://github.com/Tugamer89/quiz-forge/commit/0d69cdfdf684e3bca9582902bd432c5ad276f4c6))
+
+## [1.20.7](https://github.com/Tugamer89/quiz-forge/compare/v1.20.6...v1.20.7) (2026-06-01)
+
+### Performance Improvements
+
+* optimize setQuestions update by replacing multiple filters with a single reduce pass ([#77](https://github.com/Tugamer89/quiz-forge/issues/77)) ([44ad812](https://github.com/Tugamer89/quiz-forge/commit/44ad8120dc883fa4f8b211aa7c1aa3803ebcb4f5))
+
+## [1.20.6](https://github.com/Tugamer89/quiz-forge/compare/v1.20.5...v1.20.6) (2026-06-01)
+
+### Bug Fixes
+
+* **security:** [LOW] resolve potential DOM-based XSS ([#82](https://github.com/Tugamer89/quiz-forge/issues/82)) ([5e2696b](https://github.com/Tugamer89/quiz-forge/commit/5e2696b0cf634fd6be594903d183bb6ae7fc36be))
+
+## [1.20.5](https://github.com/Tugamer89/quiz-forge/compare/v1.20.4...v1.20.5) (2026-06-01)
+
+### Bug Fixes
+
+* remove console log from test suite ([#86](https://github.com/Tugamer89/quiz-forge/issues/86)) ([977827d](https://github.com/Tugamer89/quiz-forge/commit/977827de52abe14ca681e2bfbe28c6f5b7623fba))
+
 ## [1.20.4](https://github.com/Tugamer89/quiz-forge/compare/v1.20.3...v1.20.4) (2026-06-01)
 
 ### Bug Fixes

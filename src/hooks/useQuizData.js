@@ -37,26 +37,23 @@ export function useQuizData(showToast, setDialog) {
         [questions, selectedDeckId]
     );
 
-    const stats = useMemo(
-        () =>
-            activeDeckQuestions.reduce(
-                (acc, q) => {
-                    if (q.status === 'unanswered') acc.unanswered++;
-                    else if (q.status === 'correct') acc.correct++;
-                    else if (q.status === 'incorrect') acc.incorrect++;
-                    else if (q.status === 'partially-correct') acc.partiallyCorrect++;
-                    return acc;
-                },
-                {
-                    total: activeDeckQuestions.length,
-                    unanswered: 0,
-                    correct: 0,
-                    incorrect: 0,
-                    partiallyCorrect: 0,
-                }
-            ),
-        [activeDeckQuestions]
-    );
+    const stats = useMemo(() => {
+        const acc = {
+            total: activeDeckQuestions.length,
+            unanswered: 0,
+            correct: 0,
+            incorrect: 0,
+            partiallyCorrect: 0,
+        };
+        for (const q of activeDeckQuestions) {
+            const status = q.status;
+            if (status === 'unanswered') acc.unanswered++;
+            else if (status === 'correct') acc.correct++;
+            else if (status === 'incorrect') acc.incorrect++;
+            else if (status === 'partially-correct') acc.partiallyCorrect++;
+        }
+        return acc;
+    }, [activeDeckQuestions]);
 
     useEffect(() => {
         Sentry.setTag('srs_enabled', settings.srsEnabled);
@@ -68,7 +65,7 @@ export function useQuizData(showToast, setDialog) {
     };
 
     const extractTags = (text) => {
-        if (!text) return [];
+        if (!text?.includes('#')) return [];
 
         const textWithoutCode = text
             .replaceAll(CODE_BLOCK_REGEX, '')
@@ -116,12 +113,18 @@ export function useQuizData(showToast, setDialog) {
             }
 
             setQuestions((prev) => {
-                const otherDecks = prev.filter((q) => q.deckId !== deckId);
-                const merged = mergeQuestions(
-                    prev.filter((q) => q.deckId === deckId),
-                    parsed,
-                    deckId
+                const [otherDecks, activeDeckQuestions] = prev.reduce(
+                    (acc, q) => {
+                        if (q.deckId === deckId) {
+                            acc[1].push(q);
+                        } else {
+                            acc[0].push(q);
+                        }
+                        return acc;
+                    },
+                    [[], []]
                 );
+                const merged = mergeQuestions(activeDeckQuestions, parsed, deckId);
                 return [...otherDecks, ...merged];
             });
         },

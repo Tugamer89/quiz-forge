@@ -60,4 +60,16 @@ describe('useLocalStorage Hook', () => {
         consoleErrorSpy.mockRestore();
         setItemSpy.mockRestore();
     });
+
+    it('handles JSON.parse error and returns initialValue when localStorage contains invalid JSON', () => {
+        const consoleSpy = vi.spyOn(console, 'error').mockImplementation(() => {});
+        globalThis.localStorage.setItem(TEST_KEY, 'invalid-json');
+
+        const { result } = renderHook(() => useLocalStorage(TEST_KEY, INITIAL_VALUE));
+
+        expect(result.current[0]).toBe(INITIAL_VALUE);
+        expect(consoleSpy).toHaveBeenCalled();
+
+        consoleSpy.mockRestore();
+    });
 });

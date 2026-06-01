@@ -5,7 +5,6 @@ import SafeMarkdown from '../SafeMarkdown';
 import { ProgressBar } from '../ProgressBar';
 import { useShortcuts } from '../../hooks/useShortcuts';
 
-// perf: Memoize LiveSession component to prevent unnecessary re-renders
 export const LiveSession = memo(({ session, onCancel, showAnswer, onReveal, onAnswer }) => {
     const currentQ = session.questions[session.currentIndex];
     const containerRef = useRef(null);
