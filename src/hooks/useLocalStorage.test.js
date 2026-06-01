@@ -8,6 +8,7 @@ describe('useLocalStorage Hook', () => {
 
     beforeEach(() => {
         globalThis.localStorage.clear();
+        vi.clearAllMocks();
     });
 
     it('returns the initial value if there is no data in localStorage', () => {
@@ -34,6 +35,30 @@ describe('useLocalStorage Hook', () => {
 
         expect(result.current[0]).toBe('new_data');
         expect(globalThis.localStorage.getItem(TEST_KEY)).toBe(JSON.stringify('new_data'));
+    });
+
+    it('handles errors when setting localStorage', () => {
+        const consoleErrorSpy = vi.spyOn(console, 'error').mockImplementation(() => {});
+        const setItemSpy = vi.spyOn(Storage.prototype, 'setItem').mockImplementation(() => {
+            throw new Error('QuotaExceededError');
+        });
+
+        const { result } = renderHook(() => useLocalStorage(TEST_KEY, INITIAL_VALUE));
+
+        act(() => {
+            const setValue = result.current[1];
+            try {
+                setValue('new_data');
+            } catch {
+                // Ignore the error here, we expect console.error to have caught it inside the hook,
+                // but if it's thrown from inside setStoredValue it might escape
+            }
+        });
+
+        expect(consoleErrorSpy).toHaveBeenCalled();
+
+        consoleErrorSpy.mockRestore();
+        setItemSpy.mockRestore();
     });
 
     it('handles JSON.parse error and returns initialValue when localStorage contains invalid JSON', () => {
