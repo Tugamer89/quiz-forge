@@ -1,5 +1,5 @@
 import { renderHook, act } from '@testing-library/react';
-import { describe, it, expect, beforeEach } from 'vitest';
+import { describe, it, expect, beforeEach, vi } from 'vitest';
 import { useLocalStorage } from './useLocalStorage';
 
 describe('useLocalStorage Hook', () => {
@@ -34,5 +34,17 @@ describe('useLocalStorage Hook', () => {
 
         expect(result.current[0]).toBe('new_data');
         expect(globalThis.localStorage.getItem(TEST_KEY)).toBe(JSON.stringify('new_data'));
+    });
+
+    it('handles JSON.parse error and returns initialValue when localStorage contains invalid JSON', () => {
+        const consoleSpy = vi.spyOn(console, 'error').mockImplementation(() => {});
+        globalThis.localStorage.setItem(TEST_KEY, 'invalid-json');
+
+        const { result } = renderHook(() => useLocalStorage(TEST_KEY, INITIAL_VALUE));
+
+        expect(result.current[0]).toBe(INITIAL_VALUE);
+        expect(consoleSpy).toHaveBeenCalled();
+
+        consoleSpy.mockRestore();
     });
 });
