@@ -22,9 +22,9 @@ export const DeckOverview = memo(({ questions, stats, onMarkQuestion, onGenerate
     const [expandedId, setExpandedId] = useState(null);
 
     const allTags = useMemo(() => {
-        const tags = new Set();
-        questions.forEach((q) => q.tags?.forEach((t) => tags.add(t)));
-        return Array.from(tags).sort((a, b) => a.localeCompare(b));
+        return Array.from(new Set(questions.flatMap((q) => q.tags || []))).sort((a, b) =>
+            a.localeCompare(b)
+        );
     }, [questions]);
 
     const filteredQuestions = useMemo(() => {
