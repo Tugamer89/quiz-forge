@@ -32,31 +32,28 @@ export const DeckOverview = memo(({ questions, stats, onMarkQuestion, onGenerate
             return questions;
         }
 
-        // Optimize tag filtering complexity by precomputing Sets
-        const searchLower = searchTerm ? searchTerm.toLowerCase() : '';
+        const searchLower = searchTerm?.toLowerCase() ?? '';
         const includedSet = includedTags.length > 0 ? new Set(includedTags) : null;
         const excludedSet = excludedTags.length > 0 ? new Set(excludedTags) : null;
 
         return questions.filter((q) => {
             if (searchTerm) {
                 if (
-                    !q.text.toLowerCase().includes(searchLower) &&
-                    !q.answer.toLowerCase().includes(searchLower)
+                    !q.text?.toLowerCase().includes(searchLower) &&
+                    !q.answer?.toLowerCase().includes(searchLower)
                 ) {
                     return false;
                 }
             }
 
-            const qTags = q.tags;
-
             if (excludedSet !== null) {
-                if (qTags && qTags.some((t) => excludedSet.has(t))) {
+                if (q.tags?.some((t) => excludedSet.has(t))) {
                     return false;
                 }
             }
 
             if (includedSet !== null) {
-                if (!qTags || !qTags.some((t) => includedSet.has(t))) {
+                if (!q.tags?.some((t) => includedSet.has(t))) {
                     return false;
                 }
             }
