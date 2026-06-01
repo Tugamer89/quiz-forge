@@ -32,17 +32,36 @@ export const DeckOverview = memo(({ questions, stats, onMarkQuestion, onGenerate
             return questions;
         }
 
-        const searchLower = searchTerm.toLowerCase();
+        // Optimize tag filtering complexity by precomputing Sets
+        const searchLower = searchTerm ? searchTerm.toLowerCase() : '';
+        const includedSet = includedTags.length > 0 ? new Set(includedTags) : null;
+        const excludedSet = excludedTags.length > 0 ? new Set(excludedTags) : null;
+
         return questions.filter((q) => {
-            const matchesSearch =
-                !searchTerm ||
-                q.text.toLowerCase().includes(searchLower) ||
-                q.answer.toLowerCase().includes(searchLower);
-            const matchesIncluded =
-                includedTags.length === 0 || includedTags.some((t) => q.tags?.includes(t));
-            const matchesExcluded =
-                excludedTags.length === 0 || !excludedTags.some((t) => q.tags?.includes(t));
-            return matchesSearch && matchesIncluded && matchesExcluded;
+            if (searchTerm) {
+                if (
+                    !q.text.toLowerCase().includes(searchLower) &&
+                    !q.answer.toLowerCase().includes(searchLower)
+                ) {
+                    return false;
+                }
+            }
+
+            const qTags = q.tags;
+
+            if (excludedSet !== null) {
+                if (qTags && qTags.some((t) => excludedSet.has(t))) {
+                    return false;
+                }
+            }
+
+            if (includedSet !== null) {
+                if (!qTags || !qTags.some((t) => includedSet.has(t))) {
+                    return false;
+                }
+            }
+
+            return true;
         });
     }, [questions, searchTerm, includedTags, excludedTags]);
 
