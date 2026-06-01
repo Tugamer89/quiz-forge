@@ -46,8 +46,8 @@ export function useQuizData(showToast, setDialog) {
             incorrect: 0,
             partiallyCorrect: 0,
         };
-        for (let i = 0; i < activeDeckQuestions.length; i++) {
-            const status = activeDeckQuestions[i].status;
+        for (const q of activeDeckQuestions) {
+            const status = q.status;
             if (status === 'unanswered') acc.unanswered++;
             else if (status === 'correct') acc.correct++;
             else if (status === 'incorrect') acc.incorrect++;
