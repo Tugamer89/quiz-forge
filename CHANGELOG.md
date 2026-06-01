@@ -1,3 +1,21 @@
+## [1.20.7](https://github.com/Tugamer89/quiz-forge/compare/v1.20.6...v1.20.7) (2026-06-01)
+
+### Performance Improvements
+
+* optimize setQuestions update by replacing multiple filters with a single reduce pass ([#77](https://github.com/Tugamer89/quiz-forge/issues/77)) ([44ad812](https://github.com/Tugamer89/quiz-forge/commit/44ad8120dc883fa4f8b211aa7c1aa3803ebcb4f5))
+
+## [1.20.6](https://github.com/Tugamer89/quiz-forge/compare/v1.20.5...v1.20.6) (2026-06-01)
+
+### Bug Fixes
+
+* **security:** [LOW] resolve potential DOM-based XSS ([#82](https://github.com/Tugamer89/quiz-forge/issues/82)) ([5e2696b](https://github.com/Tugamer89/quiz-forge/commit/5e2696b0cf634fd6be594903d183bb6ae7fc36be))
+
+## [1.20.5](https://github.com/Tugamer89/quiz-forge/compare/v1.20.4...v1.20.5) (2026-06-01)
+
+### Bug Fixes
+
+* remove console log from test suite ([#86](https://github.com/Tugamer89/quiz-forge/issues/86)) ([977827d](https://github.com/Tugamer89/quiz-forge/commit/977827de52abe14ca681e2bfbe28c6f5b7623fba))
+
 ## [1.20.4](https://github.com/Tugamer89/quiz-forge/compare/v1.20.3...v1.20.4) (2026-06-01)
 
 ### Bug Fixes

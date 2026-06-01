@@ -68,7 +68,7 @@ export function useQuizData(showToast, setDialog) {
     };
 
     const extractTags = (text) => {
-        if (!text) return [];
+        if (!text?.includes('#')) return [];
 
         const textWithoutCode = text
             .replaceAll(CODE_BLOCK_REGEX, '')
@@ -116,12 +116,18 @@ export function useQuizData(showToast, setDialog) {
             }
 
             setQuestions((prev) => {
-                const otherDecks = prev.filter((q) => q.deckId !== deckId);
-                const merged = mergeQuestions(
-                    prev.filter((q) => q.deckId === deckId),
-                    parsed,
-                    deckId
+                const [otherDecks, activeDeckQuestions] = prev.reduce(
+                    (acc, q) => {
+                        if (q.deckId === deckId) {
+                            acc[1].push(q);
+                        } else {
+                            acc[0].push(q);
+                        }
+                        return acc;
+                    },
+                    [[], []]
                 );
+                const merged = mergeQuestions(activeDeckQuestions, parsed, deckId);
                 return [...otherDecks, ...merged];
             });
         },
