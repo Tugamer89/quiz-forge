@@ -1,3 +1,9 @@
+## [1.20.7](https://github.com/Tugamer89/quiz-forge/compare/v1.20.6...v1.20.7) (2026-06-01)
+
+### Performance Improvements
+
+* optimize setQuestions update by replacing multiple filters with a single reduce pass ([#77](https://github.com/Tugamer89/quiz-forge/issues/77)) ([44ad812](https://github.com/Tugamer89/quiz-forge/commit/44ad8120dc883fa4f8b211aa7c1aa3803ebcb4f5))
+
 ## [1.20.6](https://github.com/Tugamer89/quiz-forge/compare/v1.20.5...v1.20.6) (2026-06-01)
 
 ### Bug Fixes
