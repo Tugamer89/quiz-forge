@@ -94,7 +94,7 @@ describe('useShortcuts Hook', () => {
         expect(callbacks.onFlip).not.toHaveBeenCalled();
         expect(callbacks.onGradeWrong).not.toHaveBeenCalled();
 
-        document.body.removeChild(input);
+        input.remove();
     });
 
     it('does not call callbacks when active element is TEXTAREA', () => {
@@ -110,7 +110,7 @@ describe('useShortcuts Hook', () => {
         expect(callbacks.onFlip).not.toHaveBeenCalled();
         expect(callbacks.onGradeWrong).not.toHaveBeenCalled();
 
-        document.body.removeChild(textarea);
+        textarea.remove();
     });
 
     it('removes event listener on unmount', () => {
