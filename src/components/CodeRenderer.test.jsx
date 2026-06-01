@@ -44,11 +44,11 @@ describe('CodeRenderer Component', () => {
     it('handles the inline prop correctly to force inline rendering', () => {
         render(
             <CodeRenderer inline={true} className="language-javascript">
-                console.log('inline')
+                const x = 1;
             </CodeRenderer>
         );
 
-        const codeElement = screen.getByText("console.log('inline')");
+        const codeElement = screen.getByText('const x = 1;');
         expect(codeElement.tagName).toBe('CODE');
         expect(codeElement.className).toContain('language-javascript');
         expect(codeElement.className).toContain('bg-slate-100');
