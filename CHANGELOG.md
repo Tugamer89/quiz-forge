@@ -1,3 +1,9 @@
+## [1.20.6](https://github.com/Tugamer89/quiz-forge/compare/v1.20.5...v1.20.6) (2026-06-01)
+
+### Bug Fixes
+
+* **security:** [LOW] resolve potential DOM-based XSS ([#82](https://github.com/Tugamer89/quiz-forge/issues/82)) ([5e2696b](https://github.com/Tugamer89/quiz-forge/commit/5e2696b0cf634fd6be594903d183bb6ae7fc36be))
+
 ## [1.20.5](https://github.com/Tugamer89/quiz-forge/compare/v1.20.4...v1.20.5) (2026-06-01)
 
 ### Bug Fixes
