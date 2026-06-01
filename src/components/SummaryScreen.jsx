@@ -2,7 +2,6 @@ import { memo } from 'react';
 import PropTypes from 'prop-types';
 import { PieChart, LogOut, Zap } from 'lucide-react';
 
-// perf: Memoize SummaryScreen component to prevent unnecessary re-renders
 export const SummaryScreen = memo(({ session, onReset, onPlayAgain }) => {
     const total = session.questions.length;
     const percentage = Math.round((session.correctCount / total) * 100);
