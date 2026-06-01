@@ -1,3 +1,9 @@
+## [1.20.9](https://github.com/Tugamer89/quiz-forge/compare/v1.20.8...v1.20.9) (2026-06-01)
+
+### Performance Improvements
+
+* optimize tag extraction in DeckOverview ([#88](https://github.com/Tugamer89/quiz-forge/issues/88)) ([77fbc1c](https://github.com/Tugamer89/quiz-forge/commit/77fbc1c59533091b4448c011d1c206eed2c7d325))
+
 ## [1.20.8](https://github.com/Tugamer89/quiz-forge/compare/v1.20.7...v1.20.8) (2026-06-01)
 
 ### Performance Improvements
