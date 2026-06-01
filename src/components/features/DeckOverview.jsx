@@ -22,9 +22,9 @@ export const DeckOverview = memo(({ questions, stats, onMarkQuestion, onGenerate
     const [expandedId, setExpandedId] = useState(null);
 
     const allTags = useMemo(() => {
-        const tags = new Set();
-        questions.forEach((q) => q.tags?.forEach((t) => tags.add(t)));
-        return Array.from(tags).sort((a, b) => a.localeCompare(b));
+        return Array.from(new Set(questions.flatMap((q) => q.tags || []))).sort((a, b) =>
+            a.localeCompare(b)
+        );
     }, [questions]);
 
     const filteredQuestions = useMemo(() => {
@@ -33,15 +33,18 @@ export const DeckOverview = memo(({ questions, stats, onMarkQuestion, onGenerate
         }
 
         const searchLower = searchTerm.toLowerCase();
+        const includedSet = new Set(includedTags);
+        const excludedSet = new Set(excludedTags);
+
         return questions.filter((q) => {
             const matchesSearch =
                 !searchTerm ||
                 q.text.toLowerCase().includes(searchLower) ||
                 q.answer.toLowerCase().includes(searchLower);
             const matchesIncluded =
-                includedTags.length === 0 || includedTags.some((t) => q.tags?.includes(t));
+                includedSet.size === 0 || q.tags?.some((t) => includedSet.has(t));
             const matchesExcluded =
-                excludedTags.length === 0 || !excludedTags.some((t) => q.tags?.includes(t));
+                excludedSet.size === 0 || !q.tags?.some((t) => excludedSet.has(t));
             return matchesSearch && matchesIncluded && matchesExcluded;
         });
     }, [questions, searchTerm, includedTags, excludedTags]);
