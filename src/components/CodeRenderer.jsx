@@ -12,8 +12,11 @@ const getInitialTheme = () => {
     try {
         const localTheme = globalThis.localStorage.getItem('quiz_theme_dark');
         if (localTheme !== null) {
-            cachedInitialTheme = JSON.parse(localTheme);
-            return cachedInitialTheme;
+            const parsedTheme = JSON.parse(localTheme);
+            if (typeof parsedTheme === 'boolean') {
+                cachedInitialTheme = parsedTheme;
+                return cachedInitialTheme;
+            }
         }
     } catch (e) {
         console.error(e);
