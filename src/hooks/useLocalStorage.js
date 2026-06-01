@@ -14,16 +14,16 @@ export function useLocalStorage(key, initialValue) {
     const setValue = useCallback(
         (value) => {
             try {
-                setStoredValue((prev) => {
-                    const valueToStore = typeof value === 'function' ? value(prev) : value;
-                    globalThis.localStorage.setItem(key, JSON.stringify(valueToStore));
-                    return valueToStore;
-                });
+                const valueToStore = typeof value === 'function' ? value(storedValue) : value;
+                setStoredValue(valueToStore);
+                if (typeof window !== 'undefined') {
+                    window.localStorage.setItem(key, JSON.stringify(valueToStore));
+                }
             } catch (error) {
                 console.error('Error saving to localStorage:', error);
             }
         },
-        [key]
+        [key, storedValue]
     );
 
     return [storedValue, setValue];
