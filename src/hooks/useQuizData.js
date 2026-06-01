@@ -37,26 +37,24 @@ export function useQuizData(showToast, setDialog) {
         [questions, selectedDeckId]
     );
 
-    const stats = useMemo(
-        () =>
-            activeDeckQuestions.reduce(
-                (acc, q) => {
-                    if (q.status === 'unanswered') acc.unanswered++;
-                    else if (q.status === 'correct') acc.correct++;
-                    else if (q.status === 'incorrect') acc.incorrect++;
-                    else if (q.status === 'partially-correct') acc.partiallyCorrect++;
-                    return acc;
-                },
-                {
-                    total: activeDeckQuestions.length,
-                    unanswered: 0,
-                    correct: 0,
-                    incorrect: 0,
-                    partiallyCorrect: 0,
-                }
-            ),
-        [activeDeckQuestions]
-    );
+    const stats = useMemo(() => {
+        // Optimization: avoid array reduce overhead on hot path for stats
+        const acc = {
+            total: activeDeckQuestions.length,
+            unanswered: 0,
+            correct: 0,
+            incorrect: 0,
+            partiallyCorrect: 0,
+        };
+        for (let i = 0; i < activeDeckQuestions.length; i++) {
+            const status = activeDeckQuestions[i].status;
+            if (status === 'unanswered') acc.unanswered++;
+            else if (status === 'correct') acc.correct++;
+            else if (status === 'incorrect') acc.incorrect++;
+            else if (status === 'partially-correct') acc.partiallyCorrect++;
+        }
+        return acc;
+    }, [activeDeckQuestions]);
 
     useEffect(() => {
         Sentry.setTag('srs_enabled', settings.srsEnabled);
