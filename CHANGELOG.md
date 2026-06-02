@@ -1,3 +1,9 @@
+## [1.20.11](https://github.com/Tugamer89/quiz-forge/compare/v1.20.10...v1.20.11) (2026-06-02)
+
+### Bug Fixes
+
+* **security:** tighten nginx security headers ([#91](https://github.com/Tugamer89/quiz-forge/issues/91)) ([7c873cd](https://github.com/Tugamer89/quiz-forge/commit/7c873cdcc1cae0446754e3199afc9167b48ad9a7))
+
 ## [1.20.10](https://github.com/Tugamer89/quiz-forge/compare/v1.20.9...v1.20.10) (2026-06-01)
 
 ### Performance Improvements
