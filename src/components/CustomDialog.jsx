@@ -2,7 +2,6 @@ import { useState, useRef, useEffect, memo } from 'react';
 import PropTypes from 'prop-types';
 
 export const CustomDialog = memo(({ dialog, onClose }) => {
-    // Optimization: prevent unnecessary re-renders of the CustomDialog component when parent App re-renders
     const [inputVal, setInputVal] = useState(dialog.defaultValue || '');
     const dialogRef = useRef(null);
 

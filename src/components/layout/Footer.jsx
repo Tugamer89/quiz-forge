@@ -3,7 +3,6 @@ import { BookOpen, ExternalLink, Heart } from 'lucide-react';
 import packageJson from '../../../package.json';
 
 export const Footer = memo(() => {
-    // Optimization: prevent unnecessary re-renders of the Footer component when parent App re-renders
     const appVersion = import.meta.env.VITE_APP_VERSION || `v${packageJson.version}`;
 
     return (
