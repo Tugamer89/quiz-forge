@@ -1,3 +1,9 @@
+## [1.20.12](https://github.com/Tugamer89/quiz-forge/compare/v1.20.11...v1.20.12) (2026-06-02)
+
+### Performance Improvements
+
+* prevent unnecessary re-renders with React.memo() ([#90](https://github.com/Tugamer89/quiz-forge/issues/90)) ([e300b6d](https://github.com/Tugamer89/quiz-forge/commit/e300b6dfb7b06261d820e0591759ae53da22152b))
+
 ## [1.20.11](https://github.com/Tugamer89/quiz-forge/compare/v1.20.10...v1.20.11) (2026-06-02)
 
 ### Bug Fixes
