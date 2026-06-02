@@ -1,7 +1,7 @@
-import { useState, useRef, useEffect } from 'react';
+import { useState, useRef, useEffect, memo } from 'react';
 import PropTypes from 'prop-types';
 
-export const CustomDialog = ({ dialog, onClose }) => {
+export const CustomDialog = memo(({ dialog, onClose }) => {
     const [inputVal, setInputVal] = useState(dialog.defaultValue || '');
     const dialogRef = useRef(null);
 
@@ -71,7 +71,7 @@ export const CustomDialog = ({ dialog, onClose }) => {
             </div>
         </dialog>
     );
-};
+});
 
 CustomDialog.propTypes = {
     dialog: PropTypes.shape({
