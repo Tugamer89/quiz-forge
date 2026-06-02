@@ -1,7 +1,9 @@
+import { memo } from 'react';
 import PropTypes from 'prop-types';
 import { Check, AlertCircle, Info } from 'lucide-react';
 
-export const Toast = ({ toast }) => {
+export const Toast = memo(({ toast }) => {
+    // Optimization: prevent unnecessary re-renders of the Toast component when parent App re-renders
     if (!toast.show) return null;
 
     const bgColors = {
@@ -43,7 +45,7 @@ export const Toast = ({ toast }) => {
             </div>
         </div>
     );
-};
+});
 
 Toast.propTypes = {
     toast: PropTypes.shape({
