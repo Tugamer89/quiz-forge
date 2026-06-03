@@ -1,3 +1,9 @@
+## [1.20.14](https://github.com/Tugamer89/quiz-forge/compare/v1.20.13...v1.20.14) (2026-06-03)
+
+### Bug Fixes
+
+* **security:** [security improvement] hide Nginx version information ([#93](https://github.com/Tugamer89/quiz-forge/issues/93)) ([ccdf30f](https://github.com/Tugamer89/quiz-forge/commit/ccdf30f85d7e3c82358dc013a7b7d70a438d973b))
+
 ## [1.20.13](https://github.com/Tugamer89/quiz-forge/compare/v1.20.12...v1.20.13) (2026-06-03)
 
 ### Performance Improvements
