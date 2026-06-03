@@ -29,6 +29,8 @@ export function useQuizSession(
         const includedSet = new Set(includedTags);
         const excludedSet = new Set(excludedTags);
 
+        const nowTime = Date.now();
+
         const eligible = questions.filter((q) => {
             if (q.deckId !== selectedDeckId) return false;
 
@@ -44,7 +46,7 @@ export function useQuizSession(
 
             if (settings.srsEnabled) {
                 if (!q.nextReviewDate) return true;
-                return new Date(q.nextReviewDate) <= new Date();
+                return new Date(q.nextReviewDate).getTime() <= nowTime;
             }
 
             return (

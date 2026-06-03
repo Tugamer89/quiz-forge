@@ -1,3 +1,27 @@
+## [1.20.14](https://github.com/Tugamer89/quiz-forge/compare/v1.20.13...v1.20.14) (2026-06-03)
+
+### Bug Fixes
+
+* **security:** [security improvement] hide Nginx version information ([#93](https://github.com/Tugamer89/quiz-forge/issues/93)) ([ccdf30f](https://github.com/Tugamer89/quiz-forge/commit/ccdf30f85d7e3c82358dc013a7b7d70a438d973b))
+
+## [1.20.13](https://github.com/Tugamer89/quiz-forge/compare/v1.20.12...v1.20.13) (2026-06-03)
+
+### Performance Improvements
+
+* optimize SRS date parsing in quiz generation ([#94](https://github.com/Tugamer89/quiz-forge/issues/94)) ([cb81ee0](https://github.com/Tugamer89/quiz-forge/commit/cb81ee09ac3ecf80a6b2f63c7fae06a1335498f3))
+
+## [1.20.12](https://github.com/Tugamer89/quiz-forge/compare/v1.20.11...v1.20.12) (2026-06-02)
+
+### Performance Improvements
+
+* prevent unnecessary re-renders with React.memo() ([#90](https://github.com/Tugamer89/quiz-forge/issues/90)) ([e300b6d](https://github.com/Tugamer89/quiz-forge/commit/e300b6dfb7b06261d820e0591759ae53da22152b))
+
+## [1.20.11](https://github.com/Tugamer89/quiz-forge/compare/v1.20.10...v1.20.11) (2026-06-02)
+
+### Bug Fixes
+
+* **security:** tighten nginx security headers ([#91](https://github.com/Tugamer89/quiz-forge/issues/91)) ([7c873cd](https://github.com/Tugamer89/quiz-forge/commit/7c873cdcc1cae0446754e3199afc9167b48ad9a7))
+
 ## [1.20.10](https://github.com/Tugamer89/quiz-forge/compare/v1.20.9...v1.20.10) (2026-06-01)
 
 ### Performance Improvements
