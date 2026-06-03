@@ -1,3 +1,9 @@
+## [1.20.15](https://github.com/Tugamer89/quiz-forge/compare/v1.20.14...v1.20.15) (2026-06-03)
+
+### Bug Fixes
+
+* **ui:** add focus styles to dialog buttons ([#95](https://github.com/Tugamer89/quiz-forge/issues/95)) ([ecccc00](https://github.com/Tugamer89/quiz-forge/commit/ecccc00bb8e90be253265052563c1b7a4341fdd0))
+
 ## [1.20.14](https://github.com/Tugamer89/quiz-forge/compare/v1.20.13...v1.20.14) (2026-06-03)
 
 ### Bug Fixes
