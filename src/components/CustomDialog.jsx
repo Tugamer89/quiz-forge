@@ -57,14 +57,14 @@ export const CustomDialog = memo(({ dialog, onClose }) => {
                 <button
                     onClick={onClose}
                     title="Cancel"
-                    className="px-4 py-2 text-sm font-medium text-slate-700 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-700 rounded-lg transition-colors"
+                    className="px-4 py-2 text-sm font-medium text-slate-700 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-700 rounded-lg transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 focus-visible:ring-offset-2 dark:focus-visible:ring-offset-slate-800"
                 >
                     Cancel
                 </button>
                 <button
                     onClick={handleConfirm}
                     title={dialog.confirmLabel || 'Confirm'}
-                    className={`px-4 py-2 text-sm font-medium rounded-lg transition-colors ${btnColor}`}
+                    className={`px-4 py-2 text-sm font-medium rounded-lg transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 focus-visible:ring-offset-2 dark:focus-visible:ring-offset-slate-800 ${btnColor}`}
                 >
                     {dialog.confirmLabel || 'Confirm'}
                 </button>
