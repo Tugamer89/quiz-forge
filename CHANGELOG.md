@@ -1,3 +1,9 @@
+## [1.20.13](https://github.com/Tugamer89/quiz-forge/compare/v1.20.12...v1.20.13) (2026-06-03)
+
+### Performance Improvements
+
+* optimize SRS date parsing in quiz generation ([#94](https://github.com/Tugamer89/quiz-forge/issues/94)) ([cb81ee0](https://github.com/Tugamer89/quiz-forge/commit/cb81ee09ac3ecf80a6b2f63c7fae06a1335498f3))
+
 ## [1.20.12](https://github.com/Tugamer89/quiz-forge/compare/v1.20.11...v1.20.12) (2026-06-02)
 
 ### Performance Improvements
