@@ -22,9 +22,16 @@ export const DeckOverview = memo(({ questions, stats, onMarkQuestion, onGenerate
     const [expandedId, setExpandedId] = useState(null);
 
     const allTags = useMemo(() => {
-        return Array.from(new Set(questions.flatMap((q) => q.tags || []))).sort((a, b) =>
-            a.localeCompare(b)
-        );
+        // Use manual loop to populate Set instead of intermediate flatMap array to reduce memory allocations
+        const tagsSet = new Set();
+        for (const q of questions) {
+            if (q.tags) {
+                for (const t of q.tags) {
+                    tagsSet.add(t);
+                }
+            }
+        }
+        return Array.from(tagsSet).sort((a, b) => a.localeCompare(b));
     }, [questions]);
 
     const filteredQuestions = useMemo(() => {
@@ -37,15 +44,19 @@ export const DeckOverview = memo(({ questions, stats, onMarkQuestion, onGenerate
         const excludedSet = new Set(excludedTags);
 
         return questions.filter((q) => {
-            const matchesSearch =
-                !searchTerm ||
-                q.text.toLowerCase().includes(searchLower) ||
-                q.answer.toLowerCase().includes(searchLower);
-            const matchesIncluded =
-                includedSet.size === 0 || q.tags?.some((t) => includedSet.has(t));
-            const matchesExcluded =
-                excludedSet.size === 0 || !q.tags?.some((t) => excludedSet.has(t));
-            return matchesSearch && matchesIncluded && matchesExcluded;
+            // Early return on fast Set lookups before doing expensive string manipulation for search terms
+            if (includedSet.size > 0 && (!q.tags || !q.tags.some((t) => includedSet.has(t)))) {
+                return false;
+            }
+            if (excludedSet.size > 0 && q.tags?.some((t) => excludedSet.has(t))) {
+                return false;
+            }
+            if (searchTerm) {
+                if (q.text.toLowerCase().includes(searchLower)) return true;
+                if (q.answer.toLowerCase().includes(searchLower)) return true;
+                return false;
+            }
+            return true;
         });
     }, [questions, searchTerm, includedTags, excludedTags]);
 
