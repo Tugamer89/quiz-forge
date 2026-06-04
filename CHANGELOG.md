@@ -1,3 +1,9 @@
+## [1.20.17](https://github.com/Tugamer89/quiz-forge/compare/v1.20.16...v1.20.17) (2026-06-04)
+
+### Performance Improvements
+
+* optimize tag filtering and search in DeckOverview component ([#97](https://github.com/Tugamer89/quiz-forge/issues/97)) ([b7f21ae](https://github.com/Tugamer89/quiz-forge/commit/b7f21ae114da4c7a71a465eaa674b5598ab5f29b))
+
 ## [1.20.16](https://github.com/Tugamer89/quiz-forge/compare/v1.20.15...v1.20.16) (2026-06-04)
 
 ### Bug Fixes
