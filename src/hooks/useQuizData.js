@@ -178,7 +178,17 @@ export function useQuizData(showToast, setDialog) {
             confirmStyle: 'primary',
             onConfirm: (name) => {
                 if (name?.trim()) {
-                    const newDeck = { id: crypto.randomUUID(), name: name.trim() };
+                    const trimmedName = name.trim();
+                    if (trimmedName.length > 100) {
+                        // Prevent LocalStorage exhaustion (Client-Side DoS)
+                        showToast('Deck name cannot exceed 100 characters.', 'error');
+                        return;
+                    }
+                    if (decks.some((d) => d.name === trimmedName)) {
+                        showToast('A deck with this name already exists.', 'error');
+                        return;
+                    }
+                    const newDeck = { id: crypto.randomUUID(), name: trimmedName };
                     setDecks((prev) => [...prev, newDeck]);
                     setSelectedDeckId(newDeck.id);
                     showToast(`Deck "${newDeck.name}" created!`, 'success');
