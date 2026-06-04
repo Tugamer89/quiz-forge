@@ -45,7 +45,7 @@ export const DeckOverview = memo(({ questions, stats, onMarkQuestion, onGenerate
 
         return questions.filter((q) => {
             // Early return on fast Set lookups before doing expensive string manipulation for search terms
-            if (includedSet.size > 0 && (!q.tags || !q.tags.some((t) => includedSet.has(t)))) {
+            if (includedSet.size > 0 && !q.tags?.some((t) => includedSet.has(t))) {
                 return false;
             }
             if (excludedSet.size > 0 && q.tags?.some((t) => excludedSet.has(t))) {
