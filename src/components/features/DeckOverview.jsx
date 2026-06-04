@@ -22,7 +22,6 @@ export const DeckOverview = memo(({ questions, stats, onMarkQuestion, onGenerate
     const [expandedId, setExpandedId] = useState(null);
 
     const allTags = useMemo(() => {
-        // Use manual loop to populate Set instead of intermediate flatMap array to reduce memory allocations
         const tagsSet = new Set();
         for (const q of questions) {
             if (q.tags) {
@@ -44,7 +43,6 @@ export const DeckOverview = memo(({ questions, stats, onMarkQuestion, onGenerate
         const excludedSet = new Set(excludedTags);
 
         return questions.filter((q) => {
-            // Early return on fast Set lookups before doing expensive string manipulation for search terms
             if (includedSet.size > 0 && !q.tags?.some((t) => includedSet.has(t))) {
                 return false;
             }
