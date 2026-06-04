@@ -1,7 +1,7 @@
 {
   "name": "quiz-forge",
   "private": true,
-  "version": "1.20.15",
+  "version": "1.20.16",
   "type": "module",
   "scripts": {
     "dev": "vite",
@@ -16,7 +16,7 @@
     "generate-pwa-assets": "npx pwa-asset-generator public/favicon.svg public/ -b \"#ffffff\" -p \"22%\" -i index.html -m public/manifest.json"
   },
   "dependencies": {
-    "@sentry/react": "^10.55.0",
+    "@sentry/react": "^10.56.0",
     "@tailwindcss/typography": "^0.5.19",
     "katex": "^0.17.0",
     "lucide-react": "^1.17.0",

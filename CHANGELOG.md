@@ -1,3 +1,9 @@
+## [1.20.16](https://github.com/Tugamer89/quiz-forge/compare/v1.20.15...v1.20.16) (2026-06-04)
+
+### Bug Fixes
+
+* **security:** input length limit enhancement for deck creation ([#98](https://github.com/Tugamer89/quiz-forge/issues/98)) ([a658708](https://github.com/Tugamer89/quiz-forge/commit/a65870879cd1db7c928b832e7a1bb903bb5f2748))
+
 ## [1.20.15](https://github.com/Tugamer89/quiz-forge/compare/v1.20.14...v1.20.15) (2026-06-03)
 
 ### Bug Fixes
