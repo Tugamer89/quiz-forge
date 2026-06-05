@@ -1,4 +1,4 @@
-import { useState, useMemo, memo } from 'react';
+import { useState, useMemo, memo, useDeferredValue } from 'react';
 import PropTypes from 'prop-types';
 import {
     BookOpen,
@@ -21,6 +21,9 @@ export const DeckOverview = memo(({ questions, stats, onMarkQuestion, onGenerate
     const [excludedTags, setExcludedTags] = useState([]);
     const [expandedId, setExpandedId] = useState(null);
 
+    // Defers updating the filter until main thread is idle, preventing typing latency on large decks.
+    const deferredSearchTerm = useDeferredValue(searchTerm);
+
     const allTags = useMemo(() => {
         const tagsSet = new Set();
         for (const q of questions) {
@@ -34,11 +37,11 @@ export const DeckOverview = memo(({ questions, stats, onMarkQuestion, onGenerate
     }, [questions]);
 
     const filteredQuestions = useMemo(() => {
-        if (!searchTerm && includedTags.length === 0 && excludedTags.length === 0) {
+        if (!deferredSearchTerm && includedTags.length === 0 && excludedTags.length === 0) {
             return questions;
         }
 
-        const searchLower = searchTerm.toLowerCase();
+        const searchLower = deferredSearchTerm.toLowerCase();
         const includedSet = new Set(includedTags);
         const excludedSet = new Set(excludedTags);
 
@@ -49,14 +52,14 @@ export const DeckOverview = memo(({ questions, stats, onMarkQuestion, onGenerate
             if (excludedSet.size > 0 && q.tags?.some((t) => excludedSet.has(t))) {
                 return false;
             }
-            if (searchTerm) {
+            if (deferredSearchTerm) {
                 if (q.text.toLowerCase().includes(searchLower)) return true;
                 if (q.answer.toLowerCase().includes(searchLower)) return true;
                 return false;
             }
             return true;
         });
-    }, [questions, searchTerm, includedTags, excludedTags]);
+    }, [questions, deferredSearchTerm, includedTags, excludedTags]);
 
     const toggleTag = (tag) => {
         if (tag === null) {
