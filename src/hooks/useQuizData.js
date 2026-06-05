@@ -113,7 +113,6 @@ export function useQuizData(showToast, setDialog) {
             }
 
             setQuestions((prev) => {
-                // Optimize O(N) array partition: for...of is significantly faster than reduce for large arrays
                 const otherDecks = [];
                 const activeDeckQuestions = [];
                 for (const q of prev) {
