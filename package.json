@@ -1,7 +1,7 @@
 {
   "name": "quiz-forge",
   "private": true,
-  "version": "1.20.18",
+  "version": "1.20.21",
   "type": "module",
   "scripts": {
     "dev": "vite",

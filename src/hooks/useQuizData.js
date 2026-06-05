@@ -8,8 +8,7 @@ import {
 } from '../utils/helpers';
 import * as Sentry from '@sentry/react';
 
-const CODE_BLOCK_REGEX = /```[\s\S]*?```/g;
-const INLINE_CODE_REGEX = /`[^`]*`/g;
+const COMBINED_CODE_REGEX = /```[\s\S]*?```|`[^`]*`/g;
 const TAG_REGEX = /#\w+/g;
 const QUESTION_REGEX = /^(\d+)[.)]\s+(\S.*)$/;
 
@@ -67,11 +66,12 @@ export function useQuizData(showToast, setDialog) {
     const extractTags = (text) => {
         if (!text?.includes('#')) return [];
 
-        const textWithoutCode = text
-            .replaceAll(CODE_BLOCK_REGEX, '')
-            .replaceAll(INLINE_CODE_REGEX, '');
+        const textWithoutCode = text.includes('`') ? text.replace(COMBINED_CODE_REGEX, '') : text;
+
         const matches = textWithoutCode.match(TAG_REGEX);
-        return matches ? [...new Set(matches.map((t) => t.toLowerCase()))] : [];
+        if (!matches) return [];
+
+        return [...new Set(matches.map((t) => t.toLowerCase()))];
     };
 
     const parseTextFromInput = useCallback(
@@ -113,17 +113,15 @@ export function useQuizData(showToast, setDialog) {
             }
 
             setQuestions((prev) => {
-                const [otherDecks, activeDeckQuestions] = prev.reduce(
-                    (acc, q) => {
-                        if (q.deckId === deckId) {
-                            acc[1].push(q);
-                        } else {
-                            acc[0].push(q);
-                        }
-                        return acc;
-                    },
-                    [[], []]
-                );
+                const otherDecks = [];
+                const activeDeckQuestions = [];
+                for (const q of prev) {
+                    if (q.deckId === deckId) {
+                        activeDeckQuestions.push(q);
+                    } else {
+                        otherDecks.push(q);
+                    }
+                }
                 const merged = mergeQuestions(activeDeckQuestions, parsed, deckId);
                 return [...otherDecks, ...merged];
             });
