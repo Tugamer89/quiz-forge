@@ -1,3 +1,9 @@
+## [1.20.18](https://github.com/Tugamer89/quiz-forge/compare/v1.20.17...v1.20.18) (2026-06-05)
+
+### Bug Fixes
+
+* **ui:** improve keyboard focus visibility on buttons ([#100](https://github.com/Tugamer89/quiz-forge/issues/100)) ([5fe8298](https://github.com/Tugamer89/quiz-forge/commit/5fe82985a794b82f20823209c7783b55dacb177e))
+
 ## [1.20.17](https://github.com/Tugamer89/quiz-forge/compare/v1.20.16...v1.20.17) (2026-06-04)
 
 ### Performance Improvements
