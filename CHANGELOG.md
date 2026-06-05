@@ -1,3 +1,9 @@
+## [1.20.20](https://github.com/Tugamer89/quiz-forge/compare/v1.20.19...v1.20.20) (2026-06-05)
+
+### Performance Improvements
+
+* defer search term filtering in DeckOverview ([#99](https://github.com/Tugamer89/quiz-forge/issues/99)) ([13383c1](https://github.com/Tugamer89/quiz-forge/commit/13383c1ee8d699530c138a1f8e76e5b050a3349a))
+
 ## [1.20.19](https://github.com/Tugamer89/quiz-forge/compare/v1.20.18...v1.20.19) (2026-06-05)
 
 ### Performance Improvements
