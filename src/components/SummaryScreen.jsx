@@ -86,7 +86,7 @@ export const SummaryScreen = memo(({ session, onReset, onPlayAgain }) => {
             <div className="flex flex-col sm:flex-row gap-4 justify-center pt-4 border-t border-slate-100 dark:border-slate-800">
                 <button
                     onClick={onReset}
-                    className="flex items-center justify-center gap-2.5 px-8 py-3.5 rounded-xl border border-slate-300 dark:border-slate-600 bg-slate-200 hover:bg-slate-300 dark:bg-slate-700 dark:hover:bg-slate-600 text-slate-800 dark:text-slate-100 font-semibold transition-all duration-200 active:scale-95 group shadow-sm"
+                    className="flex items-center justify-center gap-2.5 px-8 py-3.5 rounded-xl border border-slate-300 dark:border-slate-600 bg-slate-200 hover:bg-slate-300 dark:bg-slate-700 dark:hover:bg-slate-600 text-slate-800 dark:text-slate-100 font-semibold transition-all duration-200 active:scale-95 group shadow-sm focus:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 focus-visible:ring-offset-2 dark:focus-visible:ring-offset-slate-800"
                 >
                     <LogOut className="w-5 h-5 text-slate-500 group-hover:scale-110 transition-transform" />
                     Exit Quiz
@@ -94,7 +94,7 @@ export const SummaryScreen = memo(({ session, onReset, onPlayAgain }) => {
 
                 <button
                     onClick={() => onPlayAgain()}
-                    className="flex items-center justify-center gap-2.5 px-8 py-3.5 rounded-xl bg-indigo-600 hover:bg-indigo-700 text-white font-semibold transition-all duration-200 shadow-md shadow-indigo-200 dark:shadow-none active:scale-95 group focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 dark:focus:ring-offset-slate-800"
+                    className="flex items-center justify-center gap-2.5 px-8 py-3.5 rounded-xl bg-indigo-600 hover:bg-indigo-700 text-white font-semibold transition-all duration-200 shadow-md shadow-indigo-200 dark:shadow-none active:scale-95 group focus:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 focus-visible:ring-offset-2 dark:focus-visible:ring-offset-slate-800"
                 >
                     <Zap className="w-5 h-5 group-hover:animate-pulse" aria-hidden="true" />
                     Play Again
