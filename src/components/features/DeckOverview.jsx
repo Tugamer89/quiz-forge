@@ -23,7 +23,7 @@ export const DeckOverview = memo(({ questions, stats, onMarkQuestion, onGenerate
     const [expandedId, setExpandedId] = useState(null);
 
     const deferredSearchTerm = useDeferredValue(searchTerm);
-    
+
     const allTags = useMemo(() => {
         const tagsSet = new Set();
         for (const q of questions) {
