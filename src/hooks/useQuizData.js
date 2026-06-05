@@ -113,17 +113,15 @@ export function useQuizData(showToast, setDialog) {
             }
 
             setQuestions((prev) => {
-                const [otherDecks, activeDeckQuestions] = prev.reduce(
-                    (acc, q) => {
-                        if (q.deckId === deckId) {
-                            acc[1].push(q);
-                        } else {
-                            acc[0].push(q);
-                        }
-                        return acc;
-                    },
-                    [[], []]
-                );
+                const otherDecks = [];
+                const activeDeckQuestions = [];
+                for (const q of prev) {
+                    if (q.deckId === deckId) {
+                        activeDeckQuestions.push(q);
+                    } else {
+                        otherDecks.push(q);
+                    }
+                }
                 const merged = mergeQuestions(activeDeckQuestions, parsed, deckId);
                 return [...otherDecks, ...merged];
             });
