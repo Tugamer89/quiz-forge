@@ -1,3 +1,15 @@
+## [1.20.21](https://github.com/Tugamer89/quiz-forge/compare/v1.20.20...v1.20.21) (2026-06-05)
+
+### Performance Improvements
+
+* optimize question partition loop ([#104](https://github.com/Tugamer89/quiz-forge/issues/104)) ([b6b19e1](https://github.com/Tugamer89/quiz-forge/commit/b6b19e10e3f7f25d9fc2da4a04026ef899e4adb2))
+
+## [1.20.20](https://github.com/Tugamer89/quiz-forge/compare/v1.20.19...v1.20.20) (2026-06-05)
+
+### Performance Improvements
+
+* defer search term filtering in DeckOverview ([#99](https://github.com/Tugamer89/quiz-forge/issues/99)) ([13383c1](https://github.com/Tugamer89/quiz-forge/commit/13383c1ee8d699530c138a1f8e76e5b050a3349a))
+
 ## [1.20.19](https://github.com/Tugamer89/quiz-forge/compare/v1.20.18...v1.20.19) (2026-06-05)
 
 ### Performance Improvements
