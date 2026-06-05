@@ -1,3 +1,9 @@
+## [1.20.19](https://github.com/Tugamer89/quiz-forge/compare/v1.20.18...v1.20.19) (2026-06-05)
+
+### Performance Improvements
+
+* optimize tag extraction regex performance ([#102](https://github.com/Tugamer89/quiz-forge/issues/102)) ([08d591f](https://github.com/Tugamer89/quiz-forge/commit/08d591f2ead735bcafa94c96c7948fcc06652223))
+
 ## [1.20.18](https://github.com/Tugamer89/quiz-forge/compare/v1.20.17...v1.20.18) (2026-06-05)
 
 ### Bug Fixes
