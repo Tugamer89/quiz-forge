@@ -37,7 +37,7 @@ export const DeckOverview = memo(({ questions, stats, onMarkQuestion, onGenerate
     }, [questions]);
 
     const filteredQuestions = useMemo(
-        () => filterQuestions(questions, searchTerm, includedTags, excludedTags),
+        () => filterQuestions(questions, deferredSearchTerm, includedTags, excludedTags),
         [questions, searchTerm, includedTags, excludedTags]
     );
 
