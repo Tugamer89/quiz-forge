@@ -21,7 +21,6 @@ export const DeckOverview = memo(({ questions, stats, onMarkQuestion, onGenerate
     const [excludedTags, setExcludedTags] = useState([]);
     const [expandedId, setExpandedId] = useState(null);
 
-    // Defers updating the filter until main thread is idle, preventing typing latency on large decks.
     const deferredSearchTerm = useDeferredValue(searchTerm);
 
     const allTags = useMemo(() => {
