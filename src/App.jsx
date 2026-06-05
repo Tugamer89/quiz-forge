@@ -117,6 +117,7 @@ export default function App() {
                                 )}
                                 {!session.quizSession.active && !session.quizSession.isFinished && (
                                     <DeckOverview
+                                        key={data.selectedDeckId}
                                         questions={data.activeDeckQuestions}
                                         stats={data.stats}
                                         onMarkQuestion={data.handleMarkQuestion}
