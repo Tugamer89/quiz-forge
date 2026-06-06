@@ -82,6 +82,7 @@ CustomDialog.propTypes = {
         icon: PropTypes.node,
         message: PropTypes.string,
         defaultValue: PropTypes.string,
+        maxLength: PropTypes.number,
         confirmLabel: PropTypes.string,
         confirmStyle: PropTypes.oneOf(['primary', 'danger']),
         onConfirm: PropTypes.func.isRequired,
