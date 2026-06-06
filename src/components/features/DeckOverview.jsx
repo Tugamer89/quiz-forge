@@ -81,6 +81,7 @@ export const DeckOverview = memo(({ questions, stats, onMarkQuestion, onGenerate
                             aria-label="Search questions"
                             value={searchTerm}
                             onChange={(e) => setSearchTerm(e.target.value)}
+                            maxLength={100}
                             className="w-full pl-10 pr-4 py-2 bg-slate-50 dark:bg-slate-900 border border-slate-300 dark:border-slate-600 rounded-lg text-sm focus:ring-2 focus:ring-indigo-500 outline-none transition-colors dark:text-white"
                         />
                     </div>
