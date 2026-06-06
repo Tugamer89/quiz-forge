@@ -50,6 +50,7 @@ export const CustomDialog = memo(({ dialog, onClose }) => {
                     value={inputVal}
                     onChange={(e) => setInputVal(e.target.value)}
                     onKeyDown={(e) => e.key === 'Enter' && handleConfirm()}
+                    maxLength={dialog.maxLength || 255}
                     className="w-full p-2 border border-slate-300 dark:border-slate-600 rounded-lg bg-white dark:bg-slate-900 text-slate-900 dark:text-white focus:ring-2 focus:ring-indigo-500 outline-none mb-4"
                 />
             )}
@@ -81,6 +82,7 @@ CustomDialog.propTypes = {
         icon: PropTypes.node,
         message: PropTypes.string,
         defaultValue: PropTypes.string,
+        maxLength: PropTypes.number,
         confirmLabel: PropTypes.string,
         confirmStyle: PropTypes.oneOf(['primary', 'danger']),
         onConfirm: PropTypes.func.isRequired,
