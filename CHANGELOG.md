@@ -1,3 +1,9 @@
+## [1.21.1](https://github.com/Tugamer89/quiz-forge/compare/v1.21.0...v1.21.1) (2026-06-06)
+
+### Performance Improvements
+
+* O(N) array shuffling for quiz generation ([#108](https://github.com/Tugamer89/quiz-forge/issues/108)) ([f1a8e76](https://github.com/Tugamer89/quiz-forge/commit/f1a8e76788ef0d72f1f342141e50c3475ad601e0))
+
 ## [1.21.0](https://github.com/Tugamer89/quiz-forge/compare/v1.20.21...v1.21.0) (2026-06-06)
 
 ### Features
