@@ -77,7 +77,7 @@ export function useQuizSession(
 
         // Partial Fisher-Yates shuffle: O(N)
         for (let i = 0; i < numItems; i++) {
-            const randomIndex = i + Math.floor(Math.random() * (shuffled.length - i)); // NOSONAR
+            const randomIndex = i + Math.floor(Math.random() * (shuffled.length - i));
             [shuffled[i], shuffled[randomIndex]] = [shuffled[randomIndex], shuffled[i]];
         }
         const selected = shuffled.slice(0, numItems);

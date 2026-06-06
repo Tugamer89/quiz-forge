@@ -172,6 +172,7 @@ export function useQuizData(showToast, setDialog) {
             title: 'New Deck',
             message: 'Enter a name for your new deck:',
             defaultValue: '',
+            maxLength: 100,
             confirmLabel: 'Create',
             confirmStyle: 'primary',
             onConfirm: (name) => {

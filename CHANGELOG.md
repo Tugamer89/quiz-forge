@@ -1,3 +1,21 @@
+## [1.21.2](https://github.com/Tugamer89/quiz-forge/compare/v1.21.1...v1.21.2) (2026-06-06)
+
+### Bug Fixes
+
+* **security:** input length limits ([#109](https://github.com/Tugamer89/quiz-forge/issues/109)) ([da3a257](https://github.com/Tugamer89/quiz-forge/commit/da3a257b0d7098955f55e46cd48434deb1ab9c3e))
+
+## [1.21.1](https://github.com/Tugamer89/quiz-forge/compare/v1.21.0...v1.21.1) (2026-06-06)
+
+### Performance Improvements
+
+* O(N) array shuffling for quiz generation ([#108](https://github.com/Tugamer89/quiz-forge/issues/108)) ([f1a8e76](https://github.com/Tugamer89/quiz-forge/commit/f1a8e76788ef0d72f1f342141e50c3475ad601e0))
+
+## [1.21.0](https://github.com/Tugamer89/quiz-forge/compare/v1.20.21...v1.21.0) (2026-06-06)
+
+### Features
+
+* **ui:** add focus visible styling to dropdown menu buttons ([#107](https://github.com/Tugamer89/quiz-forge/issues/107)) ([a8eba4f](https://github.com/Tugamer89/quiz-forge/commit/a8eba4f6273c779c76fc868038816bf6dbc36210))
+
 ## [1.20.21](https://github.com/Tugamer89/quiz-forge/compare/v1.20.20...v1.20.21) (2026-06-05)
 
 ### Performance Improvements
