@@ -1,3 +1,33 @@
+## [1.21.1](https://github.com/Tugamer89/quiz-forge/compare/v1.21.0...v1.21.1) (2026-06-06)
+
+### Performance Improvements
+
+* O(N) array shuffling for quiz generation ([#108](https://github.com/Tugamer89/quiz-forge/issues/108)) ([f1a8e76](https://github.com/Tugamer89/quiz-forge/commit/f1a8e76788ef0d72f1f342141e50c3475ad601e0))
+
+## [1.21.0](https://github.com/Tugamer89/quiz-forge/compare/v1.20.21...v1.21.0) (2026-06-06)
+
+### Features
+
+* **ui:** add focus visible styling to dropdown menu buttons ([#107](https://github.com/Tugamer89/quiz-forge/issues/107)) ([a8eba4f](https://github.com/Tugamer89/quiz-forge/commit/a8eba4f6273c779c76fc868038816bf6dbc36210))
+
+## [1.20.21](https://github.com/Tugamer89/quiz-forge/compare/v1.20.20...v1.20.21) (2026-06-05)
+
+### Performance Improvements
+
+* optimize question partition loop ([#104](https://github.com/Tugamer89/quiz-forge/issues/104)) ([b6b19e1](https://github.com/Tugamer89/quiz-forge/commit/b6b19e10e3f7f25d9fc2da4a04026ef899e4adb2))
+
+## [1.20.20](https://github.com/Tugamer89/quiz-forge/compare/v1.20.19...v1.20.20) (2026-06-05)
+
+### Performance Improvements
+
+* defer search term filtering in DeckOverview ([#99](https://github.com/Tugamer89/quiz-forge/issues/99)) ([13383c1](https://github.com/Tugamer89/quiz-forge/commit/13383c1ee8d699530c138a1f8e76e5b050a3349a))
+
+## [1.20.19](https://github.com/Tugamer89/quiz-forge/compare/v1.20.18...v1.20.19) (2026-06-05)
+
+### Performance Improvements
+
+* optimize tag extraction regex performance ([#102](https://github.com/Tugamer89/quiz-forge/issues/102)) ([08d591f](https://github.com/Tugamer89/quiz-forge/commit/08d591f2ead735bcafa94c96c7948fcc06652223))
+
 ## [1.20.18](https://github.com/Tugamer89/quiz-forge/compare/v1.20.17...v1.20.18) (2026-06-05)
 
 ### Bug Fixes

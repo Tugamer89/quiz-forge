@@ -29,3 +29,28 @@ export function mergeQuestions(prevQuestions, parsed, currentDeckId) {
         return { ...newQ, deckId: currentDeckId };
     });
 }
+
+export function filterQuestions(questions, searchTerm, includedTags, excludedTags) {
+    if (!searchTerm && includedTags.length === 0 && excludedTags.length === 0) {
+        return questions;
+    }
+
+    const searchLower = searchTerm.toLowerCase();
+    const includedSet = new Set(includedTags);
+    const excludedSet = new Set(excludedTags);
+
+    return questions.filter((q) => {
+        if (includedSet.size > 0 && !q.tags?.some((t) => includedSet.has(t))) {
+            return false;
+        }
+        if (excludedSet.size > 0 && q.tags?.some((t) => excludedSet.has(t))) {
+            return false;
+        }
+        if (searchTerm) {
+            if (q.text.toLowerCase().includes(searchLower)) return true;
+            if (q.answer.toLowerCase().includes(searchLower)) return true;
+            return false;
+        }
+        return true;
+    });
+}

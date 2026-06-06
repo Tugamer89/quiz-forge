@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest';
-import { mergeQuestions } from './helpers';
+import { mergeQuestions, filterQuestions } from './helpers';
 
 describe('mergeQuestions', () => {
     it('should add new questions with currentDeckId when prevQuestions is empty', () => {
@@ -58,5 +58,47 @@ describe('mergeQuestions', () => {
         expect(result).toEqual([
             { text: 'What is 2+2?', answer: 'four', deckId: 'deck-1' }, // Should not merge with q1 from deck-2
         ]);
+    });
+});
+
+describe('filterQuestions', () => {
+    const questions = [
+        { id: '1', text: 'What is React?', answer: 'A UI library', tags: ['frontend', 'js'] },
+        { id: '2', text: 'What is Node.js?', answer: 'A JS runtime', tags: ['backend', 'js'] },
+        { id: '3', text: 'What is Python?', answer: 'A language', tags: ['backend'] },
+    ];
+
+    it('should return all questions when no filters are applied', () => {
+        expect(filterQuestions(questions, '', [], [])).toEqual(questions);
+    });
+
+    it('should filter by search term matching text', () => {
+        const result = filterQuestions(questions, 'react', [], []);
+        expect(result).toHaveLength(1);
+        expect(result[0].id).toBe('1');
+    });
+
+    it('should filter by search term matching answer', () => {
+        const result = filterQuestions(questions, 'runtime', [], []);
+        expect(result).toHaveLength(1);
+        expect(result[0].id).toBe('2');
+    });
+
+    it('should filter by included tags', () => {
+        const result = filterQuestions(questions, '', ['frontend'], []);
+        expect(result).toHaveLength(1);
+        expect(result[0].id).toBe('1');
+    });
+
+    it('should filter by excluded tags', () => {
+        const result = filterQuestions(questions, '', [], ['backend']);
+        expect(result).toHaveLength(1);
+        expect(result[0].id).toBe('1');
+    });
+
+    it('should apply search, included, and excluded filters together', () => {
+        const result = filterQuestions(questions, 'js', ['js'], ['frontend']);
+        expect(result).toHaveLength(1);
+        expect(result[0].id).toBe('2');
     });
 });
