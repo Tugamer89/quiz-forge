@@ -1,3 +1,9 @@
+## [1.21.0](https://github.com/Tugamer89/quiz-forge/compare/v1.20.21...v1.21.0) (2026-06-06)
+
+### Features
+
+* **ui:** add focus visible styling to dropdown menu buttons ([#107](https://github.com/Tugamer89/quiz-forge/issues/107)) ([a8eba4f](https://github.com/Tugamer89/quiz-forge/commit/a8eba4f6273c779c76fc868038816bf6dbc36210))
+
 ## [1.20.21](https://github.com/Tugamer89/quiz-forge/compare/v1.20.20...v1.20.21) (2026-06-05)
 
 ### Performance Improvements
