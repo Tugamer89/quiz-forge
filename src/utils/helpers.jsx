@@ -35,7 +35,13 @@ export function filterQuestions(questions, searchTerm, includedTags, excludedTag
         return questions;
     }
 
-    const searchLower = searchTerm.toLowerCase();
+    // Optimization: Use RegExp for faster case-insensitive searching instead of allocating lowercased strings
+    let searchRegex = null;
+    if (searchTerm) {
+        const escapedSearch = searchTerm.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+        searchRegex = new RegExp(escapedSearch, 'i');
+    }
+
     const includedSet = new Set(includedTags);
     const excludedSet = new Set(excludedTags);
 
@@ -46,10 +52,8 @@ export function filterQuestions(questions, searchTerm, includedTags, excludedTag
         if (excludedSet.size > 0 && q.tags?.some((t) => excludedSet.has(t))) {
             return false;
         }
-        if (searchTerm) {
-            if (q.text.toLowerCase().includes(searchLower)) return true;
-            if (q.answer.toLowerCase().includes(searchLower)) return true;
-            return false;
+        if (searchRegex) {
+            return searchRegex.test(q.text) || searchRegex.test(q.answer);
         }
         return true;
     });
