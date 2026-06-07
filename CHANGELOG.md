@@ -1,3 +1,9 @@
+## [1.22.1](https://github.com/Tugamer89/quiz-forge/compare/v1.22.0...v1.22.1) (2026-06-07)
+
+### Performance Improvements
+
+* optimize string search in filterQuestions ([#113](https://github.com/Tugamer89/quiz-forge/issues/113)) ([2e38c09](https://github.com/Tugamer89/quiz-forge/commit/2e38c09035c7c3074a5733a1f2257e4a9bad6f9d))
+
 ## [1.22.0](https://github.com/Tugamer89/quiz-forge/compare/v1.21.2...v1.22.0) (2026-06-07)
 
 ### Features
