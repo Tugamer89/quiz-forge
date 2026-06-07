@@ -35,10 +35,9 @@ export function filterQuestions(questions, searchTerm, includedTags, excludedTag
         return questions;
     }
 
-    // Optimization: Use RegExp for faster case-insensitive searching instead of allocating lowercased strings
     let searchRegex = null;
     if (searchTerm) {
-        const escapedSearch = searchTerm.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+        const escapedSearch = searchTerm.replace(/[.*+?^${}()|[\]\\]/g, String.raw`\$&`);
         searchRegex = new RegExp(escapedSearch, 'i');
     }
 
