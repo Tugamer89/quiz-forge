@@ -88,9 +88,10 @@ export const SidebarControls = memo(({
                     </button>
                     <button
                         onClick={onDeleteDeck}
+                        disabled={decks.length <= 1}
                         aria-label="Delete Deck"
-                        title="Delete Deck"
-                        className="p-2 bg-red-50 dark:bg-red-900/20 text-red-600 dark:text-red-400 hover:bg-red-100 dark:hover:bg-red-900/50 rounded-lg transition-colors"
+                        title={decks.length <= 1 ? "Cannot delete the last deck" : "Delete Deck"}
+                        className="p-2 bg-red-50 dark:bg-red-900/20 text-red-600 dark:text-red-400 hover:bg-red-100 dark:hover:bg-red-900/50 disabled:opacity-50 disabled:cursor-not-allowed rounded-lg transition-colors"
                     >
                         <Trash2 className="w-5 h-5" />
                     </button>

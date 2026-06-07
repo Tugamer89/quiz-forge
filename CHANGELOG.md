@@ -1,3 +1,9 @@
+## [1.22.0](https://github.com/Tugamer89/quiz-forge/compare/v1.21.2...v1.22.0) (2026-06-07)
+
+### Features
+
+* **ui:** add disabled state and tooltip to Delete Deck button ([#112](https://github.com/Tugamer89/quiz-forge/issues/112)) ([1eaa42a](https://github.com/Tugamer89/quiz-forge/commit/1eaa42a2f362d6dfad1c036504dc5db32d9af729))
+
 ## [1.21.2](https://github.com/Tugamer89/quiz-forge/compare/v1.21.1...v1.21.2) (2026-06-06)
 
 ### Bug Fixes
