@@ -1,5 +1,5 @@
 import PropTypes from 'prop-types';
-import { useRef, memo } from 'react';
+import { useRef, useState, memo } from 'react';
 import {
     Folder,
     Plus,
@@ -7,6 +7,7 @@ import {
     FileText,
     RefreshCw,
     Copy,
+    Check,
     Eraser,
     Settings,
     Play,
@@ -36,6 +37,13 @@ export const SidebarControls = memo(({
     deckLog,
 }) => {
     const textareaRef = useRef(null);
+    const [isCopied, setIsCopied] = useState(false);
+
+    const handleCopy = async () => {
+        await onCopyText();
+        setIsCopied(true);
+        setTimeout(() => setIsCopied(false), 2000);
+    };
 
     const insertFormatting = (prefix, suffix = '') => {
         const el = textareaRef.current;
@@ -160,12 +168,21 @@ export const SidebarControls = memo(({
                 </div>
                 <div className="flex gap-3 mt-3">
                     <button
-                        onClick={onCopyText}
+                        onClick={handleCopy}
                         disabled={!currentRawText}
                         title={currentRawText ? 'Copy text' : 'Add text to copy'}
                         className="flex-1 flex items-center justify-center space-x-2 bg-slate-100 dark:bg-slate-700 hover:bg-slate-200 dark:hover:bg-slate-600 text-slate-700 dark:text-slate-300 disabled:opacity-50 disabled:cursor-not-allowed font-medium py-2 px-4 rounded-lg transition-colors text-sm"
                     >
-                        <Copy className="w-4 h-4" /> <span>Copy</span>
+                        {isCopied ? (
+                            <>
+                                <Check className="w-4 h-4 text-green-600 dark:text-green-400" />
+                                <span className="text-green-600 dark:text-green-400">Copied!</span>
+                            </>
+                        ) : (
+                            <>
+                                <Copy className="w-4 h-4" /> <span>Copy</span>
+                            </>
+                        )}
                     </button>
                     <button
                         onClick={onClearText}
