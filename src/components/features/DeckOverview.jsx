@@ -1,4 +1,4 @@
-import { useState, useMemo, memo, useDeferredValue } from 'react';
+import { useState, useMemo, memo, useDeferredValue, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import {
     BookOpen,
@@ -21,6 +21,7 @@ export const DeckOverview = memo(({ questions, stats, onMarkQuestion, onGenerate
     const [includedTags, setIncludedTags] = useState([]);
     const [excludedTags, setExcludedTags] = useState([]);
     const [expandedId, setExpandedId] = useState(null);
+    const [displayLimit, setDisplayLimit] = useState(50);
 
     const deferredSearchTerm = useDeferredValue(searchTerm);
 
@@ -39,6 +40,15 @@ export const DeckOverview = memo(({ questions, stats, onMarkQuestion, onGenerate
     const filteredQuestions = useMemo(
         () => filterQuestions(questions, deferredSearchTerm, includedTags, excludedTags),
         [questions, deferredSearchTerm, includedTags, excludedTags]
+    );
+
+    useEffect(() => {
+        setDisplayLimit(50);
+    }, [filteredQuestions]);
+
+    const visibleQuestions = useMemo(
+        () => filteredQuestions.slice(0, displayLimit),
+        [filteredQuestions, displayLimit]
     );
 
     const toggleTag = (tag) => {
@@ -144,7 +154,7 @@ export const DeckOverview = memo(({ questions, stats, onMarkQuestion, onGenerate
                 </div>
             ) : (
                 <div className="flex-1 overflow-y-auto space-y-3 pr-2 custom-scrollbar h-full">
-                    {filteredQuestions.map((q) => (
+                    {visibleQuestions.map((q) => (
                         <div
                             key={q.id}
                             className="flex flex-col p-4 hover:bg-slate-50 dark:hover:bg-slate-700/50 border border-slate-100 dark:border-slate-700 rounded-xl group transition-colors"
@@ -246,6 +256,17 @@ export const DeckOverview = memo(({ questions, stats, onMarkQuestion, onGenerate
                     {filteredQuestions.length === 0 && (
                         <div className="text-center text-slate-500 py-8 text-sm">
                             No questions match your filters.
+                        </div>
+                    )}
+                    {displayLimit < filteredQuestions.length && (
+                        /* Optimization to prevent blocking the main thread when rendering a large number of questions at once. */
+                        <div className="py-4 flex justify-center">
+                            <button
+                                onClick={() => setDisplayLimit((prev) => prev + 50)}
+                                className="px-6 py-2 text-sm font-semibold text-indigo-600 bg-indigo-50 hover:bg-indigo-100 dark:bg-indigo-900/30 dark:text-indigo-300 dark:hover:bg-indigo-900/50 rounded-full transition-colors focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                            >
+                                Load More
+                            </button>
                         </div>
                     )}
                 </div>
