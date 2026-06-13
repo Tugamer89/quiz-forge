@@ -1,9 +1,26 @@
 import PropTypes from 'prop-types';
-import { useRef, useEffect, useState, useCallback, memo } from 'react';
+import { useRef, useEffect, useState, useCallback, memo, useMemo } from 'react';
 import { Play, ArrowRight, XCircle, CheckCircle2, AlertCircle } from 'lucide-react';
 import SafeMarkdown from '../SafeMarkdown';
 import { ProgressBar } from '../ProgressBar';
 import { useShortcuts } from '../../hooks/useShortcuts';
+
+const highlightTags = (text) => {
+    if (!text) return '';
+
+    const parts = text.split(/(```[\s\S]*?```|`[^`]*`)/g);
+
+    return parts
+        .map((part) => {
+            if (part.startsWith('`')) return part;
+
+            return part.replaceAll(
+                /(#\w+)/g,
+                '<span class="text-indigo-500 dark:text-indigo-400 font-semibold">$1</span>'
+            );
+        })
+        .join('');
+};
 
 export const LiveSession = memo(({ session, onCancel, showAnswer, onReveal, onAnswer }) => {
     const currentQ = session.questions[session.currentIndex];
@@ -66,22 +83,12 @@ export const LiveSession = memo(({ session, onCancel, showAnswer, onReveal, onAn
         onAnswer(grade);
     };
 
-    const highlightTags = (text) => {
-        if (!text) return '';
-
-        const parts = text.split(/(```[\s\S]*?```|`[^`]*`)/g);
-
-        return parts
-            .map((part) => {
-                if (part.startsWith('`')) return part;
-
-                return part.replaceAll(
-                    /(#\w+)/g,
-                    '<span class="text-indigo-500 dark:text-indigo-400 font-semibold">$1</span>'
-                );
-            })
-            .join('');
-    };
+    // Prevents running regex logic on every keystroke when user types in tempAnswer
+    const highlightedQuestionText = useMemo(() => highlightTags(currentQ?.text), [currentQ?.text]);
+    const highlightedAnswerText = useMemo(
+        () => highlightTags(currentQ?.answer),
+        [currentQ?.answer]
+    );
 
     return (
         <div
@@ -108,7 +115,7 @@ export const LiveSession = memo(({ session, onCancel, showAnswer, onReveal, onAn
 
             <div className="flex-1 overflow-y-auto custom-scrollbar pr-2 py-4">
                 <div className="mb-6 prose prose-slate prose-indigo prose-lg dark:prose-invert max-w-none font-medium text-slate-900 dark:text-white leading-relaxed">
-                    <SafeMarkdown>{highlightTags(currentQ?.text)}</SafeMarkdown>
+                    <SafeMarkdown>{highlightedQuestionText}</SafeMarkdown>
                 </div>
 
                 {showAnswer ? (
@@ -128,7 +135,7 @@ export const LiveSession = memo(({ session, onCancel, showAnswer, onReveal, onAn
                                 Correct Answer
                             </h3>
                             <div className="prose prose-slate prose-indigo prose-lg dark:prose-invert max-w-none">
-                                <SafeMarkdown>{highlightTags(currentQ?.answer)}</SafeMarkdown>
+                                <SafeMarkdown>{highlightedAnswerText}</SafeMarkdown>
                             </div>
                         </div>
                     </div>
