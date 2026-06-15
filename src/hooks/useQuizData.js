@@ -12,6 +12,17 @@ const COMBINED_CODE_REGEX = /```[\s\S]*?```|`[^`]*`/g;
 const TAG_REGEX = /#\w+/g;
 const QUESTION_REGEX = /^(\d+)[.)]\s+(\S.*)$/;
 
+const extractTags = (text) => {
+    if (!text?.includes('#')) return [];
+
+    const textWithoutCode = text.includes('`') ? text.replace(COMBINED_CODE_REGEX, '') : text;
+
+    const matches = textWithoutCode.match(TAG_REGEX);
+    if (!matches) return [];
+
+    return [...new Set(matches.map((t) => t.toLowerCase()))];
+};
+
 export function useQuizData(showToast, setDialog) {
     const [decks, setDecks] = useLocalStorage('quiz_decks', [
         { id: 'default', name: 'General Knowledge' },
@@ -61,17 +72,6 @@ export function useQuizData(showToast, setDialog) {
     const handleRawTextChange = (val) => {
         setRawTexts((prev) => ({ ...prev, [selectedDeckId]: val }));
         setIsTyping(true);
-    };
-
-    const extractTags = (text) => {
-        if (!text?.includes('#')) return [];
-
-        const textWithoutCode = text.includes('`') ? text.replace(COMBINED_CODE_REGEX, '') : text;
-
-        const matches = textWithoutCode.match(TAG_REGEX);
-        if (!matches) return [];
-
-        return [...new Set(matches.map((t) => t.toLowerCase()))];
     };
 
     const parseTextFromInput = useCallback(
