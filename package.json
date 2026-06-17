@@ -16,10 +16,10 @@
     "generate-pwa-assets": "npx pwa-asset-generator public/favicon.svg public/ -b \"#ffffff\" -p \"22%\" -i index.html -m public/manifest.json"
   },
   "dependencies": {
-    "@sentry/react": "^10.57.0",
+    "@sentry/react": "^10.58.0",
     "@tailwindcss/typography": "^0.5.20",
     "katex": "^0.17.0",
-    "lucide-react": "^1.18.0",
+    "lucide-react": "^1.20.0",
     "prop-types": "^15.8.1",
     "react": "^19.2.7",
     "react-dom": "^19.2.7",
