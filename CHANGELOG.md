@@ -1,3 +1,5 @@
+## [1.23.0](https://github.com/Tugamer89/quiz-forge/compare/v1.22.1...v1.23.0) (2026-07-07)
+
 ## [1.22.1](https://github.com/Tugamer89/quiz-forge/compare/v1.22.0...v1.22.1) (2026-06-07)
 
 ### Performance Improvements
