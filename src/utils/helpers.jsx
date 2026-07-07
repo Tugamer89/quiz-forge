@@ -1,8 +1,6 @@
 export const getLocalYYYYMMDD = (date = new Date()) => {
     if (!(date instanceof Date) || Number.isNaN(date.getTime())) return null;
 
-    // Performance optimization: Avoid creating an extra Date object and calling toISOString()
-    // which has a significant overhead. Instead, format the existing Date object directly.
     const year = date.getFullYear();
     const month = String(date.getMonth() + 1).padStart(2, '0');
     const day = String(date.getDate()).padStart(2, '0');
