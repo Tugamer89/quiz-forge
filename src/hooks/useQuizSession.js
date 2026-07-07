@@ -31,8 +31,6 @@ export function useQuizSession(
 
         const nowTime = Date.now();
 
-        // Performance Optimization: Iterate only over activeDeckQuestions (O(N) of current deck)
-        // instead of global questions array, improving quiz generation speed and reducing dependency thrashing.
         const eligible = activeDeckQuestions.filter((q) => {
             if (includedSet.size > 0) {
                 const hasAnyIncluded = q.tags?.some((t) => includedSet.has(t));
