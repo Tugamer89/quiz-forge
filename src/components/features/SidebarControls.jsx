@@ -82,7 +82,7 @@ export const SidebarControls = memo(({
                         onClick={onAddDeck}
                         aria-label="Add Deck"
                         title="Add Deck"
-                        className="p-2 bg-indigo-100 dark:bg-indigo-900/50 text-indigo-600 dark:text-indigo-400 hover:bg-indigo-200 dark:hover:bg-indigo-900 rounded-lg transition-colors"
+                        className="p-2 bg-indigo-100 dark:bg-indigo-900/50 text-indigo-600 dark:text-indigo-400 hover:bg-indigo-200 dark:hover:bg-indigo-900 rounded-lg transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 focus-visible:ring-offset-2 dark:focus-visible:ring-offset-slate-800"
                     >
                         <Plus className="w-5 h-5" />
                     </button>
@@ -91,7 +91,7 @@ export const SidebarControls = memo(({
                         disabled={decks.length <= 1}
                         aria-label="Delete Deck"
                         title={decks.length <= 1 ? "Cannot delete the last deck" : "Delete Deck"}
-                        className="p-2 bg-red-50 dark:bg-red-900/20 text-red-600 dark:text-red-400 hover:bg-red-100 dark:hover:bg-red-900/50 disabled:opacity-50 disabled:cursor-not-allowed rounded-lg transition-colors"
+                        className="p-2 bg-red-50 dark:bg-red-900/20 text-red-600 dark:text-red-400 hover:bg-red-100 dark:hover:bg-red-900/50 disabled:opacity-50 disabled:cursor-not-allowed rounded-lg transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 focus-visible:ring-offset-2 dark:focus-visible:ring-offset-slate-800"
                     >
                         <Trash2 className="w-5 h-5" />
                     </button>
@@ -121,7 +121,7 @@ export const SidebarControls = memo(({
                             onClick={() => insertFormatting('**', '**')}
                             aria-label="Bold text"
                             title="Bold"
-                            className="p-1.5 text-slate-600 hover:bg-slate-200 dark:text-slate-400 dark:hover:bg-slate-700 rounded transition-colors"
+                            className="p-1.5 text-slate-600 hover:bg-slate-200 dark:text-slate-400 dark:hover:bg-slate-700 rounded transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 focus-visible:ring-offset-2 dark:focus-visible:ring-offset-slate-800"
                         >
                             <Bold className="w-4 h-4" />
                         </button>
@@ -129,7 +129,7 @@ export const SidebarControls = memo(({
                             onClick={() => insertFormatting('*', '*')}
                             aria-label="Italic text"
                             title="Italics"
-                            className="p-1.5 text-slate-600 hover:bg-slate-200 dark:text-slate-400 dark:hover:bg-slate-700 rounded transition-colors"
+                            className="p-1.5 text-slate-600 hover:bg-slate-200 dark:text-slate-400 dark:hover:bg-slate-700 rounded transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 focus-visible:ring-offset-2 dark:focus-visible:ring-offset-slate-800"
                         >
                             <Italic className="w-4 h-4" />
                         </button>
@@ -137,7 +137,7 @@ export const SidebarControls = memo(({
                             onClick={() => insertFormatting('`', '`')}
                             aria-label="Inline code"
                             title="Inline code"
-                            className="p-1.5 text-slate-600 hover:bg-slate-200 dark:text-slate-400 dark:hover:bg-slate-700 rounded transition-colors"
+                            className="p-1.5 text-slate-600 hover:bg-slate-200 dark:text-slate-400 dark:hover:bg-slate-700 rounded transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 focus-visible:ring-offset-2 dark:focus-visible:ring-offset-slate-800"
                         >
                             <CodeIcon className="w-4 h-4" />
                         </button>
@@ -145,7 +145,7 @@ export const SidebarControls = memo(({
                             onClick={() => insertFormatting('```\n', '\n```')}
                             aria-label="Code block"
                             title="Code block"
-                            className="p-1.5 text-slate-600 hover:bg-slate-200 dark:text-slate-400 dark:hover:bg-slate-700 rounded transition-colors text-xs font-mono font-bold"
+                            className="p-1.5 text-slate-600 hover:bg-slate-200 dark:text-slate-400 dark:hover:bg-slate-700 rounded transition-colors text-xs font-mono font-bold focus:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 focus-visible:ring-offset-2 dark:focus-visible:ring-offset-slate-800"
                         >
                             {`</>`}
                         </button>
@@ -164,7 +164,7 @@ export const SidebarControls = memo(({
                         onClick={onCopyText}
                         disabled={!currentRawText}
                         title={currentRawText ? 'Copy text' : 'Add text to copy'}
-                        className="flex-1 flex items-center justify-center space-x-2 bg-slate-100 dark:bg-slate-700 hover:bg-slate-200 dark:hover:bg-slate-600 text-slate-700 dark:text-slate-300 disabled:opacity-50 disabled:cursor-not-allowed font-medium py-2 px-4 rounded-lg transition-colors text-sm"
+                        className="flex-1 flex items-center justify-center space-x-2 bg-slate-100 dark:bg-slate-700 hover:bg-slate-200 dark:hover:bg-slate-600 text-slate-700 dark:text-slate-300 disabled:opacity-50 disabled:cursor-not-allowed font-medium py-2 px-4 rounded-lg transition-colors text-sm focus:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 focus-visible:ring-offset-2 dark:focus-visible:ring-offset-slate-800"
                     >
                         <Copy className="w-4 h-4" /> <span>Copy</span>
                     </button>
@@ -173,7 +173,7 @@ export const SidebarControls = memo(({
                         disabled={!currentRawText}
                         aria-label="Erase all text"
                         title={currentRawText ? 'Clear' : 'Add text to clear'}
-                        className="flex-none p-2.5 text-red-600 dark:text-red-400 hover:bg-red-50 dark:hover:bg-red-950/80 disabled:opacity-50 disabled:cursor-not-allowed rounded-lg transition-colors"
+                        className="flex-none p-2.5 text-red-600 dark:text-red-400 hover:bg-red-50 dark:hover:bg-red-950/80 disabled:opacity-50 disabled:cursor-not-allowed rounded-lg transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 focus-visible:ring-offset-2 dark:focus-visible:ring-offset-slate-800"
                     >
                         <Eraser className="w-5 h-5" />
                     </button>
