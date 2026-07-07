@@ -152,6 +152,7 @@ export const SidebarControls = memo(({
                     </div>
                     <textarea
                         ref={textareaRef}
+                        aria-label="Raw text input for questions"
                         className="w-full h-48 p-3 text-sm bg-slate-50 dark:bg-slate-900 text-slate-900 dark:text-slate-100 outline-none resize-none placeholder:text-slate-400 dark:placeholder:text-slate-500 font-mono border-0"
                         placeholder="1. Markdown works! #hashtag&#10;Use **bold**, *italic*, and `code`.&#10;&#10;2. Another question?&#10;The answer goes here..."
                         value={currentRawText}
