@@ -69,10 +69,13 @@ export function useQuizData(showToast, setDialog) {
         Sentry.setTag('srs_enabled', settings.srsEnabled);
     }, [settings.srsEnabled]);
 
-    const handleRawTextChange = (val) => {
-        setRawTexts((prev) => ({ ...prev, [selectedDeckId]: val }));
-        setIsTyping(true);
-    };
+    const handleRawTextChange = useCallback(
+        (val) => {
+            setRawTexts((prev) => ({ ...prev, [selectedDeckId]: val }));
+            setIsTyping(true);
+        },
+        [selectedDeckId, setRawTexts, setIsTyping]
+    );
 
     const parseTextFromInput = useCallback(
         (text, deckId) => {
@@ -137,7 +140,7 @@ export function useQuizData(showToast, setDialog) {
         return () => clearTimeout(timeoutId);
     }, [currentRawText, selectedDeckId, parseTextFromInput]);
 
-    const handleCopyText = async () => {
+    const handleCopyText = useCallback(async () => {
         if (!currentRawText) return;
         try {
             await navigator.clipboard.writeText(currentRawText);
@@ -146,9 +149,9 @@ export function useQuizData(showToast, setDialog) {
             console.error('Failed to copy text:', err);
             showToast('Failed to copy text.', 'error');
         }
-    };
+    }, [currentRawText, showToast]);
 
-    const handleClearTextClick = () => {
+    const handleClearTextClick = useCallback(() => {
         setDialog({
             isOpen: true,
             type: 'confirm',
@@ -163,9 +166,9 @@ export function useQuizData(showToast, setDialog) {
                 showToast('Text cleared.', 'info');
             },
         });
-    };
+    }, [setDialog, handleRawTextChange, setQuestions, selectedDeckId, showToast]);
 
-    const handleAddDeckClick = () => {
+    const handleAddDeckClick = useCallback(() => {
         setDialog({
             isOpen: true,
             type: 'prompt',
@@ -194,9 +197,9 @@ export function useQuizData(showToast, setDialog) {
                 }
             },
         });
-    };
+    }, [setDialog, decks, showToast, setDecks, setSelectedDeckId]);
 
-    const handleDeleteDeckClick = () => {
+    const handleDeleteDeckClick = useCallback(() => {
         if (decks.length <= 1) {
             showToast('You cannot delete the last deck.', 'error');
             return;
@@ -220,43 +223,57 @@ export function useQuizData(showToast, setDialog) {
                 showToast('Deck deleted.', 'info');
             },
         });
-    };
+    }, [
+        decks,
+        selectedDeckId,
+        showToast,
+        setDialog,
+        setDecks,
+        setQuestions,
+        rawTexts,
+        setRawTexts,
+        setSelectedDeckId,
+    ]);
 
-    const handleImport = async (e) => {
-        const file = e.target.files[0];
-        if (!file) return;
+    const handleImport = useCallback(
+        async (e) => {
+            const file = e.target.files[0];
+            if (!file) return;
 
-        try {
-            const text = await file.text();
-            const json = JSON.parse(text);
+            try {
+                const text = await file.text();
+                const json = JSON.parse(text);
 
-            // Dynamic import to avoid loading Zod if not importing
-            const { importSchema } = await import('../schemas/importSchema');
-            const result = importSchema.safeParse(json);
+                // Dynamic import to avoid loading Zod if not importing
+                const { importSchema } = await import('../schemas/importSchema');
+                const result = importSchema.safeParse(json);
 
-            if (result.success) {
-                const data = result.data;
-                if (data.decks.length > 0) {
-                    setDecks(data.decks);
-                    setQuestions(data.questions);
-                    if (data.rawTexts) setRawTexts(data.rawTexts);
-                    setSelectedDeckId(data.decks[0].id);
-                    showToast('Data imported successfully!', 'success');
+                if (result.success) {
+                    const data = result.data;
+                    if (data.decks.length > 0) {
+                        setDecks(data.decks);
+                        setQuestions(data.questions);
+                        if (data.rawTexts) setRawTexts(data.rawTexts);
+                        setSelectedDeckId(data.decks[0].id);
+                        showToast('Data imported successfully!', 'success');
+                    } else {
+                        showToast('Invalid backup file format.', 'error');
+                    }
                 } else {
+                    console.error('Validation errors:', result.error.format());
                     showToast('Invalid backup file format.', 'error');
                 }
-            } else {
-                console.error('Validation errors:', result.error.format());
-                showToast('Invalid backup file format.', 'error');
+            } catch (err) {
+                console.error('Failed to parse file:', err);
+                showToast('Failed to parse file.', 'error');
+            } finally {
+                e.target.value = null;
             }
-        } catch (err) {
-            console.error('Failed to parse file:', err);
-            showToast('Failed to parse file.', 'error');
-        } finally {
-            e.target.value = null;
-        }
-    };
-    const handleExport = () => {
+        },
+        [setDecks, setQuestions, setRawTexts, setSelectedDeckId, showToast]
+    );
+
+    const handleExport = useCallback(() => {
         try {
             const dataToExport = { decks, questions, rawTexts };
             const jsonString = JSON.stringify(dataToExport, null, 2);
@@ -277,7 +294,7 @@ export function useQuizData(showToast, setDialog) {
             console.error('Failed to export data:', err);
             showToast('Failed to export backup.', 'error');
         }
-    };
+    }, [decks, questions, rawTexts, showToast]);
 
     const handleMarkQuestion = useCallback(
         (id, status) => {

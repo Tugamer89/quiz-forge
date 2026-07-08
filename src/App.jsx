@@ -39,11 +39,13 @@ export default function App() {
 
     const { setSelectedDeckId } = data;
     const { cancelSession } = session;
-
-    const handleSelectDeck = useCallback((id) => {
-        setSelectedDeckId(id);
-        cancelSession();
-    }, [setSelectedDeckId, cancelSession]);
+    const handleSelectDeck = useCallback(
+        (id) => {
+            setSelectedDeckId(id);
+            cancelSession();
+        },
+        [setSelectedDeckId, cancelSession]
+    );
 
     return (
         <div className="min-h-screen bg-slate-50 dark:bg-slate-900 text-slate-800 dark:text-slate-200 font-sans p-4 md:p-8 transition-colors duration-200 selection:bg-indigo-200 dark:selection:bg-indigo-900">
