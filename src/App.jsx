@@ -29,7 +29,7 @@ export default function App() {
         return activityLog[data.selectedDeckId] || {};
     }, [activityLog, data.selectedDeckId]);
     const session = useQuizSession(
-        data.questions,
+        data.activeDeckQuestions,
         data.setQuestions,
         data.settings,
         data.selectedDeckId,
