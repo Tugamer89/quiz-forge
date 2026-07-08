@@ -58,12 +58,54 @@ export const SidebarControls = memo(
             }, 0);
         };
 
-        return (
-            <div className="space-y-6">
-                {/* Deck Selector */}
-                <div className="bg-white dark:bg-slate-800 p-5 rounded-xl shadow-sm border border-slate-200 dark:border-slate-700 transition-colors">
-                    <div className="flex items-center space-x-2 mb-4">
-                        <Folder className="w-5 h-5 text-indigo-500 dark:text-indigo-400" />
+    return (
+        <div className="space-y-6">
+            {/* Deck Selector */}
+            <div className="bg-white dark:bg-slate-800 p-5 rounded-xl shadow-sm border border-slate-200 dark:border-slate-700 transition-colors">
+                <div className="flex items-center space-x-2 mb-4">
+                    <Folder className="w-5 h-5 text-indigo-500 dark:text-indigo-400" />
+                    <h2 className="text-lg font-semibold text-slate-900 dark:text-white">Deck</h2>
+                </div>
+                <div className="flex gap-2">
+                    <select
+                        aria-label="Select deck"
+                        value={selectedDeckId}
+                        onChange={(e) => onSelectDeck(e.target.value)}
+                        className="flex-1 min-w-0 py-2 pl-3 bg-position-[calc(100%-20px)_center] bg-slate-50 dark:bg-slate-900 border border-slate-300 dark:border-slate-600 rounded-lg focus:ring-2 focus:ring-indigo-500 outline-none transition-colors dark:text-white text-sm"
+                    >
+                        {decks.map((d) => (
+                            <option key={d.id} value={d.id}>
+                                {d.name}
+                            </option>
+                        ))}
+                    </select>
+                    <button
+                        onClick={onAddDeck}
+                        aria-label="Add Deck"
+                        title="Add Deck"
+                        className="p-2 bg-indigo-100 dark:bg-indigo-900/50 text-indigo-600 dark:text-indigo-400 hover:bg-indigo-200 dark:hover:bg-indigo-900 rounded-lg transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 focus-visible:ring-offset-2 dark:focus-visible:ring-offset-slate-800"
+                    >
+                        <Plus className="w-5 h-5" />
+                    </button>
+                    <button
+                        onClick={onDeleteDeck}
+                        disabled={decks.length <= 1}
+                        aria-label="Delete Deck"
+                        title={decks.length <= 1 ? "Cannot delete the last deck" : "Delete Deck"}
+                        className="p-2 bg-red-50 dark:bg-red-900/20 text-red-600 dark:text-red-400 hover:bg-red-100 dark:hover:bg-red-900/50 disabled:opacity-50 disabled:cursor-not-allowed rounded-lg transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 focus-visible:ring-offset-2 dark:focus-visible:ring-offset-slate-800"
+                    >
+                        <Trash2 className="w-5 h-5" />
+                    </button>
+                </div>
+            </div>
+
+            <ActivityHeatmap deckLog={deckLog} />
+
+            {/* Raw Text Input */}
+            <div className="bg-white dark:bg-slate-800 p-5 rounded-xl shadow-sm border border-slate-200 dark:border-slate-700 transition-colors">
+                <div className="flex items-center justify-between mb-4">
+                    <div className="flex items-center space-x-2">
+                        <FileText className="w-5 h-5 text-indigo-500 dark:text-indigo-400" />
                         <h2 className="text-lg font-semibold text-slate-900 dark:text-white">
                             Deck
                         </h2>
@@ -82,21 +124,18 @@ export const SidebarControls = memo(
                             ))}
                         </select>
                         <button
-                            onClick={onAddDeck}
-                            aria-label="Add Deck"
-                            title="Add Deck"
-                            className="p-2 bg-indigo-100 dark:bg-indigo-900/50 text-indigo-600 dark:text-indigo-400 hover:bg-indigo-200 dark:hover:bg-indigo-900 rounded-lg transition-colors"
+                            onClick={() => insertFormatting('**', '**')}
+                            aria-label="Bold text"
+                            title="Bold"
+                            className="p-1.5 text-slate-600 hover:bg-slate-200 dark:text-slate-400 dark:hover:bg-slate-700 rounded transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 focus-visible:ring-offset-2 dark:focus-visible:ring-offset-slate-800"
                         >
                             <Plus className="w-5 h-5" />
                         </button>
                         <button
-                            onClick={onDeleteDeck}
-                            disabled={decks.length <= 1}
-                            aria-label="Delete Deck"
-                            title={
-                                decks.length <= 1 ? 'Cannot delete the last deck' : 'Delete Deck'
-                            }
-                            className="p-2 bg-red-50 dark:bg-red-900/20 text-red-600 dark:text-red-400 hover:bg-red-100 dark:hover:bg-red-900/50 disabled:opacity-50 disabled:cursor-not-allowed rounded-lg transition-colors"
+                            onClick={() => insertFormatting('*', '*')}
+                            aria-label="Italic text"
+                            title="Italics"
+                            className="p-1.5 text-slate-600 hover:bg-slate-200 dark:text-slate-400 dark:hover:bg-slate-700 rounded transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 focus-visible:ring-offset-2 dark:focus-visible:ring-offset-slate-800"
                         >
                             <Trash2 className="w-5 h-5" />
                         </button>
@@ -165,23 +204,49 @@ export const SidebarControls = memo(
                     </div>
                     <div className="flex gap-3 mt-3">
                         <button
-                            onClick={onCopyText}
-                            disabled={!currentRawText}
-                            title={currentRawText ? 'Copy text' : 'Add text to copy'}
-                            className="flex-1 flex items-center justify-center space-x-2 bg-slate-100 dark:bg-slate-700 hover:bg-slate-200 dark:hover:bg-slate-600 text-slate-700 dark:text-slate-300 disabled:opacity-50 disabled:cursor-not-allowed font-medium py-2 px-4 rounded-lg transition-colors text-sm"
+                            onClick={() => insertFormatting('`', '`')}
+                            aria-label="Inline code"
+                            title="Inline code"
+                            className="p-1.5 text-slate-600 hover:bg-slate-200 dark:text-slate-400 dark:hover:bg-slate-700 rounded transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 focus-visible:ring-offset-2 dark:focus-visible:ring-offset-slate-800"
                         >
                             <Copy className="w-4 h-4" /> <span>Copy</span>
                         </button>
                         <button
-                            onClick={onClearText}
-                            disabled={!currentRawText}
-                            aria-label="Erase all text"
-                            title={currentRawText ? 'Clear' : 'Add text to clear'}
-                            className="flex-none p-2.5 text-red-600 dark:text-red-400 hover:bg-red-50 dark:hover:bg-red-950/80 disabled:opacity-50 disabled:cursor-not-allowed rounded-lg transition-colors"
+                            onClick={() => insertFormatting('```\n', '\n```')}
+                            aria-label="Code block"
+                            title="Code block"
+                            className="p-1.5 text-slate-600 hover:bg-slate-200 dark:text-slate-400 dark:hover:bg-slate-700 rounded transition-colors text-xs font-mono font-bold focus:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 focus-visible:ring-offset-2 dark:focus-visible:ring-offset-slate-800"
                         >
                             <Eraser className="w-5 h-5" />
                         </button>
                     </div>
+                    <textarea
+                        ref={textareaRef}
+                        aria-label="Raw text input for questions"
+                        className="w-full h-48 p-3 text-sm bg-slate-50 dark:bg-slate-900 text-slate-900 dark:text-slate-100 outline-none resize-none placeholder:text-slate-400 dark:placeholder:text-slate-500 font-mono border-0"
+                        placeholder="1. Markdown works! #hashtag&#10;Use **bold**, *italic*, and `code`.&#10;&#10;2. Another question?&#10;The answer goes here..."
+                        value={currentRawText}
+                        onChange={(e) => onRawTextChange(e.target.value)}
+                    />
+                </div>
+                <div className="flex gap-3 mt-3">
+                    <button
+                        onClick={onCopyText}
+                        disabled={!currentRawText}
+                        title={currentRawText ? 'Copy text' : 'Add text to copy'}
+                        className="flex-1 flex items-center justify-center space-x-2 bg-slate-100 dark:bg-slate-700 hover:bg-slate-200 dark:hover:bg-slate-600 text-slate-700 dark:text-slate-300 disabled:opacity-50 disabled:cursor-not-allowed font-medium py-2 px-4 rounded-lg transition-colors text-sm focus:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 focus-visible:ring-offset-2 dark:focus-visible:ring-offset-slate-800"
+                    >
+                        <Copy className="w-4 h-4" /> <span>Copy</span>
+                    </button>
+                    <button
+                        onClick={onClearText}
+                        disabled={!currentRawText}
+                        aria-label="Erase all text"
+                        title={currentRawText ? 'Clear' : 'Add text to clear'}
+                        className="flex-none p-2.5 text-red-600 dark:text-red-400 hover:bg-red-50 dark:hover:bg-red-950/80 disabled:opacity-50 disabled:cursor-not-allowed rounded-lg transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 focus-visible:ring-offset-2 dark:focus-visible:ring-offset-slate-800"
+                    >
+                        <Eraser className="w-5 h-5" />
+                    </button>
                 </div>
 
                 {/* Settings */}
