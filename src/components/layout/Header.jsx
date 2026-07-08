@@ -141,7 +141,8 @@ export const Header = memo(({
                 <button
                     onClick={toggleTheme}
                     className="p-2 rounded-full bg-white dark:bg-slate-800 shadow-sm border border-slate-200 dark:border-slate-700 hover:bg-slate-100 dark:hover:bg-slate-700 transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 focus-visible:ring-offset-2 dark:focus-visible:ring-offset-slate-800"
-                    aria-label="Toggle Dark Theme"
+                    aria-label={isDarkMode ? 'Switch to Light Theme' : 'Switch to Dark Theme'}
+                    title={isDarkMode ? 'Switch to Light Theme' : 'Switch to Dark Theme'}
                 >
                     {isDarkMode ? (
                         <Sun className="w-5 h-5 text-yellow-400" />
