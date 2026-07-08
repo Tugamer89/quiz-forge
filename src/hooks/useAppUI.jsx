@@ -109,7 +109,7 @@ export function useAppUI() {
         return () => clearTimeout(timer);
     }, [deferredPrompt, hasPromptedPWA, setHasPromptedPWA, setDialog, showToast]);
 
-    const handleInstallApp = async () => {
+    const handleInstallApp = useCallback(async () => {
         if (!deferredPrompt) return;
 
         deferredPrompt.prompt();
@@ -120,9 +120,9 @@ export function useAppUI() {
         }
 
         setDeferredPrompt(null);
-    };
+    }, [deferredPrompt, showToast]);
 
-    const toggleTheme = () => setIsDarkMode(!isDarkMode);
+    const toggleTheme = useCallback(() => setIsDarkMode((prev) => !prev), [setIsDarkMode]);
 
     return {
         isDarkMode,
