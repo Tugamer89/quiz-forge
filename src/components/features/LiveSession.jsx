@@ -83,7 +83,6 @@ export const LiveSession = memo(({ session, onCancel, showAnswer, onReveal, onAn
         onAnswer(grade);
     };
 
-    // Prevents running regex logic on every keystroke when user types in tempAnswer
     const highlightedQuestionText = useMemo(() => highlightTags(currentQ?.text), [currentQ?.text]);
     const highlightedAnswerText = useMemo(
         () => highlightTags(currentQ?.answer),
