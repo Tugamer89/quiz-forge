@@ -150,7 +150,6 @@ export const ActivityHeatmap = memo(({ deckLog = {} }) => {
                             style={{ gridTemplateColumns: `repeat(${COLUMNS}, 12px)` }}
                         >
                             {Array.from({ length: COLUMNS }).map((_, colIndex) => {
-                                // O(1) Map lookup instead of O(N) Array.find
                                 const label = monthLabels.get(colIndex);
                                 const isNearRightEdge = colIndex >= COLUMNS - 3;
 
