@@ -2,7 +2,7 @@ import { useState, useCallback } from 'react';
 import * as Sentry from '@sentry/react';
 
 export function useQuizSession(
-    questions,
+    activeDeckQuestions,
     setQuestions,
     settings,
     selectedDeckId,
@@ -31,9 +31,7 @@ export function useQuizSession(
 
         const nowTime = Date.now();
 
-        const eligible = questions.filter((q) => {
-            if (q.deckId !== selectedDeckId) return false;
-
+        const eligible = activeDeckQuestions.filter((q) => {
             if (includedSet.size > 0) {
                 const hasAnyIncluded = q.tags?.some((t) => includedSet.has(t));
                 if (!hasAnyIncluded) return false;
@@ -93,7 +91,7 @@ export function useQuizSession(
             lastOptions: opts,
         });
         setShowAnswer(false);
-    }, [questions, selectedDeckId, settings, showToast]);
+    }, [activeDeckQuestions, settings, showToast]);
 
     const handleAnswer = useCallback((answerStatus) => {
         const currentQ = quizSession.questions[quizSession.currentIndex];
