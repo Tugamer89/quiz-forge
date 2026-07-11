@@ -66,7 +66,8 @@ const getCurrentStreak = (deckLog, todayDate, todayStr) => {
     let safetyLimit = 5000;
     while (safetyLimit > 0) {
         const dStr = getLocalYYYYMMDD(checkDate);
-        if (!dStr || deckLog[dStr] <= 0) break;
+        
+        if (!dStr || !deckLog[dStr] || deckLog[dStr] <= 0) break;
 
         checkDate.setDate(checkDate.getDate() - 1);
         streak++;
