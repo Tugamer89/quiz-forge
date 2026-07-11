@@ -33,7 +33,7 @@ const buildHeatmapData = (deckLog, todayDate, columns) => {
 };
 
 const getMonthLabels = (daysArray, columns) => {
-    const labels = [];
+    const labels = new Map();
     let lastMonth = -1;
 
     for (let i = 0; i < columns; i++) {
@@ -45,7 +45,7 @@ const getMonthLabels = (daysArray, columns) => {
         const month = date.getMonth();
         if (month === lastMonth) continue;
 
-        labels.push({
+        labels.set(i, {
             name: date.toLocaleString('en-US', { month: 'short' }),
             index: i,
         });
@@ -150,7 +150,7 @@ export const ActivityHeatmap = memo(({ deckLog = {} }) => {
                             style={{ gridTemplateColumns: `repeat(${COLUMNS}, 12px)` }}
                         >
                             {Array.from({ length: COLUMNS }).map((_, colIndex) => {
-                                const label = monthLabels.find((m) => m.index === colIndex);
+                                const label = monthLabels.get(colIndex);
                                 const isNearRightEdge = colIndex >= COLUMNS - 3;
 
                                 return (
