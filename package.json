@@ -16,10 +16,10 @@
     "generate-pwa-assets": "npx pwa-asset-generator public/favicon.svg public/ -b \"#ffffff\" -p \"22%\" -i index.html -m public/manifest.json"
   },
   "dependencies": {
-    "@sentry/react": "^10.72.0",
+    "@sentry/react": "^10.73.0",
     "@tailwindcss/typography": "^0.5.20",
-    "katex": "^0.18.4",
-    "lucide-react": "^1.37.0",
+    "katex": "^0.18.5",
+    "lucide-react": "^1.38.0",
     "prop-types": "^15.8.1",
     "react": "^19.2.8",
     "react-dom": "^19.2.8",
@@ -30,7 +30,7 @@
     "rehype-sanitize": "^6.0.0",
     "remark-gfm": "^4.0.1",
     "remark-math": "^6.0.0",
-    "zod": "^4.5.2"
+    "zod": "^4.5.4"
   },
   "devDependencies": {
     "@eslint/js": "^10.0.1",
@@ -52,7 +52,7 @@
     "eslint-config-prettier": "^10.1.8",
     "eslint-plugin-react-hooks": "^7.1.1",
     "eslint-plugin-react-refresh": "^0.5.5",
-    "globals": "^17.11.0",
+    "globals": "^17.12.0",
     "husky": "^9.1.7",
     "jsdom": "^30.0.1",
     "lint-staged": "^17.4.1",
