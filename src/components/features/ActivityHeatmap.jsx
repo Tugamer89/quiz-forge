@@ -66,7 +66,7 @@ const getCurrentStreak = (deckLog, todayDate, todayStr) => {
     let safetyLimit = 5000;
     while (safetyLimit > 0) {
         const dStr = getLocalYYYYMMDD(checkDate);
-        
+
         if (!dStr || !deckLog[dStr] || deckLog[dStr] <= 0) break;
 
         checkDate.setDate(checkDate.getDate() - 1);
@@ -155,10 +155,7 @@ export const ActivityHeatmap = memo(({ deckLog = {} }) => {
                                 const isNearRightEdge = colIndex >= COLUMNS - 3;
 
                                 return (
-                                    <div
-                                        key={label?.name || `col-${colIndex}`}
-                                        className="relative h-4"
-                                    >
+                                    <div key={`col-${colIndex}`} className="relative h-4">
                                         {label && (
                                             <span
                                                 className={`absolute bottom-0 text-[9px] text-slate-500 dark:text-slate-400 font-medium leading-tight whitespace-nowrap z-10 ${isNearRightEdge ? 'right-0' : 'left-0'}`}
