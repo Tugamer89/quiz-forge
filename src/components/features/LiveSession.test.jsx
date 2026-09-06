@@ -1,10 +1,10 @@
 import React from 'react';
 import { render, screen, fireEvent, act } from '@testing-library/react';
 import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest';
-import { LiveSession } from '../LiveSession';
+import { LiveSession } from './LiveSession';
 
 // Mock child components to isolate testing of LiveSession
-vi.mock('../../ProgressBar', () => ({
+vi.mock('../ProgressBar', () => ({
     ProgressBar: ({ current, total }) => (
         <div data-testid="progress-bar">
             {current}/{total}
@@ -12,11 +12,11 @@ vi.mock('../../ProgressBar', () => ({
     ),
 }));
 
-vi.mock('../../SafeMarkdown', () => ({
+vi.mock('../SafeMarkdown', () => ({
     default: ({ children }) => <div data-testid="safe-markdown">{children}</div>,
 }));
 
-vi.mock('../../../hooks/useShortcuts', () => ({
+vi.mock('../../hooks/useShortcuts', () => ({
     useShortcuts: vi.fn(({ onFlip, onGradeWrong, onGradePartial, onGradeCorrect, onExit }) => {
         // Expose the mock callbacks to the global window object for easy testing
         window.__mockShortcuts = {
