@@ -1,0 +1,10 @@
+Summary: Add missing unit tests for the DeckOverview component.
+
+Test Cases:
+- Empty state rendering.
+- Question list rendering with numbers and text.
+- Expanding and collapsing questions to view answers.
+- Status button interactions calling \`onMarkQuestion\`.
+- \`Start Custom Session\` button calling \`onGenerateQuiz\` with active tag filters.
+
+Verification: Run \`pnpm run test:run\` to run the test suite and verify they pass.
