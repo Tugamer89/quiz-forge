@@ -5,23 +5,11 @@ import {
     removeQuestionsByDeckId,
     mergeQuestions,
     setQuestionStatus,
+    extractTags,
 } from '../utils/helpers';
 import * as Sentry from '@sentry/react';
 
-const COMBINED_CODE_REGEX = /```[\s\S]*?```|`[^`]*`/g;
-const TAG_REGEX = /#\w+/g;
 const QUESTION_REGEX = /^(\d+)[.)]\s+(\S.*)$/;
-
-const extractTags = (text) => {
-    if (!text?.includes('#')) return [];
-
-    const textWithoutCode = text.includes('`') ? text.replace(COMBINED_CODE_REGEX, '') : text;
-
-    const matches = textWithoutCode.match(TAG_REGEX);
-    if (!matches) return [];
-
-    return [...new Set(matches.map((t) => t.toLowerCase()))];
-};
 
 export function useQuizData(showToast, setDialog) {
     const [decks, setDecks] = useLocalStorage('quiz_decks', [
@@ -42,28 +30,31 @@ export function useQuizData(showToast, setDialog) {
     const [isTyping, setIsTyping] = useState(false);
     const currentRawText = rawTexts[selectedDeckId] || '';
 
-    const activeDeckQuestions = useMemo(
-        () => questions.filter((q) => q.deckId === selectedDeckId),
-        [questions, selectedDeckId]
-    );
+    const { activeDeckQuestions, stats } = useMemo(() => {
+        const active = [];
+        let total = 0,
+            unanswered = 0,
+            correct = 0,
+            incorrect = 0,
+            partiallyCorrect = 0;
 
-    const stats = useMemo(() => {
-        const acc = {
-            total: activeDeckQuestions.length,
-            unanswered: 0,
-            correct: 0,
-            incorrect: 0,
-            partiallyCorrect: 0,
-        };
-        for (const q of activeDeckQuestions) {
-            const status = q.status;
-            if (status === 'unanswered') acc.unanswered++;
-            else if (status === 'correct') acc.correct++;
-            else if (status === 'incorrect') acc.incorrect++;
-            else if (status === 'partially-correct') acc.partiallyCorrect++;
+        for (const q of questions) {
+            if (q.deckId === selectedDeckId) {
+                active.push(q);
+                total++;
+                const status = q.status;
+                if (status === 'unanswered') unanswered++;
+                else if (status === 'correct') correct++;
+                else if (status === 'incorrect') incorrect++;
+                else if (status === 'partially-correct') partiallyCorrect++;
+            }
         }
-        return acc;
-    }, [activeDeckQuestions]);
+
+        return {
+            activeDeckQuestions: active,
+            stats: { total, unanswered, correct, incorrect, partiallyCorrect },
+        };
+    }, [questions, selectedDeckId]);
 
     useEffect(() => {
         Sentry.setTag('srs_enabled', settings.srsEnabled);

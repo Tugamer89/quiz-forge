@@ -1,3 +1,17 @@
+export const COMBINED_CODE_REGEX = /```[\s\S]*?```|`[^`]*`/g;
+export const TAG_REGEX = /#\w+/g;
+
+export const extractTags = (text) => {
+    if (!text?.includes('#')) return [];
+
+    const textWithoutCode = text.includes('`') ? text.replace(COMBINED_CODE_REGEX, '') : text;
+
+    const matches = textWithoutCode.match(TAG_REGEX);
+    if (!matches) return [];
+
+    return [...new Set(matches.map((t) => t.toLowerCase()))];
+};
+
 export const getLocalYYYYMMDD = (date = new Date()) => {
     if (!(date instanceof Date) || Number.isNaN(date.getTime())) return null;
     const offset = date.getTimezoneOffset();

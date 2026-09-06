@@ -1,4 +1,5 @@
 import { useState, useCallback } from 'react';
+import * as Sentry from '@sentry/react';
 
 export function useLocalStorage(key, initialValue) {
     const [storedValue, setStoredValue] = useState(() => {
@@ -7,6 +8,7 @@ export function useLocalStorage(key, initialValue) {
             return item ? JSON.parse(item) : initialValue;
         } catch (error) {
             console.error('Error reading from localStorage:', error);
+            Sentry.captureException(error, { tags: { localStorageKey: key } });
             return initialValue;
         }
     });
@@ -21,6 +23,7 @@ export function useLocalStorage(key, initialValue) {
                 }
             } catch (error) {
                 console.error('Error saving to localStorage:', error);
+                Sentry.captureException(error, { tags: { localStorageKey: key } });
             }
         },
         [key, storedValue]
