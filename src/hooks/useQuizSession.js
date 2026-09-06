@@ -70,15 +70,14 @@ export function useQuizSession(
             );
         }
 
-        const shuffled = [...eligible];
-        const numItems = Math.min(settings.numToGenerate, shuffled.length);
+        const numItems = Math.min(settings.numToGenerate, eligible.length);
 
         // Partial Fisher-Yates shuffle: O(N)
         for (let i = 0; i < numItems; i++) {
-            const randomIndex = i + Math.floor(Math.random() * (shuffled.length - i)); // NOSONAR
-            [shuffled[i], shuffled[randomIndex]] = [shuffled[randomIndex], shuffled[i]];
+            const randomIndex = i + Math.floor(Math.random() * (eligible.length - i)); // NOSONAR
+            [eligible[i], eligible[randomIndex]] = [eligible[randomIndex], eligible[i]];
         }
-        const selected = shuffled.slice(0, numItems);
+        const selected = eligible.slice(0, numItems);
 
         setQuizSession({
             active: true,
