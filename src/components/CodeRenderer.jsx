@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import { PrismAsync as SyntaxHighlighter } from 'react-syntax-highlighter';
 import { vscDarkPlus, vs } from 'react-syntax-highlighter/dist/esm/styles/prism';
 import PropTypes from 'prop-types';
+import * as Sentry from '@sentry/react';
 
 let cachedInitialTheme = null;
 let sharedObserver = null;
@@ -19,7 +20,7 @@ const getInitialTheme = () => {
             }
         }
     } catch (e) {
-        console.error(e);
+        Sentry.captureException(e);
     }
     cachedInitialTheme = document?.documentElement.classList.contains('dark');
     return cachedInitialTheme;
