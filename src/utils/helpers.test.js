@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest';
-import { getLocalYYYYMMDD } from './helpers';
+import { getLocalYYYYMMDD, extractTags } from './helpers';
 
 describe('getLocalYYYYMMDD', () => {
     it('returns the correct date string for a valid Date object', () => {
@@ -37,5 +37,49 @@ describe('getLocalYYYYMMDD', () => {
         expect(getLocalYYYYMMDD(null)).toBeNull();
         expect(getLocalYYYYMMDD({})).toBeNull();
         expect(getLocalYYYYMMDD([])).toBeNull();
+    });
+});
+
+describe('extractTags', () => {
+    it('returns an empty array when there are no tags', () => {
+        expect(extractTags('This is a text without tags')).toEqual([]);
+    });
+
+    it('returns a single tag', () => {
+        expect(extractTags('This is a text with #one tag')).toEqual(['#one']);
+    });
+
+    it('returns multiple tags', () => {
+        expect(extractTags('This is a text with #multiple #tags')).toEqual(['#multiple', '#tags']);
+    });
+
+    it('returns unique tags even if there are duplicates', () => {
+        expect(extractTags('This text has #duplicate #tags and #duplicate #tags')).toEqual([
+            '#duplicate',
+            '#tags',
+        ]);
+    });
+
+    it('returns tags in lowercase', () => {
+        expect(extractTags('This text has #MIXEDCase #TAGS')).toEqual(['#mixedcase', '#tags']);
+    });
+
+    it('ignores tags inside backticks', () => {
+        expect(extractTags('This text has a tag `#inside` backticks and #outside')).toEqual([
+            '#outside',
+        ]);
+    });
+
+    it('ignores tags inside triple backticks', () => {
+        expect(extractTags('This text has ```\n#inside\n``` and #outside')).toEqual(['#outside']);
+    });
+
+    it('returns an empty array when input is null or undefined', () => {
+        expect(extractTags(null)).toEqual([]);
+        expect(extractTags(undefined)).toEqual([]);
+    });
+
+    it('handles empty strings', () => {
+        expect(extractTags('')).toEqual([]);
     });
 });
