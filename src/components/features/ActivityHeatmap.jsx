@@ -3,7 +3,8 @@ import PropTypes from 'prop-types';
 import { Flame, Activity } from 'lucide-react';
 import { getLocalYYYYMMDD } from '../../utils/helpers';
 
-const buildHeatmapData = (deckLog, todayDate, columns) => {
+// eslint-disable-next-line react-refresh/only-export-components
+export const buildHeatmapData = (deckLog, todayDate, columns) => {
     const daysArray = [];
     const todayStr = getLocalYYYYMMDD(todayDate);
     let total = 0;
@@ -159,7 +160,11 @@ export const ActivityHeatmap = memo(({ deckLog = {} }) => {
 
                                 return (
                                     <div
-                                        key={label?.name || `col-${colIndex}`}
+                                        key={
+                                            label?.name
+                                                ? `month-${label.name}-${colIndex}`
+                                                : `empty-col-${colIndex}`
+                                        }
                                         className="relative h-4"
                                     >
                                         {label && (
