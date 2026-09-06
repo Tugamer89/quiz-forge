@@ -40,48 +40,22 @@ describe('SafeMarkdown Component', () => {
         expect(elementWithOnError).toBeNull();
     });
 
-    it('blocks malicious javascript href (Defense-in-Depth XSS Prevention)', () => {
-        const maliciousInput = '[Click me](javascript:alert("XSS"))';
+    it.each([
+        ['javascript in markdown link', '[Click me](javascript:alert("XSS"))'],
+        ['javascript in raw html link', '<a href="javascript:alert(\'XSS\')">Click me</a>'],
+        [
+            'javascript with whitespace in raw html',
+            '<a href="  \t javascript:alert(\'XSS\')">Click me</a>',
+        ],
+        ['vbscript protocol', '[Click me](vbscript:alert(1))'],
+    ])('blocks malicious href: %s (Defense-in-Depth XSS Prevention)', (_, maliciousInput) => {
         const { container } = render(
             <SafeMarkdownCore rehypePlugins={[rehypeRaw]}>{maliciousInput}</SafeMarkdownCore>
         );
 
         const aTag = container.querySelector('a');
         expect(aTag).toBeInTheDocument();
-        expect(aTag.getAttribute('href')).toBeNull();
-    });
-
-    it('blocks malicious javascript href in raw html (Defense-in-Depth XSS Prevention)', () => {
-        const maliciousInput = '<a href="javascript:alert(\'XSS\')">Click me</a>';
-        const { container } = render(
-            <SafeMarkdownCore rehypePlugins={[rehypeRaw]}>{maliciousInput}</SafeMarkdownCore>
-        );
-
-        const aTag = container.querySelector('a');
-        expect(aTag).toBeInTheDocument();
-        expect(aTag.getAttribute('href')).toBeNull();
-    });
-
-    it('blocks malicious javascript href with whitespace in raw html (Defense-in-Depth XSS Prevention)', () => {
-        const maliciousInput = '<a href="  \t javascript:alert(\'XSS\')">Click me</a>';
-        const { container } = render(
-            <SafeMarkdownCore rehypePlugins={[rehypeRaw]}>{maliciousInput}</SafeMarkdownCore>
-        );
-
-        const aTag = container.querySelector('a');
-        expect(aTag).toBeInTheDocument();
-        expect(aTag.getAttribute('href')).toBeNull();
-    });
-
-    it('blocks unsafe protocols like vbscript (Defense-in-Depth XSS Prevention)', () => {
-        const maliciousInput = '[Click me](vbscript:alert(1))';
-        const { container } = render(
-            <SafeMarkdownCore rehypePlugins={[rehypeRaw]}>{maliciousInput}</SafeMarkdownCore>
-        );
-
-        const aTag = container.querySelector('a');
-        expect(aTag).toBeInTheDocument();
-        // The sanitize should remove the href completely or leave it empty, blocking the vbscript
+        // The sanitize should remove the href completely or leave it empty, blocking the malicious protocol
         expect(aTag.getAttribute('href')).toBeNull();
     });
 });
