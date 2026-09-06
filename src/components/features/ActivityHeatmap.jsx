@@ -155,7 +155,14 @@ export const ActivityHeatmap = memo(({ deckLog = {} }) => {
                                 const isNearRightEdge = colIndex >= COLUMNS - 3;
 
                                 return (
-                                    <div key={`col-${colIndex}`} className="relative h-4">
+                                    <div
+                                        key={
+                                            label?.name
+                                                ? `month-${label.name}-${colIndex}`
+                                                : `empty-col-${colIndex}`
+                                        }
+                                        className="relative h-4"
+                                    >
                                         {label && (
                                             <span
                                                 className={`absolute bottom-0 text-[9px] text-slate-500 dark:text-slate-400 font-medium leading-tight whitespace-nowrap z-10 ${isNearRightEdge ? 'right-0' : 'left-0'}`}
