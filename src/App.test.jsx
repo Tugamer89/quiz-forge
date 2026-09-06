@@ -1,5 +1,5 @@
 import { describe, it, expect, vi, beforeEach } from 'vitest';
-import { render, screen, act } from '@testing-library/react';
+import { render, screen } from '@testing-library/react';
 import App from './App';
 
 // Mock child components to isolate App testing
@@ -105,11 +105,10 @@ describe('App Component', () => {
     });
 
     it('renders main structure correctly', async () => {
-        await act(async () => {
-            render(<App />);
-        });
+        render(<App />);
 
         expect(screen.getByTestId('mock-header')).toBeInTheDocument();
+        expect(await screen.findByTestId('mock-deck-overview')).toBeInTheDocument();
         expect(screen.getByTestId('mock-sidebar')).toBeInTheDocument();
         expect(screen.getByTestId('mock-footer')).toBeInTheDocument();
         expect(screen.getByTestId('mock-toast')).toBeInTheDocument();
@@ -127,11 +126,10 @@ describe('App Component', () => {
             handleInstallApp: vi.fn(),
         });
 
-        await act(async () => {
-            render(<App />);
-        });
+        render(<App />);
 
         expect(screen.getByTestId('mock-custom-dialog')).toBeInTheDocument();
+        expect(await screen.findByTestId('mock-deck-overview')).toBeInTheDocument();
     });
 
     it('renders lazy components properly for active quiz session', async () => {
@@ -145,9 +143,7 @@ describe('App Component', () => {
             generateQuiz: vi.fn(),
         });
 
-        await act(async () => {
-            render(<App />);
-        });
+        render(<App />);
 
         // Wait for Suspense
         const liveSession = await screen.findByTestId('mock-live-session');
@@ -165,9 +161,7 @@ describe('App Component', () => {
             generateQuiz: vi.fn(),
         });
 
-        await act(async () => {
-            render(<App />);
-        });
+        render(<App />);
 
         const summaryScreen = await screen.findByTestId('mock-summary-screen');
         expect(summaryScreen).toBeInTheDocument();
@@ -184,9 +178,7 @@ describe('App Component', () => {
             generateQuiz: vi.fn(),
         });
 
-        await act(async () => {
-            render(<App />);
-        });
+        render(<App />);
 
         const deckOverview = await screen.findByTestId('mock-deck-overview');
         expect(deckOverview).toBeInTheDocument();
