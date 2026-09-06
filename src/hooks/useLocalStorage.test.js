@@ -1,6 +1,9 @@
 import { renderHook, act } from '@testing-library/react';
 import { describe, it, expect, beforeEach, vi } from 'vitest';
 import { useLocalStorage } from './useLocalStorage';
+import * as Sentry from '@sentry/react';
+
+vi.mock('@sentry/react');
 
 describe('useLocalStorage Hook', () => {
     const TEST_KEY = 'quiz-forge-test-key';
@@ -56,6 +59,7 @@ describe('useLocalStorage Hook', () => {
         });
 
         expect(consoleErrorSpy).toHaveBeenCalled();
+        expect(Sentry.captureException).toHaveBeenCalled();
 
         consoleErrorSpy.mockRestore();
         setItemSpy.mockRestore();
@@ -69,6 +73,7 @@ describe('useLocalStorage Hook', () => {
 
         expect(result.current[0]).toBe(INITIAL_VALUE);
         expect(consoleSpy).toHaveBeenCalled();
+        expect(Sentry.captureException).toHaveBeenCalled();
 
         consoleSpy.mockRestore();
     });
