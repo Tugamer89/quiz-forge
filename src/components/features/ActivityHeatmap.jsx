@@ -18,8 +18,11 @@ export const buildHeatmapData = (deckLog, todayDate, columns) => {
     for (let i = realDaysCount - 1; i >= 0; i--) {
         const d = new Date(todayDate);
         d.setDate(todayDate.getDate() - i);
-        const dateStr = getLocalYYYYMMDD(d);
-        if (!dateStr) continue;
+
+        const yyyy = d.getFullYear();
+        const mm = String(d.getMonth() + 1).padStart(2, '0');
+        const dd = String(d.getDate()).padStart(2, '0');
+        const dateStr = `${yyyy}-${mm}-${dd}`;
 
         const count = deckLog[dateStr] || 0;
         daysArray.push({ date: dateStr, count, nativeDate: d, isFuture: false });
