@@ -50,8 +50,7 @@ export function useQuizData(showToast, setDialog) {
             incorrect = 0,
             partiallyCorrect = 0;
 
-        for (let i = 0; i < questions.length; i++) {
-            const q = questions[i];
+        for (const q of questions) {
             if (q.deckId === selectedDeckId) {
                 active.push(q);
                 total++;
