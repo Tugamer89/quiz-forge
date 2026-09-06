@@ -3,7 +3,8 @@ import PropTypes from 'prop-types';
 import { Flame, Activity } from 'lucide-react';
 import { getLocalYYYYMMDD } from '../../utils/helpers';
 
-const buildHeatmapData = (deckLog, todayDate, columns) => {
+// eslint-disable-next-line react-refresh/only-export-components
+export const buildHeatmapData = (deckLog, todayDate, columns) => {
     const daysArray = [];
     const todayStr = getLocalYYYYMMDD(todayDate);
     let total = 0;
@@ -17,8 +18,11 @@ const buildHeatmapData = (deckLog, todayDate, columns) => {
     for (let i = realDaysCount - 1; i >= 0; i--) {
         const d = new Date(todayDate);
         d.setDate(todayDate.getDate() - i);
-        const dateStr = getLocalYYYYMMDD(d);
-        if (!dateStr) continue;
+
+        const yyyy = d.getFullYear();
+        const mm = String(d.getMonth() + 1).padStart(2, '0');
+        const dd = String(d.getDate()).padStart(2, '0');
+        const dateStr = `${yyyy}-${mm}-${dd}`;
 
         const count = deckLog[dateStr] || 0;
         daysArray.push({ date: dateStr, count, nativeDate: d, isFuture: false });
@@ -66,7 +70,7 @@ const getCurrentStreak = (deckLog, todayDate, todayStr) => {
     let safetyLimit = 5000;
     while (safetyLimit > 0) {
         const dStr = getLocalYYYYMMDD(checkDate);
-        
+
         if (!dStr || !deckLog[dStr] || deckLog[dStr] <= 0) break;
 
         checkDate.setDate(checkDate.getDate() - 1);
@@ -156,7 +160,11 @@ export const ActivityHeatmap = memo(({ deckLog = {} }) => {
 
                                 return (
                                     <div
-                                        key={label?.name || `col-${colIndex}`}
+                                        key={
+                                            label?.name
+                                                ? `month-${label.name}-${colIndex}`
+                                                : `empty-col-${colIndex}`
+                                        }
                                         className="relative h-4"
                                     >
                                         {label && (
