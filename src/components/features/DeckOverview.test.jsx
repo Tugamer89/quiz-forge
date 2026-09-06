@@ -1,6 +1,6 @@
 import { render, screen, fireEvent } from '@testing-library/react';
 import { describe, it, expect, vi, beforeEach } from 'vitest';
-import { DeckOverview } from '../DeckOverview';
+import { DeckOverview } from './DeckOverview';
 
 // Mock SafeMarkdown
 vi.mock('../../SafeMarkdown', () => ({
