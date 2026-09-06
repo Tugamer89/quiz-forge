@@ -25,15 +25,9 @@ export const DeckOverview = memo(({ questions, stats, onMarkQuestion, onGenerate
     const deferredSearchTerm = useDeferredValue(searchTerm);
 
     const allTags = useMemo(() => {
-        const tagsSet = new Set();
-        for (const q of questions) {
-            if (q.tags) {
-                for (const t of q.tags) {
-                    tagsSet.add(t);
-                }
-            }
-        }
-        return Array.from(tagsSet).sort((a, b) => a.localeCompare(b));
+        return Array.from(new Set(questions.flatMap((q) => q.tags || []))).sort((a, b) =>
+            a.localeCompare(b)
+        );
     }, [questions]);
 
     const filteredQuestions = useMemo(
