@@ -56,6 +56,16 @@ describe('useQuizSession Hook', () => {
         mockLogActivity
     ));
 
+    const setupSRSQuizSession = () => {
+        mockSettings.srsEnabled = true;
+        mockActiveDeckQuestions = [{ id: 5, status: 'unanswered', nextReviewDate: '2022-12-31T12:00:00Z', interval: 1, easeFactor: 2.5, repetition: 1 }];
+        const { result } = renderHookWithArgs();
+        act(() => {
+            result.current.generateQuiz();
+        });
+        return result;
+    };
+
     it('initializes with default state', () => {
         const { result } = renderHookWithArgs();
 
@@ -154,13 +164,7 @@ describe('useQuizSession Hook', () => {
     });
 
     it('handles correct answer and updates state/SRS properties correctly', () => {
-        mockSettings.srsEnabled = true;
-        mockActiveDeckQuestions = [{ id: 5, status: 'unanswered', nextReviewDate: '2022-12-31T12:00:00Z', interval: 1, easeFactor: 2.5, repetition: 1 }];
-        const { result } = renderHookWithArgs();
-
-        act(() => {
-            result.current.generateQuiz();
-        });
+        const result = setupSRSQuizSession();
 
         act(() => {
             result.current.handleAnswer('correct');
@@ -185,13 +189,7 @@ describe('useQuizSession Hook', () => {
     });
 
     it('handles incorrect answer and updates state/SRS properties correctly', () => {
-        mockSettings.srsEnabled = true;
-        mockActiveDeckQuestions = [{ id: 5, status: 'unanswered', nextReviewDate: '2022-12-31T12:00:00Z', interval: 1, easeFactor: 2.5, repetition: 1 }];
-        const { result } = renderHookWithArgs();
-
-        act(() => {
-            result.current.generateQuiz();
-        });
+        const result = setupSRSQuizSession();
 
         act(() => {
             result.current.handleAnswer('incorrect');
@@ -209,13 +207,7 @@ describe('useQuizSession Hook', () => {
     });
 
     it('handles partially-correct answer like incorrect for SRS', () => {
-        mockSettings.srsEnabled = true;
-        mockActiveDeckQuestions = [{ id: 5, status: 'unanswered', nextReviewDate: '2022-12-31T12:00:00Z', interval: 1, easeFactor: 2.5, repetition: 1 }];
-        const { result } = renderHookWithArgs();
-
-        act(() => {
-            result.current.generateQuiz();
-        });
+        const result = setupSRSQuizSession();
 
         act(() => {
             result.current.handleAnswer('partially-correct');
