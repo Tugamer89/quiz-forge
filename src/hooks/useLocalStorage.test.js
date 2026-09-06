@@ -3,9 +3,7 @@ import { describe, it, expect, beforeEach, vi } from 'vitest';
 import { useLocalStorage } from './useLocalStorage';
 import * as Sentry from '@sentry/react';
 
-vi.mock('@sentry/react', () => ({
-    captureException: vi.fn(),
-}));
+vi.mock('@sentry/react');
 
 describe('useLocalStorage Hook', () => {
     const TEST_KEY = 'quiz-forge-test-key';
