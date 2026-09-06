@@ -32,3 +32,4 @@ createRoot(document.getElementById('root'), {
         <App />
     </StrictMode>
 );
+// ci-trigger
