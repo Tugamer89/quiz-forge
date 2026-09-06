@@ -51,6 +51,28 @@ describe('SafeMarkdown Component', () => {
         expect(aTag.getAttribute('href')).toBeNull();
     });
 
+    it('blocks malicious javascript href in raw html (Defense-in-Depth XSS Prevention)', () => {
+        const maliciousInput = '<a href="javascript:alert(\'XSS\')">Click me</a>';
+        const { container } = render(
+            <SafeMarkdownCore rehypePlugins={[rehypeRaw]}>{maliciousInput}</SafeMarkdownCore>
+        );
+
+        const aTag = container.querySelector('a');
+        expect(aTag).toBeInTheDocument();
+        expect(aTag.getAttribute('href')).toBeNull();
+    });
+
+    it('blocks malicious javascript href with whitespace in raw html (Defense-in-Depth XSS Prevention)', () => {
+        const maliciousInput = '<a href="  \t javascript:alert(\'XSS\')">Click me</a>';
+        const { container } = render(
+            <SafeMarkdownCore rehypePlugins={[rehypeRaw]}>{maliciousInput}</SafeMarkdownCore>
+        );
+
+        const aTag = container.querySelector('a');
+        expect(aTag).toBeInTheDocument();
+        expect(aTag.getAttribute('href')).toBeNull();
+    });
+
     it('blocks unsafe protocols like vbscript (Defense-in-Depth XSS Prevention)', () => {
         const maliciousInput = '[Click me](vbscript:alert(1))';
         const { container } = render(

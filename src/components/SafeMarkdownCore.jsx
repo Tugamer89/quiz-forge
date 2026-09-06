@@ -22,7 +22,20 @@ const sanitizeOptions = {
 const preRemoveWrapper = ({ children }) => <>{children}</>;
 
 const aRemoveWrapper = ({ href, ...rest }) => {
-    return <a href={href} target="_blank" rel="noopener noreferrer" {...rest} />;
+    // Defense-in-depth: Ensure malicious protocols are blocked even if sanitization fails
+    let safeHref = href;
+    if (href && typeof href === 'string') {
+        const sanitizedHref = href.replace(
+            // eslint-disable-next-line no-control-regex
+            /[\x00-\x20\u00A0\u1680\u180E\u2000-\u200A\u2028\u2029\u202F\u205F\u3000]/g,
+            ''
+        );
+        if (/^(javascript|vbscript|data):/i.test(sanitizedHref)) {
+            safeHref = undefined;
+        }
+    }
+
+    return <a href={safeHref} target="_blank" rel="noopener noreferrer" {...rest} />;
 };
 
 const markdownComponents = {
