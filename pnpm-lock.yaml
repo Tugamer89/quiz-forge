@@ -130,8 +130,8 @@ importers:
         specifier: ^3.9.8
         version: 3.9.8
       pwa-asset-generator:
-        specifier: ^8.1.6
-        version: 8.1.6(supports-color@7.2.0)(yauzl@2.10.0)
+        specifier: ^8.1.7
+        version: 8.1.7(supports-color@7.2.0)(yauzl@2.10.0)
       semantic-release:
         specifier: ^25.0.9
         version: 25.0.9(supports-color@7.2.0)
@@ -3899,8 +3899,8 @@ packages:
     resolution: {integrity: sha512-Ujym7JbxoAqanaxGcHgmTomfhC01HfDCSuGZ8Hs9boHrDjzbNVMnFRJo2KtbDT9LCRgeJoFnkn9JQZ41eEUrLw==}
     engines: {node: '>=22.12.0'}
 
-  pwa-asset-generator@8.1.6:
-    resolution: {integrity: sha512-ReLiz2v7dSUQMjncdwcWsobSYWR0AXW/WMk/jpnndD6VtGZbbSOWqG7xazlLQz+znY9PvBroZk05VKfPT/jZsQ==}
+  pwa-asset-generator@8.1.7:
+    resolution: {integrity: sha512-eBqxvlQRty0ebWKOTAPhjvvDvHYyXbq0JiRAoCF+2HkTchTMhLsO0qRyqivj1JCmZonbJUMyZ0BwDtaQer/KMg==}
     engines: {node: '>=22.12.0'}
     hasBin: true
 
@@ -8988,8 +8988,9 @@ snapshots:
       - utf-8-validate
       - yauzl
 
-  pwa-asset-generator@8.1.6(supports-color@7.2.0)(yauzl@2.10.0):
+  pwa-asset-generator@8.1.7(supports-color@7.2.0)(yauzl@2.10.0):
     dependencies:
+      '@puppeteer/browsers': 3.2.2(yauzl@2.10.0)
       cheerio: 1.2.0
       chrome-launcher: 1.2.1(supports-color@7.2.0)
       find-process: 2.1.1
